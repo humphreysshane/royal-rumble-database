@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Royal Rumble Database — Data Editor</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+  :root{
+    --ink:#1c1a22; --ink-soft:#5b5666; --ink-faint:#8d879a;
+    --bg:#faf9fc; --panel:#ffffff; --border:#e4e0ec; --border-soft:#eeebf3;
+    --accent:#7a3ff2; --accent-ink:#ffffff; --accent-soft:#f1ebfd;
+    --good:#1a7f4e; --good-bg:#e9f7ef;
+    --bad:#b3261e; --bad-bg:#fbeae9;
+    --warn:#8a5a00; --warn-bg:#fdf1dc;
+    --mono: "SF Mono", "Cascadia Code", Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#ece9f5; --ink-soft:#b7b1c9; --ink-faint:#847e99;
+      --bg:#15131c; --panel:#1d1a27; --border:#332f42; --border-soft:#2a2735;
+      --accent:#a679ff; --accent-ink:#160e2b; --accent-soft:#2a2145;
+      --good:#5fd499; --good-bg:#132a22;
+      --bad:#ff8f87; --bad-bg:#301716;
+      --warn:#f0c46a; --warn-bg:#332508;
+      color-scheme: dark;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--sans); background:var(--bg); color:var(--ink);
+    font-size:14px; line-height:1.45;
+  }
+  a{color:var(--accent);}
+  header.top{
+    display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+    padding:20px 24px 16px; border-bottom:1px solid var(--border);
+    background:var(--panel);
+  }
+  header.top h1{font-size:18px; margin:0; letter-spacing:-0.01em;}
+  header.top .sub{color:var(--ink-soft); font-size:13px;}
+  header.top .spacer{flex:1;}
+  header.top .who{font-size:12px; color:var(--ink-faint);}
+  header.top .who button{margin-left:8px;}
+  main{max-width:1180px; margin:0 auto; padding:24px; display:flex; flex-direction:column; gap:20px;}
+  .panel{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    padding:20px 22px;
+  }
+  .panel h2{font-size:14px; margin:0 0 4px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft);}
+  .panel p.hint{color:var(--ink-soft); font-size:13px; margin:6px 0 14px;}
+  label{display:block; font-size:12.5px; color:var(--ink-soft); margin-bottom:4px; font-weight:600;}
+  input[type=text], input[type=password], select, textarea{
+    width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:7px;
+    background:var(--bg); color:var(--ink); font-size:13.5px; font-family:var(--sans);
+  }
+  input:focus, select:focus, textarea:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  .row{display:flex; gap:14px; flex-wrap:wrap;}
+  .row > div{flex:1; min-width:200px;}
+  .row.tight > div{min-width:140px;}
+  button{
+    font:inherit; font-size:13.5px; font-weight:600; padding:8px 14px; border-radius:7px;
+    border:1px solid var(--border); background:var(--panel); color:var(--ink); cursor:pointer;
+  }
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent);}
+  button.primary:hover{filter:brightness(1.06);}
+  button.primary:disabled{opacity:.5; cursor:default;}
+  button.danger{color:var(--bad); border-color:var(--bad-bg);}
+  button.ghost{border-color:transparent; background:none; padding:6px 8px;}
+  .checkline{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin-top:10px;}
+  .checkline input{width:auto;}
+  .msg{border-radius:8px; padding:10px 12px; font-size:13px; margin-top:12px;}
+  .msg.bad{background:var(--bad-bg); color:var(--bad);}
+  .msg.good{background:var(--good-bg); color:var(--good);}
+  .msg.warn{background:var(--warn-bg); color:var(--warn);}
+  code{font-family:var(--mono); background:var(--border-soft); padding:1px 5px; border-radius:4px; font-size:12.5px;}
+  details summary{cursor:pointer; font-size:13px; color:var(--accent); margin-top:10px;}
+  details{margin-top:4px;}
+  details .body{font-size:13px; color:var(--ink-soft); margin-top:8px; line-height:1.6;}
+  hr.split{border:none; border-top:1px solid var(--border-soft); margin:18px 0;}
+
+  .toolbar{display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;}
+  .toolbar .grow{flex:2; min-width:220px;}
+  .toolbar .search{flex:3; min-width:260px;}
+  .table-wrap{
+    border:1px solid var(--border); border-radius:10px; overflow:auto; max-height:62vh;
+    margin-top:16px;
+  }
+  table.grid{border-collapse:collapse; width:100%; font-size:13px;}
+  table.grid thead th{
+    position:sticky; top:0; background:var(--panel); border-bottom:1px solid var(--border);
+    text-align:left; padding:8px 10px; font-size:11.5px; letter-spacing:.03em;
+    color:var(--ink-soft); text-transform:uppercase; white-space:nowrap; z-index:1;
+  }
+  table.grid td{border-bottom:1px solid var(--border-soft); padding:4px 6px; vertical-align:top;}
+  table.grid td.rowctl{padding:4px; text-align:center; white-space:nowrap;}
+  table.grid input, table.grid select{
+    border:1px solid transparent; background:transparent; padding:5px 6px; border-radius:5px;
+    font-size:13px; min-width:90px;
+  }
+  table.grid textarea{
+    border:1px solid transparent; background:transparent; padding:5px 6px; border-radius:5px;
+    font-size:13px; width:100%; min-width:180px; resize:vertical; min-height:32px;
+    font-family:var(--sans);
+  }
+  table.grid input:hover, table.grid select:hover, table.grid textarea:hover{border-color:var(--border);}
+  table.grid input:focus, table.grid select:focus, table.grid textarea:focus{
+    border-color:var(--accent); background:var(--panel);
+  }
+  table.grid td.pk input{font-weight:600;}
+  table.grid tr.dupe td.pk input{background:var(--bad-bg); border-color:var(--bad);}
+  table.grid tr.newrow{background:var(--good-bg);}
+
+  .pager{display:flex; align-items:center; gap:10px; margin-top:12px; font-size:13px; color:var(--ink-soft);}
+  .pager .spacer{flex:1;}
+
+  .steplog{font-family:var(--mono); font-size:12.5px; background:var(--border-soft); border-radius:8px;
+    padding:10px 12px; margin-top:12px; white-space:pre-wrap; line-height:1.6; color:var(--ink-soft);}
+  .steplog .ok{color:var(--good);}
+  .steplog .err{color:var(--bad);}
+
+  [hidden]{display:none !important;}
+  .badge{
+    display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent); margin-left:8px; vertical-align:middle;
+  }
+  footer{max-width:1180px; margin:8px auto 40px; padding:0 24px; color:var(--ink-faint); font-size:12px;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Royal Rumble Database — Data Editor</h1>
+  <span class="sub">edits any table as a spreadsheet, opens the result as a pull request</span>
+  <div class="spacer"></div>
+  <div class="who" id="whoBox" hidden>
+    connected to <strong id="whoRepo"></strong> as <strong id="whoUser"></strong>
+    <button class="ghost" id="disconnectBtn" type="button">disconnect</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- CONNECT PANEL -->
+  <section class="panel" id="connectPanel">
+    <h2>Connect</h2>
+    <p class="hint">This page talks to GitHub's API directly from your browser — nothing goes through any
+      third party, and your token is kept only in this browser's local storage.</p>
+
+    <div class="row">
+      <div>
+        <label for="tokenInput">GitHub personal access token</label>
+        <input type="password" id="tokenInput" placeholder="github_pat_…">
+      </div>
+      <div>
+        <label for="repoInput">Repository</label>
+        <input type="text" id="repoInput" value="humphreysshane/royal-rumble-database">
+      </div>
+    </div>
+    <div class="checkline">
+      <input type="checkbox" id="rememberBox" checked>
+      <label for="rememberBox" style="margin:0; font-weight:400;">remember the token in this browser (so you don't have to paste it again next time)</label>
+    </div>
+
+    <div style="margin-top:16px;">
+      <button class="primary" id="connectBtn" type="button">Connect</button>
+    </div>
+    <div id="connectMsg"></div>
+
+    <details>
+      <summary>How do I get a token, and what scope does it need?</summary>
+      <div class="body">
+        1. Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a>
+        (fine-grained tokens — these can be locked to one repo, which classic tokens can't).<br>
+        2. Under <strong>Resource owner</strong> pick your account, and under <strong>Repository access</strong>
+        choose <em>Only select repositories</em> → <code>royal-rumble-database</code>.<br>
+        3. Under <strong>Repository permissions</strong> set <strong>Contents</strong> to
+        <em>Read and write</em> and <strong>Pull requests</strong> to <em>Read and write</em>
+        (Metadata read-only is added automatically).<br>
+        4. Generate it and paste it above. It never leaves your browser except in requests to
+        <code>api.github.com</code>.
+      </div>
+    </details>
+  </section>
+
+  <!-- LOAD PANEL -->
+  <section class="panel" id="loadPanel" hidden>
+    <h2>Open a table</h2>
+    <div class="row">
+      <div>
+        <label for="branchSelect">Branch to read from</label>
+        <select id="branchSelect"></select>
+      </div>
+      <div>
+        <label for="fileSelect">Table</label>
+        <select id="fileSelect"></select>
+      </div>
+      <div style="flex:0 0 auto; align-self:flex-end;">
+        <button class="primary" id="loadBtn" type="button">Load table</button>
+      </div>
+    </div>
+    <div id="loadMsg"></div>
+  </section>
+
+  <!-- EDIT PANEL -->
+  <section class="panel" id="editPanel" hidden>
+    <h2 id="editTitle">Table</h2>
+    <div class="toolbar">
+      <div class="search">
+        <label for="searchInput">Search (all columns)</label>
+        <input type="text" id="searchInput" placeholder="type to filter rows…">
+      </div>
+      <div style="flex:0 0 auto;">
+        <label>&nbsp;</label>
+        <button id="addRowBtn" type="button">+ Add row</button>
+      </div>
+      <div style="flex:0 0 auto;">
+        <label>&nbsp;</label>
+        <button id="downloadBtn" type="button">Download CSV</button>
+      </div>
+    </div>
+
+    <div class="table-wrap"><table class="grid" id="grid">
+      <thead><tr id="gridHead"></tr></thead>
+      <tbody id="gridBody"></tbody>
+    </table></div>
+
+    <div class="pager">
+      <span id="rowCount"></span>
+      <div class="spacer"></div>
+      <button class="ghost" id="prevPageBtn" type="button">&larr; prev</button>
+      <span id="pageIndicator"></span>
+      <button class="ghost" id="nextPageBtn" type="button">next &rarr;</button>
+    </div>
+
+    <hr class="split">
+
+    <h2>Save as a pull request</h2>
+    <p class="hint">Nothing is written to <code id="baseBranchLabel">main</code> directly — this opens a PR
+      from a new branch, same as any other change to the database. Run
+      <code>scripts/validate_integrity.py</code> before merging it, same as usual.</p>
+
+    <div class="row">
+      <div>
+        <label for="newBranchInput">New branch name</label>
+        <input type="text" id="newBranchInput">
+      </div>
+      <div>
+        <label for="prTitleInput">Pull request title</label>
+        <input type="text" id="prTitleInput">
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <label for="prBodyInput">Pull request description</label>
+      <textarea id="prBodyInput" rows="4"></textarea>
+    </div>
+
+    <div style="margin-top:16px;">
+      <button class="primary" id="saveBtn" type="button">Open pull request</button>
+    </div>
+    <div id="saveMsg"></div>
+    <div class="steplog" id="stepLog" hidden></div>
+  </section>
+
+</main>
+
+<footer>
+  Edits are saved as a normal GitHub pull request — reviewed and merged the same way as any change
+  from a person or another tool. Duplicate primary-key values are blocked on save; everything else
+  (cross-table references, status vocabulary, etc.) is still validated by
+  <code>scripts/validate_integrity.py</code> before merge, same as always.
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------- persistent state ----------
+  const LS_TOKEN = "rrdb_editor_token";
+  const LS_REPO  = "rrdb_editor_repo";
+
+  const state = {
+    token: "", owner: "", repo: "", defaultBranch: "",
+    columns: [], rows: [], columnType: {}, pkCol: "",
+    originalSha: null, currentPath: "", currentBranch: "",
+    page: 0, pageSize: 50, filtered: [],
+  };
+
+  // ---------- small helpers ----------
+  const $ = (id) => document.getElementById(id);
+  function msg(el, text, kind){
+    el.innerHTML = text ? `<div class="msg ${kind||''}">${text}</div>` : "";
+  }
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  // base64 <-> UTF-8 (atob/btoa alone mangle non-ASCII names like "José")
+  function b64ToUtf8(b64){
+    const bin = atob(b64.replace(/\n/g, ""));
+    const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+    return new TextDecoder("utf-8").decode(bytes);
+  }
+  function utf8ToB64(str){
+    const bytes = new TextEncoder().encode(str);
+    let bin = "";
+    bytes.forEach(b => bin += String.fromCharCode(b));
+    return btoa(bin);
+  }
+
+  // Encode a repo-relative path for use in a Contents API URL: each segment
+  // gets encodeURIComponent, but the "/" separators stay literal. Encoding
+  // the whole path at once (including the slashes) turns them into %2F,
+  // which GitHub's Contents API does not treat as a path separator and
+  // routes as a 404.
+  function encodePath(path){
+    return path.split("/").map(encodeURIComponent).join("/");
+  }
+
+  async function gh(path, opts){
+    opts = opts || {};
+    const headers = Object.assign({
+      "Authorization": "Bearer " + state.token,
+      "Accept": "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+    }, opts.headers || {});
+    const res = await fetch("https://api.github.com" + path, Object.assign({}, opts, {headers}));
+    let body = null;
+    try { body = await res.json(); } catch(e) { /* no body */ }
+    if(!res.ok){
+      const err = new Error((body && (body.message || JSON.stringify(body))) || (res.status + " " + res.statusText));
+      err.status = res.status; err.body = body;
+      throw err;
+    }
+    return body;
+  }
+
+  // ---------- column type inference ----------
+  const LONGTEXT_HINTS = /notes|description|significance|implications|reward|summary/i;
+  function inferTypes(columns, rows){
+    const types = {};
+    columns.forEach(col => {
+      if(/_status$/.test(col)){ types[col] = "status"; return; }
+      const vals = new Set();
+      for(const r of rows){
+        const v = (r[col] || "").trim();
+        if(v) vals.add(v);
+        if(vals.size > 2) break;
+      }
+      if(vals.size > 0 && [...vals].every(v => v === "TRUE" || v === "FALSE")){
+        types[col] = "bool";
+      } else if(LONGTEXT_HINTS.test(col)){
+        types[col] = "longtext";
+      } else {
+        types[col] = "text";
+      }
+    });
+    return types;
+  }
+  const STATUS_VALUES = ["", "CONFIRMED", "DERIVED", "PROBABLE", "UNCERTAIN", "CONFLICTING", "UNKNOWN", "N/A"];
+
+  // ---------- connect ----------
+  $("connectBtn").addEventListener("click", async () => {
+    const token = $("tokenInput").value.trim();
+    const repoFull = $("repoInput").value.trim();
+    if(!token || !repoFull.includes("/")){
+      msg($("connectMsg"), "Enter a token and an owner/repo.", "bad"); return;
+    }
+    const [owner, repo] = repoFull.split("/");
+    state.token = token; state.owner = owner; state.repo = repo;
+    msg($("connectMsg"), "Connecting…", "");
+    try {
+      const me = await gh("/user");
+      const repoInfo = await gh(`/repos/${owner}/${repo}`);
+      state.defaultBranch = repoInfo.default_branch;
+      if(repoInfo.permissions && repoInfo.permissions.push === false){
+        msg($("connectMsg"), "Connected, but this token doesn't have write access to this repo — you'll be able to load tables but not open a PR. Check the token's Contents/Pull requests permissions.", "warn");
+      } else {
+        msg($("connectMsg"), "", "");
+      }
+      if($("rememberBox").checked){
+        localStorage.setItem(LS_TOKEN, token);
+        localStorage.setItem(LS_REPO, repoFull);
+      } else {
+        localStorage.removeItem(LS_TOKEN);
+        localStorage.removeItem(LS_REPO);
+      }
+      $("whoUser").textContent = me.login;
+      $("whoRepo").textContent = repoFull;
+      $("whoBox").hidden = false;
+      $("connectPanel").hidden = true;
+      await populateBranchesAndFiles();
+      $("loadPanel").hidden = false;
+    } catch(err){
+      msg($("connectMsg"), "Couldn't connect: " + esc(err.message) +
+        ". Check the token and that it has access to this repository.", "bad");
+    }
+  });
+
+  $("disconnectBtn").addEventListener("click", () => {
+    localStorage.removeItem(LS_TOKEN); localStorage.removeItem(LS_REPO);
+    location.reload();
+  });
+
+  async function populateBranchesAndFiles(){
+    const branches = await gh(`/repos/${state.owner}/${state.repo}/branches?per_page=100`);
+    const branchSel = $("branchSelect");
+    branchSel.innerHTML = "";
+    branches.forEach(b => {
+      const opt = document.createElement("option");
+      opt.value = b.name; opt.textContent = b.name + (b.name === state.defaultBranch ? "  (default)" : "");
+      if(b.name === state.defaultBranch) opt.selected = true;
+      branchSel.appendChild(opt);
+    });
+    await populateFiles(state.defaultBranch);
+    branchSel.addEventListener("change", () => populateFiles(branchSel.value));
+  }
+
+  async function populateFiles(branch){
+    const fileSel = $("fileSelect");
+    fileSel.innerHTML = `<option>loading…</option>`;
+    try {
+      const listing = await gh(`/repos/${state.owner}/${state.repo}/contents/data?ref=${encodeURIComponent(branch)}`);
+      const csvs = listing.filter(f => f.type === "file" && f.name.endsWith(".csv")).sort((a,b) => a.name.localeCompare(b.name));
+      fileSel.innerHTML = "";
+      csvs.forEach(f => {
+        const opt = document.createElement("option");
+        opt.value = f.path; opt.textContent = f.name;
+        fileSel.appendChild(opt);
+      });
+    } catch(err){
+      fileSel.innerHTML = `<option>couldn't list data/ — ${esc(err.message)}</option>`;
+    }
+  }
+
+  // ---------- load table ----------
+  $("loadBtn").addEventListener("click", async () => {
+    const path = $("fileSelect").value;
+    const branch = $("branchSelect").value;
+    if(!path){ return; }
+    msg($("loadMsg"), "Loading " + esc(path) + "…", "");
+    try {
+      const meta = await gh(`/repos/${state.owner}/${state.repo}/contents/${encodePath(path)}?ref=${encodeURIComponent(branch)}`);
+      let text;
+      if(meta.content){
+        text = b64ToUtf8(meta.content);
+      } else {
+        const blob = await gh(`/repos/${state.owner}/${state.repo}/git/blobs/${meta.sha}`);
+        text = b64ToUtf8(blob.content);
+      }
+      const parsed = Papa.parse(text, {header:true, skipEmptyLines:false});
+      const columns = parsed.meta.fields.slice();
+      // Drop fully-blank rows -- a trailing newline parses as one of these,
+      // and every real data row has a non-blank primary key, so this never
+      // drops genuine content.
+      const rows = parsed.data.filter(r => columns.some(c => (r[c] || "").trim() !== ""));
+      state.columns = columns;
+      state.rows = rows;
+      state.columnType = inferTypes(state.columns, rows);
+      state.pkCol = state.columns[0];
+      state.originalSha = meta.sha;
+      state.currentPath = path;
+      state.currentBranch = branch;
+      state.page = 0;
+
+      $("editTitle").textContent = path + `  (${rows.length} rows)`;
+      $("baseBranchLabel").textContent = branch;
+      const stamp = new Date().toISOString().slice(0,16).replace(/[:T]/g,"-");
+      const shortName = path.replace(/^data\//,"").replace(/\.csv$/,"");
+      $("newBranchInput").value = `edit-${shortName}-${stamp}`;
+      $("prTitleInput").value = `Edit ${path} via data editor`;
+      $("prBodyInput").value = `Edited through the browser data editor.\n\nRun scripts/validate_integrity.py before merging.`;
+
+      $("searchInput").value = "";
+      renderGrid();
+      $("editPanel").hidden = false;
+      msg($("loadMsg"), "", "");
+    } catch(err){
+      msg($("loadMsg"), "Couldn't load that table: " + esc(err.message), "bad");
+    }
+  });
+
+  // ---------- grid rendering ----------
+  function applyFilter(){
+    const q = $("searchInput").value.trim().toLowerCase();
+    if(!q){ state.filtered = state.rows.map((r,i) => i); return; }
+    state.filtered = [];
+    state.rows.forEach((r, i) => {
+      for(const c of state.columns){
+        if((r[c] || "").toLowerCase().includes(q)){ state.filtered.push(i); return; }
+      }
+    });
+  }
+
+  function findDupePkIndices(){
+    const seen = new Map(); const dupes = new Set();
+    state.rows.forEach((r, i) => {
+      const v = (r[state.pkCol] || "").trim();
+      if(!v) return;
+      if(seen.has(v)){ dupes.add(i); dupes.add(seen.get(v)); }
+      else seen.set(v, i);
+    });
+    return dupes;
+  }
+
+  function renderGrid(){
+    applyFilter();
+    const dupes = findDupePkIndices();
+    const head = $("gridHead");
+    head.innerHTML = `<th></th>` + state.columns.map(c => `<th>${esc(c)}</th>`).join("");
+
+    const totalPages = Math.max(1, Math.ceil(state.filtered.length / state.pageSize));
+    if(state.page >= totalPages) state.page = totalPages - 1;
+    const start = state.page * state.pageSize;
+    const pageIdxs = state.filtered.slice(start, start + state.pageSize);
+
+    const body = $("gridBody");
+    body.innerHTML = "";
+    pageIdxs.forEach(i => {
+      const r = state.rows[i];
+      const tr = document.createElement("tr");
+      tr.dataset.rowIndex = String(i);
+      if(dupes.has(i)) tr.classList.add("dupe");
+      if(r.__new) tr.classList.add("newrow");
+
+      const ctl = document.createElement("td");
+      ctl.className = "rowctl";
+      const delBtn = document.createElement("button");
+      delBtn.className = "ghost"; delBtn.type = "button"; delBtn.textContent = "✕";
+      delBtn.title = "Delete row";
+      delBtn.addEventListener("click", () => {
+        if(confirm(`Delete this row (${state.pkCol} = "${r[state.pkCol]||''}")?`)){
+          const idx = state.rows.indexOf(r);
+          state.rows.splice(idx, 1);
+          renderGrid();
+        }
+      });
+      ctl.appendChild(delBtn);
+      tr.appendChild(ctl);
+
+      state.columns.forEach(col => {
+        const td = document.createElement("td");
+        if(col === state.pkCol) td.className = "pk";
+        const type = state.columnType[col];
+        let field;
+        if(type === "status" || type === "bool"){
+          field = document.createElement("select");
+          const opts = type === "status" ? STATUS_VALUES : ["", "TRUE", "FALSE"];
+          opts.forEach(o => {
+            const opt = document.createElement("option");
+            opt.value = o; opt.textContent = o || "(blank)";
+            if((r[col]||"") === o) opt.selected = true;
+            field.appendChild(opt);
+          });
+          field.addEventListener("change", () => {
+            r[col] = field.value;
+            if(col === state.pkCol) refreshDupeHighlight();
+          });
+        } else if(type === "longtext"){
+          field = document.createElement("textarea");
+          field.value = r[col] || "";
+          field.rows = 1;
+          field.addEventListener("input", () => { r[col] = field.value; });
+        } else {
+          field = document.createElement("input");
+          field.type = "text";
+          field.value = r[col] || "";
+          field.addEventListener("input", () => {
+            r[col] = field.value;
+            // Keep the duplicate-key highlight live while typing, without a
+            // full renderGrid() -- that rebuilds every input in the table
+            // and would kick focus out of the field mid-keystroke.
+            if(col === state.pkCol) refreshDupeHighlight();
+          });
+        }
+        td.appendChild(field);
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+
+    $("rowCount").textContent = `${state.filtered.length} of ${state.rows.length} rows shown` +
+      (dupes.size ? ` — ${dupes.size} row(s) share a duplicate ${state.pkCol} (highlighted)` : "");
+    $("pageIndicator").textContent = `page ${state.page+1} of ${totalPages}`;
+  }
+
+  // Recompute which rows are duplicate-primary-key rows and toggle the
+  // highlight on the rows currently in the DOM, without rebuilding them --
+  // called on every keystroke in a primary-key field, so it must never
+  // touch focus or recreate input elements.
+  function refreshDupeHighlight(){
+    const dupes = findDupePkIndices();
+    document.querySelectorAll("#gridBody tr").forEach(tr => {
+      const idx = Number(tr.dataset.rowIndex);
+      tr.classList.toggle("dupe", dupes.has(idx));
+    });
+    $("rowCount").textContent = `${state.filtered.length} of ${state.rows.length} rows shown` +
+      (dupes.size ? ` — ${dupes.size} row(s) share a duplicate ${state.pkCol} (highlighted)` : "");
+  }
+
+  $("searchInput").addEventListener("input", () => { state.page = 0; renderGrid(); });
+  $("prevPageBtn").addEventListener("click", () => { if(state.page>0){ state.page--; renderGrid(); } });
+  $("nextPageBtn").addEventListener("click", () => {
+    const totalPages = Math.max(1, Math.ceil(state.filtered.length / state.pageSize));
+    if(state.page < totalPages-1){ state.page++; renderGrid(); }
+  });
+
+  $("addRowBtn").addEventListener("click", () => {
+    const blank = {__new:true};
+    state.columns.forEach(c => blank[c] = "");
+    state.rows.push(blank);
+    $("searchInput").value = "";
+    state.page = Math.floor((state.rows.length-1) / state.pageSize);
+    renderGrid();
+  });
+
+  $("downloadBtn").addEventListener("click", () => {
+    const csv = serializeCsv();
+    const blob = new Blob([csv], {type:"text/csv"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = state.currentPath.split("/").pop();
+    a.click();
+  });
+
+  function serializeCsv(){
+    const data = state.rows.map(r => state.columns.map(c => r[c] || ""));
+    return Papa.unparse({fields: state.columns, data}, {newline: "\n"});
+  }
+
+  // ---------- save as PR ----------
+  function logStep(text, cls){
+    const el = $("stepLog");
+    el.hidden = false;
+    el.innerHTML += (el.innerHTML ? "\n" : "") + `<span class="${cls||''}">${esc(text)}</span>`;
+    el.scrollTop = el.scrollHeight;
+  }
+
+  $("saveBtn").addEventListener("click", async () => {
+    const dupes = findDupePkIndices();
+    if(dupes.size){
+      msg($("saveMsg"), `Can't save: ${dupes.size} row(s) share a duplicate ${state.pkCol} value. Fix the highlighted rows first.`, "bad");
+      return;
+    }
+    const branch = $("newBranchInput").value.trim();
+    const title = $("prTitleInput").value.trim();
+    const body = $("prBodyInput").value;
+    if(!branch || !title){
+      msg($("saveMsg"), "Branch name and PR title are required.", "bad"); return;
+    }
+
+    $("saveBtn").disabled = true;
+    $("stepLog").hidden = true; $("stepLog").innerHTML = "";
+    msg($("saveMsg"), "", "");
+
+    try {
+      logStep(`Reading current tip of ${state.defaultBranch}…`);
+      const baseRef = await gh(`/repos/${state.owner}/${state.repo}/git/ref/heads/${encodeURIComponent(state.defaultBranch)}`);
+      const baseSha = baseRef.object.sha;
+
+      logStep(`Creating branch ${branch}…`);
+      try {
+        await gh(`/repos/${state.owner}/${state.repo}/git/refs`, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ref: `refs/heads/${branch}`, sha: baseSha}),
+        });
+      } catch(err){
+        if(err.status === 422){
+          logStep(`Branch ${branch} already exists — committing onto it.`, "ok");
+        } else { throw err; }
+      }
+
+      logStep(`Fetching ${state.currentPath}'s current sha on ${branch}…`);
+      let fileSha = null;
+      try {
+        const cur = await gh(`/repos/${state.owner}/${state.repo}/contents/${encodePath(state.currentPath)}?ref=${encodeURIComponent(branch)}`);
+        fileSha = cur.sha;
+      } catch(err){
+        if(err.status !== 404) throw err;
+      }
+
+      logStep(`Writing ${state.currentPath}…`);
+      const csv = serializeCsv();
+      const commitBody = {
+        message: title,
+        content: utf8ToB64(csv),
+        branch: branch,
+      };
+      if(fileSha) commitBody.sha = fileSha;
+      await gh(`/repos/${state.owner}/${state.repo}/contents/${encodePath(state.currentPath)}`, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(commitBody),
+      });
+
+      logStep(`Opening pull request…`);
+      let pr;
+      try {
+        pr = await gh(`/repos/${state.owner}/${state.repo}/pulls`, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({title, head: branch, base: state.defaultBranch, body}),
+        });
+      } catch(err){
+        if(err.status === 422 && /already exists/i.test(err.message||"")){
+          logStep(`A pull request for this branch already exists — the commit was still added to it.`, "ok");
+          logStep(`Done.`, "ok");
+          msg($("saveMsg"), `Saved to branch <code>${esc(branch)}</code>.`, "good");
+          $("saveBtn").disabled = false;
+          return;
+        }
+        throw err;
+      }
+
+      logStep(`Done.`, "ok");
+      msg($("saveMsg"), `Opened <a href="${pr.html_url}" target="_blank" rel="noopener">pull request #${pr.number}</a> — review it on GitHub, run validate_integrity.py, then merge.`, "good");
+    } catch(err){
+      logStep(`Failed: ${err.message}`, "err");
+      msg($("saveMsg"), "Something went wrong: " + esc(err.message), "bad");
+    } finally {
+      $("saveBtn").disabled = false;
+    }
+  });
+
+  // ---------- restore remembered connection ----------
+  (function restore(){
+    const t = localStorage.getItem(LS_TOKEN);
+    const r = localStorage.getItem(LS_REPO);
+    if(t && r){
+      $("tokenInput").value = t;
+      $("repoInput").value = r;
+      $("connectBtn").click();
+    }
+  })();
+
+})();
+</script>
+
+</body>
+</html>
