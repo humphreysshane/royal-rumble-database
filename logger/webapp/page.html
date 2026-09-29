@@ -1,0 +1,1361 @@
+<title>Rumble Logger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf8f4; --surface:#ffffff; --surface-2:#f2efe6; --surface-3:#ece7db;
+  --ink:#17140d; --ink-2:#57503f; --ink-3:#8a8272;
+  --border:rgba(23,20,13,0.11); --border-strong:rgba(23,20,13,0.20);
+  --accent:#9d7200; --accent-strong:#7a5900; --accent-wash:#f4e6c2; --accent-wash-2:#ece0bd;
+  --accent-ink:#17140d;
+  --good:#0ca30c; --warning:#b8790a; --serious:#c1552f; --critical:#d03b3b;
+  --good-wash:#dff3df; --warning-wash:#faedd1; --serious-wash:#f8e2d6; --critical-wash:#fbdfdd;
+  --font-d:'Oswald',system-ui,-apple-system,sans-serif;
+  --font-b:'Inter',system-ui,-apple-system,sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --radius:6px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#100d08; --surface:#1a160e; --surface-2:#221d13; --surface-3:#2b2417;
+    --ink:#f7f4ec; --ink-2:#cabfa4; --ink-3:#8f8672;
+    --border:rgba(255,255,255,0.12); --border-strong:rgba(255,255,255,0.22);
+    --accent:#e3ae28; --accent-strong:#f0bb3b; --accent-wash:#3a2f13; --accent-wash-2:#4a3c19;
+    --accent-ink:#17140d;
+    --good:#3fbf46; --warning:#fab219; --serious:#ec835a; --critical:#e66767;
+    --good-wash:#123317; --warning-wash:#3a2c0d; --serious-wash:#3a2416; --critical-wash:#3a1414;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#100d08; --surface:#1a160e; --surface-2:#221d13; --surface-3:#2b2417;
+  --ink:#f7f4ec; --ink-2:#cabfa4; --ink-3:#8f8672;
+  --border:rgba(255,255,255,0.12); --border-strong:rgba(255,255,255,0.22);
+  --accent:#e3ae28; --accent-strong:#f0bb3b; --accent-wash:#3a2f13; --accent-wash-2:#4a3c19;
+  --accent-ink:#17140d;
+  --good:#3fbf46; --warning:#fab219; --serious:#ec835a; --critical:#e66767;
+  --good-wash:#123317; --warning-wash:#3a2c0d; --serious-wash:#3a2416; --critical-wash:#3a1414;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-b); line-height:1.45; padding-inline:16px;}
+a{color:inherit;}
+button{font-family:inherit; cursor:pointer;}
+.app{max-width:1180px; margin:0 auto; padding-block:20px 80px;}
+header.top{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-block:10px 18px; border-bottom:1px solid var(--border); margin-bottom:20px;}
+header.top .brand{font-family:var(--font-d); font-weight:600; font-size:19px; letter-spacing:0.01em;}
+header.top .brand .eyebrow{display:block; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); font-weight:600; font-family:var(--font-b);}
+header.top nav a{margin-left:16px; font-size:13.5px; color:var(--ink-2); text-decoration:none; padding:6px 4px; border-bottom:2px solid transparent;}
+header.top nav a.active{color:var(--ink); border-color:var(--accent); font-weight:600;}
+header.top .synced{font-size:11.5px; color:var(--ink-3);}
+
+.banner{background:var(--warning-wash); border:1px solid var(--warning); color:var(--ink); border-radius:var(--radius); padding:10px 14px; font-size:13px; margin-bottom:16px;}
+
+.panel{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-bottom:16px;}
+h1{font-family:var(--font-d); font-weight:600; font-size:23px; margin:0 0 4px; letter-spacing:0.01em;}
+h2{font-family:var(--font-d); font-weight:600; font-size:17px; margin:0 0 10px; letter-spacing:0.01em;}
+.sub{color:var(--ink-3); font-size:13px;}
+.btn{display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:7px; border:1px solid var(--border-strong); background:var(--surface-2); color:var(--ink); font-size:13.5px; font-weight:600;}
+.btn:hover{background:var(--surface-3);}
+.btn.primary{background:var(--accent); border-color:var(--accent-strong); color:var(--accent-ink);}
+.btn.primary:hover{background:var(--accent-strong);}
+.btn.big{padding:14px 22px; font-size:15px; border-radius:9px;}
+.btn:disabled{opacity:0.45; cursor:not-allowed;}
+
+table.idx{width:100%; border-collapse:collapse; font-size:13.5px;}
+table.idx th{text-align:left; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); padding:8px 10px; border-bottom:1px solid var(--border-strong); white-space:nowrap;}
+table.idx td{padding:9px 10px; border-bottom:1px solid var(--border);}
+table.idx tr.clickable{cursor:pointer;}
+table.idx tr.clickable:hover{background:var(--surface-2);}
+.tablewrap{overflow-x:auto;}
+
+.progress{height:8px; border-radius:5px; background:var(--surface-3); overflow:hidden; width:140px;}
+.progress > div{height:100%; background:var(--accent);}
+
+.badge{display:inline-block; padding:2px 9px; border-radius:99px; font-size:11px; font-weight:700; letter-spacing:0.02em; white-space:nowrap;}
+.badge.unreviewed{background:var(--surface-3); color:var(--ink-3);}
+.badge.confirmed{background:var(--good-wash); color:var(--good);}
+.badge.corrected{background:var(--warning-wash); color:var(--warning);}
+.badge.uncertain{background:var(--serious-wash); color:var(--serious);}
+.badge.conflict{background:var(--critical-wash); color:var(--critical);}
+.badge.importconflict{background:var(--critical-wash); color:var(--critical); margin-left:6px;}
+
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+@media (max-width:640px){ .grid2{grid-template-columns:1fr;} }
+.field{margin-bottom:14px;}
+.field label{display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-3); margin-bottom:5px;}
+.field input[type=text], .field textarea, .field select{
+  width:100%; padding:9px 10px; border-radius:6px; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink); font-size:14px; font-family:inherit;
+}
+.field textarea{min-height:60px; resize:vertical;}
+.field .imported-hint{font-size:11.5px; color:var(--ink-3); margin-top:4px;}
+.checkrow{display:flex; align-items:center; gap:8px; font-size:13.5px; margin-top:6px;}
+
+.locpanel{display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:18px;}
+.ringwrap{flex:0 0 auto;}
+.ring-svg{width:220px; height:220px; display:block; border-radius:8px; background:var(--surface-2); cursor:crosshair; touch-action:none;}
+.ring-svg .ropes{fill:none; stroke:var(--ink-3); stroke-width:1.5;}
+.ring-svg .canvas{fill:var(--surface); stroke:var(--border-strong); stroke-width:1.5;}
+.ring-svg .turnbuckle{fill:var(--ink-3);}
+.ring-svg .hc-label{fill:var(--ink-3); font-size:9px; font-family:var(--font-b); font-weight:700; letter-spacing:0.06em; text-anchor:middle;}
+.ring-svg .marker{fill:var(--accent); stroke:var(--accent-strong); stroke-width:1.5;}
+.locinfo{flex:1; min-width:200px;}
+.loc-readout{font-size:14px; font-weight:600; margin-bottom:4px;}
+.loc-readout.unset{color:var(--ink-3); font-weight:500;}
+.locbtns{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+.locbtns .btn{padding:6px 12px; font-size:12.5px;}
+
+.review-head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:6px; flex-wrap:wrap;}
+.jumpbar{display:flex; align-items:center; gap:8px;}
+
+.statusrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:18px;}
+.statusbtn{flex:1; min-width:130px; padding:12px; border-radius:8px; border:1px solid var(--border-strong); background:var(--surface-2); font-weight:700; font-size:13.5px; text-align:center; color:var(--ink);}
+.statusbtn small{display:block; font-weight:500; font-size:11px; color:var(--ink-3); margin-top:2px;}
+.statusbtn.confirmed{background:var(--good-wash); border-color:var(--good);}
+.statusbtn.corrected{background:var(--warning-wash); border-color:var(--warning);}
+.statusbtn.uncertain{background:var(--serious-wash); border-color:var(--serious);}
+.statusbtn.conflict{background:var(--critical-wash); border-color:var(--critical);}
+
+.kbd{display:inline-block; padding:1px 6px; border:1px solid var(--border-strong); border-radius:4px; font-family:var(--font-mono); font-size:11px; background:var(--surface);}
+.hint{color:var(--ink-3); font-size:12.5px;}
+
+.entrant-ref{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+.entrant-chip{font-size:12px; padding:4px 9px; border-radius:99px; background:var(--surface-2); border:1px solid var(--border);}
+.entrant-chip.winner{background:var(--accent-wash); border-color:var(--accent); font-weight:700;}
+
+.empty{color:var(--ink-3); padding:30px; text-align:center;}
+.toast{position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:var(--bg); padding:10px 18px; border-radius:8px; font-size:13.5px; opacity:0; transition:opacity 0.2s; pointer-events:none; z-index:10;}
+.toast.show{opacity:0.95;}
+.filters{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
+.filters select{padding:7px 10px; border-radius:6px; border:1px solid var(--border-strong); font-size:13px; background:var(--surface); color:var(--ink);}
+
+/* ---- live capture screen ---- */
+.ctrlbar{display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; padding:14px 18px; margin-bottom:14px;}
+.ctrlbar .cfield{display:flex; flex-direction:column; gap:4px; min-width:132px;}
+.ctrlbar .cfield label{font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-3);}
+.ctrlbar select{padding:8px 9px; border-radius:6px; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink); font-size:13px;}
+.clockbox{margin-left:auto; display:flex; align-items:center; gap:10px;}
+.clockdigits{font-family:var(--font-mono); font-size:22px; font-weight:600; font-variant-numeric:tabular-nums; min-width:112px; text-align:right;}
+.clockbtns{display:flex; gap:6px;}
+.clockbtns button{width:34px; height:34px; border-radius:8px; border:1px solid var(--border-strong); background:var(--surface-2); font-size:14px; display:flex; align-items:center; justify-content:center;}
+.clockbtns button.go{background:var(--good); color:#fff; border-color:var(--good);}
+.nudgebtns{display:flex; gap:5px; margin-top:6px;}
+.nudgebtns button{font-size:11px; padding:4px 8px; border-radius:5px;}
+
+.reviewgrid{display:grid; grid-template-columns:1fr 340px; gap:16px; align-items:start;}
+@media (max-width:900px){ .reviewgrid{grid-template-columns:1fr;} }
+.ringpanel{padding:16px;}
+.ring-svg-big{width:100%; max-width:480px; height:auto; aspect-ratio:1/1; display:block; margin:0 auto; border-radius:8px; background:var(--surface-2); cursor:crosshair; touch-action:none;}
+.ring-svg-big .ropes{fill:none; stroke:var(--ink-3); stroke-width:1.5;}
+.ring-svg-big .canvas{fill:var(--surface); stroke:var(--border-strong); stroke-width:1.5;}
+.ring-svg-big .turnbuckle{fill:var(--ink-3);}
+.ring-svg-big .hc-label{fill:var(--accent); font-size:9px; font-family:var(--font-b); font-weight:700; letter-spacing:0.06em; text-anchor:middle;}
+.ring-svg-big .entrance-label{fill:var(--ink-2); font-size:8.5px; font-family:var(--font-b); font-weight:700; letter-spacing:0.06em; text-anchor:middle;}
+.ring-svg-big .marker-current{fill:var(--accent); stroke:var(--accent-strong); stroke-width:1.5;}
+.ring-svg-big .marker-num{fill:#fff; font-size:9px; font-weight:700; text-anchor:middle; font-family:var(--font-b); pointer-events:none;}
+.ring-svg-big .marker-dim{fill:var(--ink-3); opacity:0.55;}
+.ring-instruction{display:flex; gap:8px; align-items:flex-start; background:var(--accent-wash); border:1px solid var(--accent); border-radius:8px; padding:9px 12px; margin-top:12px; font-size:12.5px;}
+.ring-legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; font-size:11.5px; color:var(--ink-3);}
+.ring-legend span{display:inline-flex; align-items:center; gap:5px;}
+.dot{width:9px; height:9px; border-radius:99px; display:inline-block;}
+
+.eventtabs{display:flex; gap:6px; margin-bottom:12px;}
+.eventtabs button{flex:1; padding:10px 6px; border-radius:8px; border:1px solid var(--border-strong); background:var(--surface-2); font-size:11.5px; font-weight:700; letter-spacing:0.02em; text-align:center;}
+.eventtabs button.active{background:var(--accent); border-color:var(--accent-strong); color:var(--accent-ink);}
+.eventtabs button:disabled{opacity:0.4; cursor:not-allowed;}
+
+.recordcard{padding:16px;}
+.savebig{width:100%; background:var(--good); border-color:var(--good); color:#fff; padding:14px; font-size:15px; margin-top:6px;}
+.savebig:hover{filter:brightness(1.06);}
+.minorstatus{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;}
+.minorstatus button{flex:1; min-width:90px; font-size:11px; padding:7px 6px;}
+
+.bottomrow{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:14px;}
+@media (max-width:900px){ .bottomrow{grid-template-columns:1fr;} }
+.bpanel{padding:14px 16px; max-height:280px; overflow-y:auto;}
+.bpanel h2{font-size:13px;}
+.rosterlist{display:grid; grid-template-columns:1fr 1fr; gap:6px 10px;}
+.rosteritem{display:flex; align-items:center; gap:7px; font-size:12.5px; padding:3px 0;}
+.rosteritem .dot{background:var(--good);}
+.tlrow{display:flex; align-items:center; gap:9px; padding:6px 0; border-bottom:1px solid var(--border); cursor:pointer; font-size:12px;}
+.tlrow:hover{background:var(--surface-2);}
+.tlnum{width:22px; height:22px; border-radius:99px; display:flex; align-items:center; justify-content:center; font-size:10.5px; font-weight:700; color:#fff; flex:0 0 auto;}
+.tlrow .tltime{font-family:var(--font-mono); color:var(--ink-3); font-size:11px; flex:0 0 auto;}
+.tlrow .tltext{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.minimap-svg{width:100%; max-width:220px; display:block; margin:0 auto;}
+</style>
+
+<div class="app" id="app"><div class="empty">Loading…</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+function el(tag, attrs, children){
+  const e = document.createElement(tag);
+  for (const k in (attrs||{})){
+    if (k === "class") e.className = attrs[k];
+    else if (k === "text") e.textContent = attrs[k];
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  (children||[]).forEach(c => { if (c) e.appendChild(c); });
+  return e;
+}
+function fmtPct(n, d){ return d ? Math.round(100*n/d)+"%" : "0%"; }
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 1600);
+}
+
+const STATUS_LABELS = { unreviewed:"Unreviewed", confirmed:"Confirmed", corrected:"Corrected", uncertain:"Uncertain", conflict:"Conflict" };
+const STATUS_COLOR_VAR = { unreviewed:"--ink-3", confirmed:"--good", corrected:"--warning", uncertain:"--serious", conflict:"--critical" };
+
+// ---- Spatial model ----
+// A click on the ring diagram is stored as *physical* normalized x/y (0..1, never
+// rotated) plus a physical 8-point compass zone (N/NE/E/.../NW, N = top of the
+// fixed diagram). Hard-camera side and entrance position are configured per event
+// and are purely a rotation of *labels* on top of that fixed physical frame --
+// exactly the brief's "do not rotate or overwrite raw coordinates" rule. The
+// camera-relative zone (hard-camera / near-right / right / ... ) is derived from
+// the physical compass point plus the configured hard-camera side, every time it's
+// displayed, never stored as the source of truth on its own.
+const COMPASS8 = ["N","NE","E","SE","S","SW","W","NW"];
+const COMPASS_LABEL = {
+  N:"North (Top)", NE:"Northeast", E:"East (Right)", SE:"Southeast",
+  S:"South (Bottom)", SW:"Southwest", W:"West (Left)", NW:"Northwest",
+};
+const RELATIVE_LABELS = ["hard-camera","near-right","right","far-right","far-side","far-left","left","near-left"];
+// Controlled weapon list (custom entries via "Other"), per the development brief.
+const WEAPON_LIST = ["Chair","Table","Ladder","Kendo Stick","Trash Can","Ring Bell","Steps","Microphone","Championship Belt","Other"];
+const ZONE_LABELS = {
+  "hard-camera":"Hard camera (near side)", "far-side":"Far side",
+  "left":"Left (camera-left)", "right":"Right (camera-right)",
+  "near-left":"Near-left corner", "near-right":"Near-right corner",
+  "far-left":"Far-left corner", "far-right":"Far-right corner",
+  "unknown":"Unknown / not visible",
+};
+// legacy single-word side, kept alongside the precise zone so the existing
+// `location_side` database column stays populated as before.
+const LEGACY_SIDE_FOR_ZONE = {
+  "hard-camera":"Hard camera", "far-side":"Far side", "left":"Left", "right":"Right",
+  "near-left":"Corner", "near-right":"Corner", "far-left":"Corner", "far-right":"Corner",
+  "unknown":"Unknown",
+};
+function compassFromPoint(x, y){ // x,y normalized 0..1; returns one of COMPASS8, N = top
+  const dx = x - 0.5, dy = y - 0.5;
+  if (Math.hypot(dx, dy) < 0.02) return "N";
+  const deg = (Math.atan2(-dy, dx) * 180 / Math.PI + 360) % 360; // 0=E,90=N,180=W,270=S
+  const bearing = (90 - deg + 360) % 360; // 0=N,90=E,180=S,270=W
+  return COMPASS8[Math.round(bearing / 45) % 8];
+}
+function relativeZoneFor(compass, hardCameraSide){
+  const idx = COMPASS8.indexOf(compass);
+  const hcIdx = COMPASS8.indexOf(hardCameraSide) >= 0 ? COMPASS8.indexOf(hardCameraSide) : COMPASS8.indexOf("S");
+  const relIdx = ((hcIdx - idx) % 8 + 8) % 8;
+  return RELATIVE_LABELS[relIdx];
+}
+// Edge/corner point (in the 0..320 viewBox) for one of the 8 compass sides, used to
+// place the HARD CAMERA and ENTRANCE markers outside the ring perimeter. Hard camera
+// stays cardinal-only (brief's stated minimum); entrance supports all 8, since a ramp
+// can genuinely sit at a corner rather than dead-center on a side.
+function edgePoint(side){
+  return {
+    N:[160,14], NE:[300,40], E:[306,160], SE:[300,280],
+    S:[160,306], SW:[20,280], W:[14,160], NW:[20,40],
+  }[side] || [160,306];
+}
+// Vertical label offset so a compass-side label reads above/below/beside its marker
+// sensibly regardless of which of the 8 positions it's placed at.
+function labelOffsetY(side){
+  if (side === "N") return -10;
+  if (side === "S") return 16;
+  if (side === "NE" || side === "NW") return -8;
+  if (side === "SE" || side === "SW") return 14;
+  return 4; // E, W
+}
+
+function buildRingDiagram(opts){
+  // opts: { initial:{compass,x,y}|null, hardCameraSide, entrancePosition, interactive,
+  //         markers:[{x,y,number,color,shape,dim}], big, markerColor, markerStrokeColor,
+  //         instructionTitle, instructionHint, emptyText, legendCurrentLabel }
+  opts = opts || {};
+  let val = opts.initial && typeof opts.initial.x === "number" ? Object.assign({}, opts.initial) : (opts.initial && opts.initial.compass === "unknown" ? {compass:"unknown"} : null);
+  const hardCameraSide = opts.hardCameraSide || "S";
+  const entrancePosition = opts.entrancePosition || "N";
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", "0 0 320 320");
+  svg.setAttribute("class", opts.big ? "ring-svg-big" : "ring-svg");
+  function shape(tag, attrs, cls){ const s = document.createElementNS(NS, tag); for (const k in attrs) s.setAttribute(k, attrs[k]); if (cls) s.setAttribute("class", cls); return s; }
+  svg.appendChild(shape("rect", {x:6, y:6, width:308, height:308, rx:8}, "canvas"));
+  svg.appendChild(shape("rect", {x:60, y:60, width:200, height:200}, "ropes"));
+  svg.appendChild(shape("rect", {x:60, y:127, width:200, height:66, fill:"none"}, "ropes"));
+  svg.appendChild(shape("rect", {x:127, y:60, width:66, height:200, fill:"none"}, "ropes"));
+  [[60,60],[260,60],[60,260],[260,260]].forEach(([cx,cy]) => svg.appendChild(shape("circle", {cx, cy, r:6}, "turnbuckle")));
+
+  const [ex, ey] = edgePoint(entrancePosition);
+  svg.appendChild(shape("circle", {cx:ex, cy:ey, r:5, fill:"var(--ink-3)"}));
+  const eLabel = shape("text", {x:ex, y: ey + labelOffsetY(entrancePosition)}, "entrance-label");
+  eLabel.textContent = "ENTRANCE"; svg.appendChild(eLabel);
+
+  const [hx, hy] = edgePoint(hardCameraSide);
+  const hcLabel = shape("text", {x:hx, y: hy + labelOffsetY(hardCameraSide)}, "hc-label");
+  hcLabel.textContent = "🎥 HARD CAMERA"; svg.appendChild(hcLabel);
+
+  (opts.markers || []).forEach(m => {
+    if (typeof m.x !== "number") return;
+    let g;
+    if (m.shape === "square") {
+      const size = m.dim ? 13 : 15;
+      g = shape("rect", {x:m.x*320-size/2, y:m.y*320-size/2, width:size, height:size, rx:3}, m.dim ? "marker-dim" : "marker-current");
+    } else {
+      g = shape("circle", {cx:m.x*320, cy:m.y*320, r: m.dim ? 8 : 9}, m.dim ? "marker-dim" : "marker-current");
+    }
+    if (!m.dim && m.color) g.setAttribute("fill", m.color);
+    svg.appendChild(g);
+    if (m.number != null) {
+      const t = shape("text", {x:m.x*320, y:m.y*320+3}, "marker-num");
+      t.textContent = m.number; svg.appendChild(t);
+    }
+  });
+
+  const marker = shape("circle", {r:9, cx:-100, cy:-100, fill: opts.markerColor || "var(--accent)", stroke: opts.markerStrokeColor || "var(--accent-strong)", "stroke-width":2});
+  svg.appendChild(marker);
+  function place(clientX, clientY){
+    const rect = svg.getBoundingClientRect();
+    const nx = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+    const ny = Math.min(1, Math.max(0, (clientY - rect.top) / rect.height));
+    val = { compass: compassFromPoint(nx, ny), x: nx, y: ny };
+    redraw();
+  }
+  if (opts.interactive !== false) svg.addEventListener("click", (e) => place(e.clientX, e.clientY));
+  const readout = el("div", {class:"loc-readout"});
+  function redraw(){
+    if (val && typeof val.x === "number") {
+      marker.setAttribute("cx", val.x*320);
+      marker.setAttribute("cy", val.y*320);
+      marker.style.display = "";
+      const rel = relativeZoneFor(val.compass, hardCameraSide);
+      readout.textContent = ZONE_LABELS[rel] || rel;
+      readout.classList.remove("unset");
+    } else if (val && val.compass === "unknown") {
+      marker.style.display = "none";
+      readout.textContent = "Marked unknown / not visible in footage";
+      readout.classList.add("unset");
+    } else {
+      marker.style.display = "none";
+      readout.textContent = opts.emptyText || "Not set — click the diagram where the elimination happened";
+      readout.classList.add("unset");
+    }
+  }
+  redraw();
+  if (opts.interactive === false) {
+    return { element: svg, getValue: () => val };
+  }
+  const unknownBtn = el("button", {class:"btn", text:"Mark unknown", type:"button"});
+  unknownBtn.addEventListener("click", () => { val = { compass:"unknown" }; redraw(); });
+  const clearBtn = el("button", {class:"btn", text:"Clear", type:"button"});
+  clearBtn.addEventListener("click", () => { val = null; redraw(); });
+  const wrap = el("div", {class:"ringpanel panel"}, [
+    svg,
+    el("div", {class:"ring-instruction"}, [
+      el("span", {text:"📍"}),
+      el("div", {}, [
+        el("div", {style:"font-weight:600;", text: opts.instructionTitle || "Click location on ring"}),
+        el("div", {class:"hint", text: opts.instructionHint || "Click the ring or ringside area to set the elimination location."}),
+      ]),
+    ]),
+    readout,
+    el("div", {class:"locbtns"}, [unknownBtn, clearBtn]),
+    el("div", {class:"ring-legend"}, [
+      el("span", {}, [el("span", {class:"dot", style:"background:"+(opts.markerColor||"var(--accent)")+";"}), document.createTextNode(opts.legendCurrentLabel || "This elimination")]),
+      el("span", {}, [el("span", {class:"dot", style:"background:var(--ink-3); opacity:0.55;"}), document.createTextNode("Earlier this event")]),
+    ]),
+  ]);
+  return { element: wrap, getValue: () => val };
+}
+function saveEventOverlay(eventId, patch){
+  if (!STATE.db) return Promise.reject(new Error("Live sync unavailable"));
+  const merged = Object.assign({}, STATE.dbEvents[eventId] || {}, patch, { updatedAt: new Date().toISOString() });
+  return STATE.db.doc("events/" + eventId).set(merged).then(() => { STATE.dbEvents[eventId] = merged; });
+}
+// fields compared to detect "the live database changed since this row was reviewed"
+const CONFLICT_FIELDS = ["eliminatorWrestlerId","orderInMatch","eliminationClockTime","eliminationMethod","locationSide","eliminationType","assistingWrestlerIds","isSolo","isShared"];
+function importSnapshotKey(imported){
+  const o = {};
+  CONFLICT_FIELDS.forEach(f => o[f] = imported[f] || "");
+  return JSON.stringify(o);
+}
+
+// ---------------- global state ----------------
+const STATE = {
+  data: null,            // parsed data.json
+  reviewsById: {},        // id -> static review record
+  reviewsByEvent: {},     // eventId -> [reviews], sorted by order_in_match
+  eventsById: {},          // eventId -> event record
+  db: null,               // claude.use("db") result, or null
+  dbReviews: {},           // id -> db doc data
+  dbEvents: {},             // eventId -> db doc data
+  dbWeaponEvents: {},        // id -> weapon event doc data
+  reviewGroupsByEvent: {},   // eventId -> [{id, eventId, eliminatedWrestlerId, memberIds}]
+  reviewGroupsById: {},       // groupId -> same group def
+  dbReady: false,
+};
+function weaponEventsForEvent(eventId){
+  return Object.keys(STATE.dbWeaponEvents)
+    .map(id => Object.assign({id}, STATE.dbWeaponEvents[id]))
+    .filter(w => w.eventId === eventId);
+}
+// A joint/shared elimination is stored upstream as ONE raw row PER CREDITED
+// ELIMINATOR (each row lists the others as its "assist"), because that's the master
+// database's per-eliminator record shape. Reviewed one raw row at a time, that meant
+// re-doing the same physical elimination's location click once per co-eliminator,
+// with "Eliminated By" flipping to whichever co-eliminator's row came up next --
+// exactly the bug Shane hit on RR1988M elimination #2. A "review group" is every raw
+// row sharing (eventId, eliminatedWrestlerId) -- a wrestler is eliminated exactly
+// once, so that pair is a stable, correct key -- presented as a single step in the
+// review sequence with one location click, with all co-eliminators editable together.
+function mergedGroup(groupId){
+  const g = STATE.reviewGroupsById[groupId];
+  if (!g) return null;
+  const members = g.memberIds.map(id => mergedReview(id));
+  if (!members.length || members.some(m => !m)) return null;
+  const allReviewed = members.every(m => m.status !== "unreviewed");
+  const status = allReviewed ? members[0].status : "unreviewed";
+  const importConflict = members.some(m => m.importConflict);
+  return {
+    id: g.id, eventId: g.eventId, memberIds: g.memberIds, members,
+    eliminatedWrestlerId: g.eliminatedWrestlerId,
+    eliminatedWrestlerName: members[0].eliminatedWrestlerName,
+    status, importConflict,
+    orderInMatch: members[0].orderInMatch,
+    eliminationClockTime: members[0].eliminationClockTime,
+    locationCompass: members[0].locationCompass,
+    locationX: members[0].locationX, locationY: members[0].locationY,
+    eliminationType: members[0].eliminationType,
+    eliminationMethod: members[0].eliminationMethod,
+    isSolo: members[0].isSolo, isShared: members[0].isShared,
+    notes: members[0].notes,
+    eliminatorSummary: members.map(m => m.eliminatorWrestlerName).filter(Boolean).join(" & ") || "—",
+  };
+}
+
+function mergedReview(id){
+  const r = STATE.reviewsById[id];
+  if (!r) return null;
+  const overlay = STATE.dbReviews[id];
+  const status = overlay && overlay.status ? overlay.status : "unreviewed";
+  const pick = (field) => (overlay && overlay[field] !== undefined && overlay[field] !== "") ? overlay[field] : (r.imported[field] || "");
+  const currentSnapshot = importSnapshotKey(r.imported);
+  const importConflict = !!(overlay && overlay.importedSnapshot && overlay.importedSnapshot !== currentSnapshot);
+  return {
+    id: r.id, eventId: r.eventId,
+    eliminatedWrestlerId: overlay && overlay.eliminatedWrestlerId !== undefined ? overlay.eliminatedWrestlerId : r.eliminatedWrestlerId,
+    eliminatedWrestlerName: (overlay && overlay.eliminatedWrestlerName) || r.eliminatedWrestlerName,
+    imported: r.imported,
+    status, importConflict,
+    eliminatorWrestlerId: overlay && overlay.eliminatorWrestlerId !== undefined ? overlay.eliminatorWrestlerId : r.imported.eliminatorWrestlerId,
+    eliminatorWrestlerName: (overlay && overlay.eliminatorWrestlerName) || r.imported.eliminatorWrestlerName || "",
+    orderInMatch: pick("orderInMatch"),
+    eliminationClockTime: pick("eliminationClockTime"),
+    locationCompass: (overlay && overlay.locationCompass) || "",
+    locationX: overlay && typeof overlay.locationX === "number" ? overlay.locationX : null,
+    locationY: overlay && typeof overlay.locationY === "number" ? overlay.locationY : null,
+    eliminationType: pick("eliminationType"),
+    assistingWrestlerIds: pick("assistingWrestlerIds"),
+    eliminationMethod: pick("eliminationMethod"),
+    isSolo: overlay && overlay.isSolo !== undefined ? overlay.isSolo : r.imported.isSolo,
+    isShared: overlay && overlay.isShared !== undefined ? overlay.isShared : r.imported.isShared,
+    notes: overlay && overlay.notes !== undefined ? overlay.notes : "",
+  };
+}
+function mergedEvent(eventId){
+  const ev = STATE.eventsById[eventId];
+  if (!ev) return null;
+  const overlay = STATE.dbEvents[eventId];
+  return Object.assign({}, ev, {
+    videoReference: (overlay && overlay.videoReference) || "",
+    hardCameraSide: (overlay && overlay.hardCameraSide) || "S",
+    entrancePosition: (overlay && overlay.entrancePosition) || "N",
+  });
+}
+
+// ---------------- routing ----------------
+function navigate(hash){ location.hash = hash; }
+window.addEventListener("hashchange", render);
+
+async function render(){
+  if (!STATE.data) return;
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+  const h = (location.hash || "#/home").replace(/^#\/?/, "");
+  const parts = h.split("/").filter(Boolean);
+
+  app.appendChild(header(parts[0] || "home"));
+
+  if (!STATE.db) {
+    app.appendChild(el("div", {class:"banner", text:
+      "Live sync hasn't connected in this view, so any changes you make right now won't be saved. Reopen this page from its published link (not a copy or preview) and they'll save automatically."}));
+  }
+
+  try {
+    if (!parts.length || parts[0] === "home") app.appendChild(pageHome());
+    else if (parts[0] === "events" && parts[1] && !parts[2]) app.appendChild(pageEventOverview(parts[1]));
+    else if (parts[0] === "review" && parts[1]) app.appendChild(pageReview(parts[1]));
+    else if (parts[0] === "overview") app.appendChild(pageGlobalOverview());
+    else app.appendChild(el("div", {class:"panel empty", text:"Not found."}));
+  } catch (e) {
+    app.appendChild(el("div", {class:"panel", text:"Error loading this page: " + e.message}));
+  }
+}
+
+function header(active){
+  const synced = STATE.data.generatedAt ? ("Synced from live database: " + STATE.data.generatedAt) : "";
+  return el("header", {class:"top"}, [
+    el("div", {class:"brand"}, [
+      el("span", {class:"eyebrow", text:"Royal Rumble"}),
+      document.createTextNode("Event Logger"),
+    ]),
+    el("nav", {}, [
+      el("a", {href:"#/home", class: active==="home"?"active":"", text:"Home"}),
+      el("a", {href:"#/overview", class: active==="overview"?"active":"", text:"Overview"}),
+    ]),
+    el("div", {class:"synced", text: synced}),
+  ]);
+}
+
+// ---------------- Home ----------------
+function eventSummary(eventId){
+  const reviews = (STATE.reviewGroupsByEvent[eventId] || []).map(g => mergedGroup(g.id));
+  const total = reviews.length;
+  const reviewedCount = reviews.filter(r => r.status !== "unreviewed").length;
+  const unreviewed = total - reviewedCount;
+  const importConflicts = reviews.filter(r => r.importConflict).length;
+  return { total, reviewedCount, unreviewed, importConflicts, reviews };
+}
+
+function pageHome(){
+  const events = STATE.data.events;
+  let totalUnreviewed = 0, totalRows = 0, totalConflicts = 0;
+  const summaries = {};
+  events.forEach(ev => { summaries[ev.eventId] = eventSummary(ev.eventId); const s = summaries[ev.eventId]; totalUnreviewed += s.unreviewed; totalRows += s.total; totalConflicts += s.importConflicts; });
+
+  const c = el("div", {});
+  const cont = el("div", {class:"panel"});
+  cont.appendChild(el("h1", {text:"Elimination review queue"}));
+  cont.appendChild(el("div", {class:"sub", text:
+    (totalRows-totalUnreviewed)+" of "+totalRows+" eliminations reviewed across "+events.length+" events."
+    + (totalConflicts ? " " + totalConflicts + " row(s) need a look — their live data changed after review." : "")
+  }));
+  const contBtn = el("button", {class:"btn primary big", text: totalUnreviewed ? "Continue from next unreviewed elimination" : "All eliminations reviewed", style:"margin-top:14px;"});
+  contBtn.disabled = totalUnreviewed === 0;
+  contBtn.addEventListener("click", () => {
+    for (const ev of events) {
+      const s = summaries[ev.eventId];
+      const next = s.reviews.find(r => r.status === "unreviewed");
+      if (next) { navigate("/review/" + next.id); return; }
+    }
+  });
+  cont.appendChild(contBtn);
+  c.appendChild(cont);
+
+  const listPanel = el("div", {class:"panel"});
+  listPanel.appendChild(el("h2", {text:"Events"}));
+  const tablewrap = el("div", {class:"tablewrap"});
+  const table = el("table", {class:"idx"});
+  table.appendChild(el("thead", {}, [el("tr", {}, ["Event","Division","Date","Progress","Status"].map(l => el("th", {text:l})))]));
+  const tbody = el("tbody");
+  events.forEach(ev => {
+    const s = summaries[ev.eventId];
+    const pct = fmtPct(s.reviewedCount, s.total);
+    const tr = el("tr", {class:"clickable", onclick: () => navigate("/events/"+ev.eventId)}, [
+      el("td", {}, [
+        el("div", {text: ev.eventName || ev.eventId, style:"font-weight:600;"}),
+        el("div", {class:"sub", text: ev.matchName || ""}),
+      ]),
+      el("td", {text: ev.division}),
+      el("td", {text: ev.eventDate}),
+      el("td", {}, [
+        el("div", {class:"progress"}, [el("div", {style:"width:"+pct+";"})]),
+        el("div", {class:"sub", text: s.reviewedCount+"/"+s.total+" ("+pct+")"}),
+      ]),
+      el("td", {}, [
+        s.total && s.reviewedCount === s.total
+          ? el("span", {class:"badge confirmed", text:"Complete"})
+          : el("span", {class:"badge unreviewed", text: s.unreviewed+" open"}),
+        s.importConflicts ? el("span", {class:"badge importconflict", text: s.importConflicts+" conflict"}) : null,
+      ]),
+    ]);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  tablewrap.appendChild(table);
+  listPanel.appendChild(tablewrap);
+  c.appendChild(listPanel);
+  return c;
+}
+
+// ---------------- Event Overview ----------------
+function pageEventOverview(eventId){
+  const ev = mergedEvent(eventId);
+  if (!ev) return el("div", {class:"panel empty", text:"Unknown event."});
+  const entrants = (STATE.data.entrantsByEvent[eventId] || []);
+  const reviews = (STATE.reviewGroupsByEvent[eventId] || []).map(g => mergedGroup(g.id));
+
+  const c = el("div", {});
+  const head = el("div", {class:"panel"});
+  head.appendChild(el("h1", {text: ev.eventName || ev.eventId}));
+  head.appendChild(el("div", {class:"sub", text: [ev.matchName, ev.division, ev.eventDate, ev.entrantCount ? ev.entrantCount+" entrants" : ""].filter(Boolean).join(" · ")}));
+
+  const vidField = el("div", {class:"field", style:"margin-top:14px; max-width:480px;"}, [
+    el("label", {text:"Video reference (path or URL, optional)"}),
+  ]);
+  const vidInput = el("input", {type:"text", value: ev.videoReference || ""});
+  vidInput.addEventListener("change", async () => {
+    try {
+      await saveEventOverlay(eventId, { videoReference: vidInput.value });
+      toast("Video reference saved.");
+    } catch (e) { toast("Couldn't save: " + e.message); }
+  });
+  vidField.appendChild(vidInput);
+  head.appendChild(vidField);
+
+  const entrantWrap = el("div", {style:"margin-top:10px;"});
+  entrantWrap.appendChild(el("div", {class:"sub", text:"Entrants (reference)"}));
+  const chipWrap = el("div", {class:"entrant-ref"});
+  entrants.forEach(en => chipWrap.appendChild(el("span", {class:"entrant-chip"+(en.isWinner?" winner":""), text:"#"+(en.entryNumber||"?")+" "+en.name})));
+  entrantWrap.appendChild(chipWrap);
+  head.appendChild(entrantWrap);
+
+  const unreviewed = reviews.filter(r => r.status === "unreviewed");
+  const contBtn = el("button", {class:"btn primary", text: unreviewed.length ? "Continue reviewing this event" : "All reviewed in this event", style:"margin-top:16px;"});
+  contBtn.disabled = !unreviewed.length;
+  contBtn.addEventListener("click", () => navigate("/review/" + unreviewed[0].id));
+  head.appendChild(contBtn);
+  c.appendChild(head);
+
+  const listPanel = el("div", {class:"panel"});
+  listPanel.appendChild(el("h2", {text:"Eliminations ("+reviews.length+")"}));
+  const tablewrap = el("div", {class:"tablewrap"});
+  const table = el("table", {class:"idx"});
+  table.appendChild(el("thead", {}, [el("tr", {}, ["#","Eliminated","Eliminator","Clock","Status"].map(l=>el("th",{text:l})))]));
+  const tbody = el("tbody");
+  reviews.forEach(r => {
+    const order = r.orderInMatch || "—";
+    const tr = el("tr", {class:"clickable", onclick: () => navigate("/review/"+r.id)}, [
+      el("td", {text: "#"+order}),
+      el("td", {text: r.eliminatedWrestlerName}),
+      el("td", {text: r.eliminatorSummary || "—"}),
+      el("td", {text: r.eliminationClockTime || "—"}),
+      el("td", {}, [
+        el("span", {class:"badge "+r.status, text: STATUS_LABELS[r.status]}),
+        r.importConflict ? el("span", {class:"badge importconflict", text:"live changed"}) : null,
+      ]),
+    ]);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  tablewrap.appendChild(table);
+  listPanel.appendChild(tablewrap);
+  c.appendChild(listPanel);
+  return c;
+}
+
+// ---------------- Global Overview ----------------
+function pageGlobalOverview(){
+  const c = el("div", {});
+  const panel = el("div", {class:"panel"});
+  panel.appendChild(el("h1", {text:"Overview"}));
+  panel.appendChild(el("div", {class:"sub", text:"Every elimination row across every event, filterable."}));
+
+  const filters = el("div", {class:"filters"});
+  const statusSel = el("select", {}, [el("option", {value:"", text:"All statuses"})].concat(
+    Object.keys(STATUS_LABELS).map(s => el("option", {value:s, text:STATUS_LABELS[s]}))
+  ));
+  const conflictSel = el("select", {}, [
+    el("option", {value:"0", text:"All rows"}),
+    el("option", {value:"1", text:"Import conflicts only"}),
+  ]);
+  filters.appendChild(statusSel);
+  filters.appendChild(conflictSel);
+  panel.appendChild(filters);
+
+  const resultsWrap = el("div", {});
+  panel.appendChild(resultsWrap);
+  c.appendChild(panel);
+
+  function load(){
+    resultsWrap.innerHTML = "";
+    let rows = [];
+    Object.keys(STATE.reviewGroupsByEvent).forEach(eid => {
+      STATE.reviewGroupsByEvent[eid].forEach(g => rows.push(mergedGroup(g.id)));
+    });
+    if (statusSel.value) rows = rows.filter(r => r.status === statusSel.value);
+    if (conflictSel.value === "1") rows = rows.filter(r => r.importConflict);
+    const tablewrap = el("div", {class:"tablewrap"});
+    const table = el("table", {class:"idx"});
+    table.appendChild(el("thead", {}, [el("tr", {}, ["Event","#","Eliminated","Eliminator","Status"].map(l=>el("th",{text:l})))]));
+    const tbody = el("tbody");
+    rows.slice(0, 500).forEach(r => {
+      const ev = STATE.eventsById[r.eventId];
+      const order = r.orderInMatch || "—";
+      const tr = el("tr", {class:"clickable", onclick: () => navigate("/review/"+r.id)}, [
+        el("td", {text: (ev && ev.eventName) || r.eventId}),
+        el("td", {text: "#"+order}),
+        el("td", {text: r.eliminatedWrestlerName}),
+        el("td", {text: r.eliminatorSummary || "—"}),
+        el("td", {}, [
+          el("span", {class:"badge "+r.status, text: STATUS_LABELS[r.status]}),
+          r.importConflict ? el("span", {class:"badge importconflict", text:"live changed"}) : null,
+        ]),
+      ]);
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    tablewrap.appendChild(table);
+    resultsWrap.appendChild(tablewrap);
+    if (!rows.length) resultsWrap.appendChild(el("div", {class:"empty", text:"No rows match these filters."}));
+    else if (rows.length > 500) resultsWrap.appendChild(el("div", {class:"sub", style:"margin-top:8px;", text:"Showing first 500 of "+rows.length+" matching rows — narrow the filters to see more."}));
+  }
+  statusSel.addEventListener("change", load);
+  conflictSel.addEventListener("change", load);
+  load();
+  return c;
+}
+
+// ---------------- Review / live-capture screen ----------------
+function pageReview(groupId){
+  const g = mergedGroup(groupId);
+  if (!g) return el("div", {class:"panel empty", text:"Unknown review row."});
+  // Representative raw row for this group -- used only for "Imported: ..." hint text
+  // on fields that are identical across every co-eliminator's row (order, clock,
+  // type, method, solo/shared). Per-eliminator hints use each member's own row.
+  const r = mergedReview(g.memberIds[0]);
+  const ev = mergedEvent(g.eventId);
+  const entrantOptions = STATE.data.entrantsByEvent[g.eventId] || [];
+  const allGroups = STATE.reviewGroupsByEvent[g.eventId] || [];
+  const idx = allGroups.findIndex(x => x.id === groupId);
+  const mergedGroups = allGroups.map(x => mergedGroup(x.id));
+
+  const c = el("div", {});
+
+  // ---- control bar: event / hard-camera side / entrance position / match clock ----
+  const ctrlbar = el("div", {class:"panel ctrlbar"});
+  const eventSel = el("select", {}, STATE.data.events.map(e => {
+    const opt = el("option", {value:e.eventId, text:e.eventName || e.eventId});
+    if (e.eventId === g.eventId) opt.setAttribute("selected","selected");
+    return opt;
+  }));
+  eventSel.addEventListener("change", () => {
+    const target = (STATE.reviewGroupsByEvent[eventSel.value] || [])[0];
+    if (target) navigate("/review/" + target.id); else navigate("/events/" + eventSel.value);
+  });
+  ctrlbar.appendChild(el("div", {class:"cfield"}, [el("label", {text:"Event"}), eventSel]));
+
+  const hcSel = el("select", {});
+  ["S","N","E","W"].forEach(side => {
+    const opt = el("option", {value:side, text:COMPASS_LABEL[side]});
+    if (side === ev.hardCameraSide) opt.setAttribute("selected","selected");
+    hcSel.appendChild(opt);
+  });
+  hcSel.addEventListener("change", async () => { await saveEventOverlay(g.eventId, {hardCameraSide: hcSel.value}); render(); });
+  ctrlbar.appendChild(el("div", {class:"cfield"}, [el("label", {text:"Hard Camera Side"}), hcSel]));
+
+  const entSel = el("select", {});
+  COMPASS8.forEach(side => {
+    const opt = el("option", {value:side, text:COMPASS_LABEL[side]});
+    if (side === ev.entrancePosition) opt.setAttribute("selected","selected");
+    entSel.appendChild(opt);
+  });
+  entSel.addEventListener("change", async () => { await saveEventOverlay(g.eventId, {entrancePosition: entSel.value}); render(); });
+  ctrlbar.appendChild(el("div", {class:"cfield"}, [el("label", {text:"Entrance Position"}), entSel]));
+
+  const clockDigits = el("div", {class:"clockdigits", text:"00:00.0"});
+  const playBtn = el("button", {class:"go", text:"▶", type:"button"});
+  const pauseBtn = el("button", {text:"⏸", type:"button"});
+  const resetBtn = el("button", {text:"↺", type:"button"});
+  let clockMs = 0, clockRunning = false, clockTimer = null, clockLast = 0;
+  const seedTime = g.eliminationClockTime || r.imported.eliminationClockTime;
+  if (seedTime) {
+    const mParts = String(seedTime).split(":").map(Number);
+    if (mParts.length === 2 && !mParts.some(isNaN)) clockMs = (mParts[0]*60 + mParts[1]) * 1000;
+  }
+  function fmtClock(ms){
+    if (ms < 0) ms = 0;
+    const totalSec = ms/1000;
+    const m = Math.floor(totalSec/60), s = (totalSec - m*60);
+    return String(m).padStart(2,"0")+":"+s.toFixed(1).padStart(4,"0");
+  }
+  function drawClock(){ clockDigits.textContent = fmtClock(clockMs); }
+  drawClock();
+  function tick(){
+    const now = performance.now();
+    clockMs += now - clockLast; clockLast = now;
+    drawClock();
+  }
+  playBtn.addEventListener("click", () => { if (clockRunning) return; clockRunning = true; clockLast = performance.now(); clockTimer = setInterval(tick, 100); });
+  pauseBtn.addEventListener("click", () => { clockRunning = false; clearInterval(clockTimer); });
+  resetBtn.addEventListener("click", () => { clockRunning = false; clearInterval(clockTimer); clockMs = 0; drawClock(); });
+  const clockbox = el("div", {class:"clockbox"}, [
+    el("div", {}, [
+      el("div", {class:"cfield"}, [el("label", {text:"Match Clock"})]),
+      clockDigits,
+      el("div", {class:"nudgebtns"}, [-10000,-5000,5000,10000].map(delta => {
+        const b = el("button", {class:"btn", type:"button", text:(delta>0?"+":"")+(delta/1000)+"s"});
+        b.addEventListener("click", () => { clockMs = Math.max(0, clockMs + delta); drawClock(); });
+        return b;
+      })),
+    ]),
+    el("div", {class:"clockbtns"}, [playBtn, pauseBtn, resetBtn]),
+  ]);
+  ctrlbar.appendChild(clockbox);
+  c.appendChild(ctrlbar);
+
+  // ---- event-type tabs (V1: Elimination + Weapon; Entrance/Other still stubs) ----
+  let currentTab = "elimination";
+  let ring; // set by buildEliminationBody(); read by save()/keyHandler below
+  const elimTabBtn = el("button", {class:"active", text:"⚡ Elimination", type:"button"});
+  const entTabBtn = Object.assign(el("button", {text:"🚪 Entrance", type:"button"}), {disabled:true});
+  const weaponTabBtn = el("button", {text:"🪑 Weapon", type:"button"});
+  const otherTabBtn = Object.assign(el("button", {text:"⋯ Other Event", type:"button"}), {disabled:true});
+  const tabs = el("div", {class:"eventtabs"}, [elimTabBtn, entTabBtn, weaponTabBtn, otherTabBtn]);
+  c.appendChild(tabs);
+
+  const tabBody = el("div", {});
+  c.appendChild(tabBody);
+  function renderTabBody(){
+    elimTabBtn.classList.toggle("active", currentTab === "elimination");
+    weaponTabBtn.classList.toggle("active", currentTab === "weapon");
+    tabBody.innerHTML = "";
+    tabBody.appendChild(currentTab === "weapon" ? buildWeaponBody() : buildEliminationBody());
+  }
+  elimTabBtn.addEventListener("click", () => { currentTab = "elimination"; renderTabBody(); });
+  weaponTabBtn.addEventListener("click", () => { currentTab = "weapon"; renderTabBody(); });
+
+  function buildEliminationBody(){
+  const bodyEl = el("div", {});
+  const grid = el("div", {class:"reviewgrid"});
+  bodyEl.appendChild(grid);
+
+  // ---- left: ring diagram ----
+  const priorMarkers = mergedGroups.slice(0, idx).map(x => ({
+    x: x.locationX, y: x.locationY, number: x.orderInMatch || "?", dim:true,
+  })).filter(m => typeof m.x === "number");
+  ring = buildRingDiagram({
+    initial: (typeof g.locationX === "number") ? {compass:g.locationCompass, x:g.locationX, y:g.locationY} : (g.locationCompass === "unknown" ? {compass:"unknown"} : null),
+    hardCameraSide: ev.hardCameraSide, entrancePosition: ev.entrancePosition,
+    markers: priorMarkers, big: true,
+  });
+  grid.appendChild(ring.element);
+
+  // ---- right: record form ----
+  const sidebar = el("div", {});
+  const recordCard = el("div", {class:"panel recordcard"});
+  recordCard.appendChild(el("div", {class:"sub", text: (ev.eventName||ev.eventId) + " · Elimination " + (idx+1) + " of " + allGroups.length}));
+  recordCard.appendChild(el("h2", {text:"Record Elimination", style:"margin-top:4px;"}));
+
+  const datalistId = "entrant-list-" + g.eventId;
+  const datalist = el("datalist", {id: datalistId});
+  entrantOptions.forEach(en => datalist.appendChild(el("option", {value: en.name})));
+  recordCard.appendChild(datalist);
+
+  function textField(label, id, value, hint, opts){
+    opts = opts || {};
+    const wrap = el("div", {class:"field"});
+    wrap.appendChild(el("label", {text: label}));
+    const inp = el("input", {type:"text", id: id, value: value || ""});
+    if (opts.list) inp.setAttribute("list", opts.list);
+    if (!value && opts.missing) inp.setAttribute("placeholder", "MISSING");
+    wrap.appendChild(inp);
+    if (hint) wrap.appendChild(el("div", {class:"imported-hint", text: hint}));
+    return wrap;
+  }
+  function textAreaField(label, id, value, hint){
+    const wrap = el("div", {class:"field"});
+    wrap.appendChild(el("label", {text: label}));
+    wrap.appendChild(el("textarea", {id: id, text: value || ""}));
+    if (hint) wrap.appendChild(el("div", {class:"imported-hint", text: hint}));
+    return wrap;
+  }
+  function selectField(label, id, value, options){
+    const wrap = el("div", {class:"field"});
+    wrap.appendChild(el("label", {text: label}));
+    const sel = el("select", {id: id});
+    options.forEach(o => {
+      const opt = el("option", {value:o, text:o||"(blank)"});
+      if (o === value) opt.setAttribute("selected", "selected");
+      sel.appendChild(opt);
+    });
+    wrap.appendChild(sel);
+    return wrap;
+  }
+
+  recordCard.appendChild(textField("Eliminated Wrestler", "f_eliminated", g.eliminatedWrestlerName, "Imported: " + (STATE.reviewsById[r.id].eliminatedWrestlerName || "—"), {list: datalistId, missing:true}));
+  if (g.members.length > 1) {
+    recordCard.appendChild(el("div", {class:"sub", style:"margin-top:2px; margin-bottom:2px; font-weight:700; color:var(--warning);",
+      text: "Joint elimination — " + g.members.length + " credited eliminators"}));
+    g.members.forEach((m, i) => {
+      recordCard.appendChild(textField("Eliminated By #"+(i+1), "f_eliminator_"+i, m.eliminatorWrestlerName, "Imported: " + (m.imported.eliminatorWrestlerName || "—"), {list: datalistId, missing:true}));
+    });
+  } else {
+    recordCard.appendChild(textField("Eliminated By", "f_eliminator_0", g.members[0].eliminatorWrestlerName, "Imported: " + (g.members[0].imported.eliminatorWrestlerName || "—"), {list: datalistId, missing:true}));
+    recordCard.appendChild(textField("Assist (optional)", "f_assisting", g.members[0].assistingWrestlerIds, "Imported: " + (g.members[0].imported.assistingWrestlerIds || "—")));
+  }
+  recordCard.appendChild(selectField("Method", "f_type", g.eliminationType, ["", "over_top_rope", "both_feet_touch_floor", "other"]));
+
+  const details = el("details", {style:"margin-top:6px;"});
+  details.appendChild(el("summary", {style:"cursor:pointer; font-size:11.5px; color:var(--ink-3); font-weight:700; text-transform:uppercase; letter-spacing:0.04em;", text:"More fields (order, timestamp, notes…)"}));
+  const moreGrid = el("div", {class:"grid2", style:"margin-top:10px;"});
+  moreGrid.appendChild(textField("Order in match", "f_order", g.orderInMatch, "Imported: " + (r.imported.orderInMatch || "—")));
+  moreGrid.appendChild(textField("Elimination clock (mm:ss)", "f_clock", g.eliminationClockTime, "Imported: " + (r.imported.eliminationClockTime || "—")));
+  details.appendChild(moreGrid);
+  const useClockBtn = el("button", {class:"btn", type:"button", text:"Use match clock time ("+fmtClock(clockMs)+")", style:"margin:4px 0 10px;"});
+  useClockBtn.addEventListener("click", () => { document.getElementById("f_clock").value = fmtClock(clockMs).split(".")[0]; });
+  details.appendChild(useClockBtn);
+  details.appendChild(textAreaField("Elimination method (narrative)", "f_method", g.eliminationMethod, "Imported: " + (r.imported.eliminationMethod || "—")));
+  const checkWrap = el("div", {class:"grid2"});
+  const soloWrap = el("div", {class:"checkrow"});
+  const soloChk = el("input", {type:"checkbox", id:"f_solo"});
+  soloChk.checked = g.isSolo === "TRUE";
+  soloWrap.appendChild(soloChk); soloWrap.appendChild(el("label", {text:"Solo elimination", for:"f_solo"}));
+  checkWrap.appendChild(soloWrap);
+  const sharedWrap = el("div", {class:"checkrow"});
+  const sharedChk = el("input", {type:"checkbox", id:"f_shared"});
+  sharedChk.checked = g.isShared === "TRUE";
+  sharedWrap.appendChild(sharedChk); sharedWrap.appendChild(el("label", {text:"Shared/group elimination", for:"f_shared"}));
+  checkWrap.appendChild(sharedWrap);
+  details.appendChild(checkWrap);
+  details.appendChild(textAreaField("Notes", "f_notes", g.notes));
+  recordCard.appendChild(details);
+
+  const saveBtn = el("button", {class:"btn savebig", text:"Save & Resume", type:"button"});
+  saveBtn.disabled = !STATE.db;
+  saveBtn.addEventListener("click", () => save(null));
+  recordCard.appendChild(saveBtn);
+  const minorRow = el("div", {class:"minorstatus"});
+  [{key:"uncertain", label:"Uncertain"}, {key:"conflict", label:"Conflict"}].forEach(sd => {
+    const b = el("button", {class:"btn", text:sd.label, type:"button"});
+    b.disabled = !STATE.db;
+    b.addEventListener("click", () => save(sd.key));
+    minorRow.appendChild(b);
+  });
+  recordCard.appendChild(minorRow);
+  recordCard.appendChild(el("div", {class:"hint", style:"margin-top:10px;", text:
+    "Enter save & next · Ctrl+Enter save without advancing · ←/→ prev/next · E/K/A/M jump to field (when not typing)."}));
+  sidebar.appendChild(recordCard);
+  grid.appendChild(sidebar);
+
+  // ---- bottom row: active wrestlers / event timeline / ring overview ----
+  const bottomrow = el("div", {class:"bottomrow"});
+  const active = computeActive();
+  const rosterPanel = el("div", {class:"panel bpanel"});
+  rosterPanel.appendChild(el("h2", {text:"Active Wrestlers ("+active.length+")"}));
+  const rosterList = el("div", {class:"rosterlist"});
+  active.forEach(en => rosterList.appendChild(el("div", {class:"rosteritem"}, [el("span", {class:"dot"}), document.createTextNode(en.name)])));
+  rosterPanel.appendChild(rosterList);
+  if (!active.length) rosterPanel.appendChild(el("div", {class:"hint", text:"No entrants recorded for this event yet."}));
+  bottomrow.appendChild(rosterPanel);
+
+  const timelinePanel = el("div", {class:"panel bpanel"});
+  timelinePanel.appendChild(el("h2", {text:"Event Timeline"}));
+  mergedGroups.slice(0, idx+1).slice().reverse().forEach(x => {
+    const num = x.orderInMatch || "?";
+    const row = el("div", {class:"tlrow", onclick: () => navigate("/review/"+x.id)}, [
+      el("span", {class:"tlnum", style:"background:var("+(STATUS_COLOR_VAR[x.status]||"--ink-3")+");", text: num}),
+      el("span", {class:"tltime", text: x.eliminationClockTime || "—"}),
+      el("span", {class:"tltext", text: "Elimination — " + x.eliminatedWrestlerName + (x.eliminatorSummary && x.eliminatorSummary !== "—" ? " by "+x.eliminatorSummary : "")}),
+    ]);
+    timelinePanel.appendChild(row);
+  });
+  bottomrow.appendChild(timelinePanel);
+
+  const minimapPanel = el("div", {class:"panel bpanel"});
+  minimapPanel.appendChild(el("h2", {text:"Ring Overview"}));
+  const overviewMarkers = computeOverviewMarkers();
+  const mini = buildRingDiagram({ hardCameraSide: ev.hardCameraSide, entrancePosition: ev.entrancePosition, markers: overviewMarkers, interactive:false });
+  mini.element.setAttribute("class", "minimap-svg");
+  minimapPanel.appendChild(mini.element);
+  minimapPanel.appendChild(el("div", {class:"hint", style:"margin-top:8px; text-align:center;", text: overviewMarkers.length + " location(s) recorded so far (● eliminations, ■ weapon events)"}));
+  bottomrow.appendChild(minimapPanel);
+  bodyEl.appendChild(bottomrow);
+  return bodyEl;
+  } // end buildEliminationBody
+
+  // Shared between elimination and weapon bodies: wrestlers not yet eliminated as of
+  // the row currently being reviewed (an approximation -- entrants are treated as
+  // present for the whole match rather than from a sourced entrance time, since not
+  // every event has entrance-timing data).
+  function computeActive(){
+    const eliminatedSoFar = new Set(mergedGroups.slice(0, idx).map(x => x.eliminatedWrestlerId));
+    return entrantOptions.filter(en => !eliminatedSoFar.has(en.wrestlerId));
+  }
+  // Combined ring-overview markers: every elimination location recorded so far this
+  // event (circles, dim except the one being reviewed) plus every weapon event
+  // location logged for this event (squares, always dim -- weapons aren't sequenced
+  // against the elimination order the way eliminations are).
+  function computeOverviewMarkers(){
+    const elimMarkers = mergedGroups.slice(0, idx+1).map(x => ({
+      x: x.locationX, y: x.locationY, number: x.orderInMatch || "?",
+      dim: x.id !== g.id,
+    })).filter(m => typeof m.x === "number");
+    const weaponMarkers = weaponEventsForEvent(g.eventId).map(w => ({
+      x: w.locationX, y: w.locationY, shape:"square", dim:true,
+    })).filter(m => typeof m.x === "number");
+    return elimMarkers.concat(weaponMarkers);
+  }
+
+  function resolveWrestlerId(nameOrId, fallbackId){
+    if (!nameOrId) return "";
+    const exact = entrantOptions.find(e => e.name === nameOrId);
+    if (exact) return exact.wrestlerId;
+    return fallbackId || nameOrId;
+  }
+
+  async function save(status){
+    if (!STATE.db) { toast("Live sync unavailable — not saved."); return; }
+    const eliminatedName = document.getElementById("f_eliminated").value;
+    const eliminatedWrestlerId = resolveWrestlerId(eliminatedName, g.eliminatedWrestlerId);
+
+    // Fields shared by every co-eliminator's underlying row -- read once, written
+    // identically to each member doc below.
+    const sharedFields = {
+      orderInMatch: document.getElementById("f_order").value,
+      eliminationClockTime: document.getElementById("f_clock").value,
+      eliminationType: document.getElementById("f_type").value,
+      eliminationMethod: document.getElementById("f_method").value,
+      isSolo: document.getElementById("f_solo").checked ? "TRUE" : "FALSE",
+      isShared: document.getElementById("f_shared").checked ? "TRUE" : "FALSE",
+      notes: document.getElementById("f_notes").value,
+    };
+
+    // Per-eliminator fields. Single-member groups keep the original manual "Assist"
+    // field; multi-member (joint) groups auto-derive each member's assist list as
+    // the OTHER credited eliminators, so the assist field never has to be hand-kept
+    // in sync with who else is listed.
+    const memberFields = g.members.map((m, i) => {
+      const eliminatorName = document.getElementById("f_eliminator_"+i).value;
+      return { member: m, eliminatorName, eliminatorWrestlerId: resolveWrestlerId(eliminatorName, m.eliminatorWrestlerId) };
+    });
+    let assistingByIndex;
+    if (g.members.length > 1) {
+      assistingByIndex = memberFields.map((mf, i) =>
+        memberFields.filter((_, j) => j !== i).map(x => x.eliminatorWrestlerId).filter(Boolean).join(";"));
+    } else {
+      assistingByIndex = [document.getElementById("f_assisting").value];
+    }
+
+    // Auto status: if nothing changed from the imported snapshot (any member's
+    // eliminator/assist, or any shared field), this is a plain confirmation; any
+    // edited field makes it a correction. Uncertain/Conflict are explicit calls the
+    // reviewer makes with the two secondary buttons instead.
+    if (!status) {
+      let changed = eliminatedName !== (STATE.reviewsById[g.memberIds[0]].eliminatedWrestlerName || "");
+      memberFields.forEach((mf, i) => {
+        changed = changed
+          || mf.eliminatorName !== (mf.member.imported.eliminatorWrestlerName || "")
+          || assistingByIndex[i] !== (mf.member.imported.assistingWrestlerIds || "");
+      });
+      changed = changed
+        || sharedFields.eliminationType !== (r.imported.eliminationType || "")
+        || sharedFields.orderInMatch !== (r.imported.orderInMatch || "")
+        || sharedFields.eliminationClockTime !== (r.imported.eliminationClockTime || "")
+        || sharedFields.eliminationMethod !== (r.imported.eliminationMethod || "");
+      status = changed ? "corrected" : "confirmed";
+    }
+
+    const locVal = ring.getValue();
+    const locationCompass = locVal ? locVal.compass : "";
+    const locationX = locVal && typeof locVal.x === "number" ? locVal.x : null;
+    const locationY = locVal && typeof locVal.y === "number" ? locVal.y : null;
+    const relZone = locVal && locVal.compass && locVal.compass !== "unknown" ? relativeZoneFor(locVal.compass, ev.hardCameraSide) : (locVal && locVal.compass === "unknown" ? "unknown" : "");
+    const locationSide = relZone ? (LEGACY_SIDE_FOR_ZONE[relZone] || "") : "";
+
+    try {
+      await Promise.all(memberFields.map((mf, i) => {
+        const rawRow = STATE.reviewsById[mf.member.id];
+        const payload = Object.assign({}, sharedFields, {
+          eliminatedWrestlerId, eliminatedWrestlerName: eliminatedName,
+          eliminatorWrestlerId: mf.eliminatorWrestlerId, eliminatorWrestlerName: mf.eliminatorName,
+          assistingWrestlerIds: assistingByIndex[i],
+          status,
+          locationCompass, locationX, locationY, locationSide,
+          importedSnapshot: importSnapshotKey(rawRow.imported),
+          updatedAt: new Date().toISOString(),
+        });
+        return STATE.db.doc("reviews/" + mf.member.id).set(payload).then(() => { STATE.dbReviews[mf.member.id] = payload; });
+      }));
+      toast("Saved as " + STATUS_LABELS[status] + ".");
+      const next = allGroups.slice(idx+1).map(x => mergedGroup(x.id)).find(x => x.status === "unreviewed")
+        || (allGroups[idx+1] && mergedGroup(allGroups[idx+1].id));
+      if (next) navigate("/review/" + next.id);
+      else navigate("/events/" + g.eventId);
+    } catch (e) {
+      toast("Couldn't save: " + e.message);
+    }
+  }
+  function goPrev(){ if (idx > 0) navigate("/review/"+allGroups[idx-1].id); }
+  function goNext(){ if (idx < allGroups.length-1) navigate("/review/"+allGroups[idx+1].id); }
+  const FIELD_KEYS = { e:"f_eliminated", k:"f_eliminator_0", a:"f_assisting", m:"f_method" };
+  // Elimination-tab keyboard shortcuts only -- the brief's shortcut list (§10) is
+  // written entirely in terms of the elimination fields, and the Weapon tab's own
+  // fields don't share those ids, so shortcuts are scoped to when that tab is active.
+  function keyHandler(e){
+    if (currentTab !== "elimination") return;
+    const tag = (document.activeElement && document.activeElement.tagName || "").toLowerCase();
+    const typing = tag === "input" || tag === "textarea" || tag === "select";
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); save(null); return; }
+    if (e.key === "Enter" && typing) { e.preventDefault(); save(null); return; }
+    if (typing) return;
+    if (e.key === "Enter") { save(null); }
+    else if (e.key === "ArrowLeft") { goPrev(); }
+    else if (e.key === "ArrowRight") { goNext(); }
+    else if (FIELD_KEYS[e.key.toLowerCase()]) { const f = document.getElementById(FIELD_KEYS[e.key.toLowerCase()]); if (f) { f.focus(); e.preventDefault(); } }
+  }
+  document.addEventListener("keydown", keyHandler);
+  const cleanup = () => { document.removeEventListener("keydown", keyHandler); clearInterval(clockTimer); window.removeEventListener("hashchange", cleanup); };
+  window.addEventListener("hashchange", cleanup, {once:true});
+
+  // ---------------- Weapon tab body ----------------
+  function buildWeaponBody(){
+    const bodyEl = el("div", {});
+    const wgrid = el("div", {class:"reviewgrid"});
+    bodyEl.appendChild(wgrid);
+
+    const weaponsForEvent = weaponEventsForEvent(g.eventId).sort((a,b) => (a.createdAt||"").localeCompare(b.createdAt||""));
+    const priorElimMarkers = mergedGroups.slice(0, idx).map(x => ({
+      x: x.locationX, y: x.locationY, number: x.orderInMatch || "?", dim:true,
+    })).filter(m => typeof m.x === "number");
+    const priorWeaponMarkers = weaponsForEvent.map(w => ({ x:w.locationX, y:w.locationY, shape:"square", dim:true })).filter(m => typeof m.x === "number");
+    let wRing = buildRingDiagram({
+      hardCameraSide: ev.hardCameraSide, entrancePosition: ev.entrancePosition,
+      markers: priorElimMarkers.concat(priorWeaponMarkers), big: true,
+      markerColor: "var(--warning)", markerStrokeColor: "var(--warning)",
+      instructionTitle: "Click location on ring",
+      instructionHint: "Click where the weapon was introduced or used.",
+      emptyText: "Not set — click the diagram where this happened",
+      legendCurrentLabel: "This weapon event",
+    });
+    wgrid.appendChild(wRing.element);
+
+    const sidebar = el("div", {});
+    const card = el("div", {class:"panel recordcard"});
+    card.appendChild(el("div", {class:"sub", text: (ev.eventName||ev.eventId) + " · Weapon event"}));
+    card.appendChild(el("h2", {text:"Record Weapon Event", style:"margin-top:4px;"}));
+
+    const wDatalistId = "weapon-entrant-list-" + g.eventId;
+    const wDatalist = el("datalist", {id: wDatalistId});
+    entrantOptions.forEach(en => wDatalist.appendChild(el("option", {value: en.name})));
+    card.appendChild(wDatalist);
+
+    function wField(label, id, opts){
+      opts = opts || {};
+      const wrap = el("div", {class:"field"});
+      wrap.appendChild(el("label", {text:label}));
+      const inp = el("input", {type:"text", id:id, value: opts.value || ""});
+      if (opts.list) inp.setAttribute("list", opts.list);
+      wrap.appendChild(inp);
+      return wrap;
+    }
+
+    const weaponSel = el("select", {id:"w_weapon"}, WEAPON_LIST.map(w => el("option", {value:w, text:w})));
+    const weaponCustom = el("input", {type:"text", id:"w_weapon_custom", placeholder:"Custom weapon name", style:"margin-top:6px; display:none;"});
+    weaponSel.addEventListener("change", () => { weaponCustom.style.display = weaponSel.value === "Other" ? "" : "none"; });
+    card.appendChild(el("div", {class:"field"}, [el("label", {text:"Weapon"}), weaponSel, weaponCustom]));
+
+    card.appendChild(wField("Used By", "w_user", {list:wDatalistId}));
+    card.appendChild(wField("Target(s) — semicolon separated", "w_targets", {list:wDatalistId}));
+    card.appendChild(wField("Introduced By (optional)", "w_introduced", {list:wDatalistId}));
+
+    const useSel = el("select", {id:"w_usecount"}, [
+      el("option", {value:"first", text:"First use this match"}),
+      el("option", {value:"subsequent", text:"Subsequent use"}),
+    ]);
+    card.appendChild(el("div", {class:"field"}, [el("label", {text:"Use"}), useSel]));
+
+    card.appendChild(wField("Match clock (mm:ss)", "w_clock", {value: fmtClock(clockMs).split(".")[0]}));
+    const useClockBtn2 = el("button", {class:"btn", type:"button", text:"Use current match clock", style:"margin:-6px 0 12px;"});
+    useClockBtn2.addEventListener("click", () => { document.getElementById("w_clock").value = fmtClock(clockMs).split(".")[0]; });
+    card.appendChild(useClockBtn2);
+
+    card.appendChild(wField("Outcome (optional)", "w_outcome", {}));
+    const notesWrap = el("div", {class:"field"}, [el("label", {text:"Notes"})]);
+    notesWrap.appendChild(el("textarea", {id:"w_notes"}));
+    card.appendChild(notesWrap);
+
+    const saveWBtn = el("button", {class:"btn savebig", text:"Save Weapon Event", type:"button", style:"background:var(--warning); border-color:var(--warning);"});
+    saveWBtn.disabled = !STATE.db;
+    card.appendChild(saveWBtn);
+    card.appendChild(el("div", {class:"hint", style:"margin-top:10px;", text:
+      "Location, use and target are all optional — save what you can see and keep going. The form clears after each save so you can log the next weapon event without leaving this screen."}));
+    sidebar.appendChild(card);
+    wgrid.appendChild(sidebar);
+
+    const bottomrow = el("div", {class:"bottomrow"});
+    const active = computeActive();
+    const rosterPanel = el("div", {class:"panel bpanel"});
+    rosterPanel.appendChild(el("h2", {text:"Active Wrestlers ("+active.length+")"}));
+    const rosterList = el("div", {class:"rosterlist"});
+    active.forEach(en => rosterList.appendChild(el("div", {class:"rosteritem"}, [el("span", {class:"dot"}), document.createTextNode(en.name)])));
+    rosterPanel.appendChild(rosterList);
+    if (!active.length) rosterPanel.appendChild(el("div", {class:"hint", text:"No entrants recorded for this event yet."}));
+    bottomrow.appendChild(rosterPanel);
+
+    const logPanel = el("div", {class:"panel bpanel"});
+    logPanel.appendChild(el("h2", {text:"Weapon Event Log ("+weaponsForEvent.length+")"}));
+    weaponsForEvent.slice().reverse().forEach(w => {
+      logPanel.appendChild(el("div", {class:"tlrow"}, [
+        el("span", {class:"tlnum", style:"background:var(--warning);", text:"🪑"}),
+        el("span", {class:"tltime", text: w.clockTime || "—"}),
+        el("span", {class:"tltext", text: (w.weapon||"Weapon") + " — " + (w.usedByName||"?") + (w.targetNames ? " on " + w.targetNames : "")}),
+      ]));
+    });
+    if (!weaponsForEvent.length) logPanel.appendChild(el("div", {class:"hint", text:"No weapon events logged yet for this event."}));
+    bottomrow.appendChild(logPanel);
+
+    const minimapPanel = el("div", {class:"panel bpanel"});
+    minimapPanel.appendChild(el("h2", {text:"Ring Overview"}));
+    const overviewMarkers = computeOverviewMarkers();
+    const mini = buildRingDiagram({ hardCameraSide: ev.hardCameraSide, entrancePosition: ev.entrancePosition, markers: overviewMarkers, interactive:false });
+    mini.element.setAttribute("class", "minimap-svg");
+    minimapPanel.appendChild(mini.element);
+    minimapPanel.appendChild(el("div", {class:"hint", style:"margin-top:8px; text-align:center;", text: overviewMarkers.length + " location(s) recorded so far (● eliminations, ■ weapon events)"}));
+    bottomrow.appendChild(minimapPanel);
+    bodyEl.appendChild(bottomrow);
+
+    async function saveWeapon(){
+      if (!STATE.db) { toast("Live sync unavailable — not saved."); return; }
+      const weaponName = weaponSel.value === "Other" ? (document.getElementById("w_weapon_custom").value || "Other") : weaponSel.value;
+      const usedByName = document.getElementById("w_user").value;
+      const id = g.eventId + "__wpn__" + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+      const locVal = wRing.getValue();
+      const payload = {
+        eventId: g.eventId,
+        weapon: weaponName,
+        usedByWrestlerId: resolveWrestlerId(usedByName, ""),
+        usedByName,
+        targetNames: document.getElementById("w_targets").value,
+        introducedBy: document.getElementById("w_introduced").value,
+        useCount: useSel.value,
+        clockTime: document.getElementById("w_clock").value,
+        outcome: document.getElementById("w_outcome").value,
+        notes: document.getElementById("w_notes").value,
+        locationCompass: locVal ? locVal.compass : "",
+        locationX: locVal && typeof locVal.x === "number" ? locVal.x : null,
+        locationY: locVal && typeof locVal.y === "number" ? locVal.y : null,
+        createdAt: new Date().toISOString(),
+      };
+      try {
+        await STATE.db.doc("weaponEvents/" + id).set(payload);
+        STATE.dbWeaponEvents[id] = payload;
+        toast("Weapon event saved.");
+        renderTabBody(); // rebuild only the tab body (ring/form/bottom row) -- the
+                          // control bar and match clock above sit outside tabBody
+                          // and keep running uninterrupted across this refresh.
+      } catch (e) {
+        toast("Couldn't save: " + e.message);
+      }
+    }
+    saveWBtn.addEventListener("click", saveWeapon);
+
+    return bodyEl;
+  }
+
+  renderTabBody();
+  return c;
+}
+
+// ---------------- boot ----------------
+async function boot(){
+  try {
+    const res = await fetch("data.json");
+    STATE.data = await res.json();
+  } catch (e) {
+    document.getElementById("app").innerHTML = "";
+    document.getElementById("app").appendChild(el("div", {class:"panel", text:"Couldn't load data.json: " + e.message}));
+    return;
+  }
+  STATE.data.events.forEach(ev => { STATE.eventsById[ev.eventId] = ev; });
+  STATE.data.reviews.forEach(r => {
+    STATE.reviewsById[r.id] = r;
+    (STATE.reviewsByEvent[r.eventId] = STATE.reviewsByEvent[r.eventId] || []).push(r);
+  });
+  Object.keys(STATE.reviewsByEvent).forEach(eid => {
+    STATE.reviewsByEvent[eid].sort((a,b) => {
+      const oa = parseInt(a.imported.orderInMatch, 10); const ob = parseInt(b.imported.orderInMatch, 10);
+      const va = isNaN(oa) ? 9999 : oa; const vb = isNaN(ob) ? 9999 : ob;
+      return va - vb || String(a.id).localeCompare(String(b.id));
+    });
+  });
+
+  // Build "review groups": every raw row sharing (eventId, eliminatedWrestlerId)
+  // collapses into one group, since a wrestler is eliminated exactly once per match.
+  // This is what lets a joint elimination -- stored upstream as one raw row per
+  // credited co-eliminator -- be reviewed as a single step instead of once per row.
+  Object.keys(STATE.reviewsByEvent).forEach(eid => {
+    const rows = STATE.reviewsByEvent[eid]; // already sorted by orderInMatch above
+    const byElim = {};
+    rows.forEach(r => { (byElim[r.eliminatedWrestlerId] = byElim[r.eliminatedWrestlerId] || []).push(r); });
+    const groups = Object.keys(byElim).map(key => {
+      const members = byElim[key];
+      return {
+        id: eid + "__grp__" + key,
+        eventId: eid,
+        eliminatedWrestlerId: key,
+        memberIds: members.map(m => m.id),
+        _order: members[0].imported.orderInMatch,
+      };
+    });
+    groups.sort((a,b) => {
+      const oa = parseInt(a._order, 10); const ob = parseInt(b._order, 10);
+      const va = isNaN(oa) ? 9999 : oa; const vb = isNaN(ob) ? 9999 : ob;
+      return va - vb || String(a.id).localeCompare(String(b.id));
+    });
+    STATE.reviewGroupsByEvent[eid] = groups;
+    groups.forEach(g => { STATE.reviewGroupsById[g.id] = g; });
+  });
+
+  render();
+
+  try {
+    const db = await claude.use("db");
+    if (db) {
+      STATE.db = db;
+      db.collection("reviews").onSnapshot(snap => {
+        const map = {};
+        snap.docs.forEach(d => { map[d.id] = d.data(); });
+        STATE.dbReviews = map;
+        STATE.dbReady = true;
+        render();
+      });
+      db.collection("events").onSnapshot(snap => {
+        const map = {};
+        snap.docs.forEach(d => { map[d.id] = d.data(); });
+        STATE.dbEvents = map;
+        render();
+      });
+      // Weapon events only trigger a full re-render on their first load (so the app
+      // opens hydrated); after that, pageReview refreshes itself locally on every
+      // save via renderTabBody(), so a full render() here would just reset the
+      // in-progress match clock / active tab for no benefit -- the review page is
+      // currently the only page that reads weapon events at all.
+      let weaponEventsHydrated = false;
+      db.collection("weaponEvents").onSnapshot(snap => {
+        const map = {};
+        snap.docs.forEach(d => { map[d.id] = d.data(); });
+        STATE.dbWeaponEvents = map;
+        if (!weaponEventsHydrated) { weaponEventsHydrated = true; render(); }
+      });
+    } else {
+      render();
+    }
+  } catch (e) {
+    render();
+  }
+}
+boot();
+</script>

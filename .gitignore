@@ -3,3 +3,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 .ghconfig/
+
+# Royal Rumble Event Logger -- per-user local working state, never shared
+logger/data/logger.db
+logger/export/
