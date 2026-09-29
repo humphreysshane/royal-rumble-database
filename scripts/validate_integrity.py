@@ -45,6 +45,8 @@ VALID_NM_CATEGORY = {
 # (RR1994M) and requires matching rows in event_winners.csv -- see the
 # per-event winner check below and schema.py's EVENT_WINNERS_FIELDS comment.
 VALID_FINISH_TYPES = {"", "co_winners"}
+VALID_RATING_TYPES = {"critic_review", "fan_aggregate", "match_rating"}
+VALID_CHAMPIONSHIP_RECORD_TYPES = {"reign", "vacancy", "lineage_event"}
 
 
 def read_csv(path):
@@ -86,6 +88,10 @@ def main():
     sources = read_csv(os.path.join(data_dir, "sources.csv"))
     flags = read_csv(os.path.join(data_dir, "flags.csv"))
     nm = read_csv(os.path.join(data_dir, "notable_moments.csv"))
+    ratings = read_csv(os.path.join(data_dir, "event_ratings.csv"))
+    promotions = read_csv(os.path.join(data_dir, "promotions.csv"))
+    championships = read_csv(os.path.join(data_dir, "championships.csv"))
+    championship_reigns = read_csv(os.path.join(data_dir, "championship_reigns.csv"))
     events = read_csv(os.path.join(data_dir, "events.csv"))
     entrants = read_csv(os.path.join(data_dir, "entrants.csv"))
     elims = read_csv(os.path.join(data_dir, "eliminations.csv"))
@@ -98,10 +104,17 @@ def main():
     check_dupes(sources, "source_id", "sources.csv", errors)
     check_dupes(flags, "flag_id", "flags.csv", errors)
     check_dupes(nm, "moment_id", "notable_moments.csv", errors)
+    check_dupes(ratings, "rating_id", "event_ratings.csv", errors)
+    check_dupes(promotions, "promotion_id", "promotions.csv", errors)
+    check_dupes(championships, "championship_id", "championships.csv", errors)
+    check_dupes(championship_reigns, "reign_id", "championship_reigns.csv", errors)
     check_dupes(events, "event_id", "events.csv", errors)
 
     wrestler_ids = set(r["wrestler_id"] for r in wrestlers if r.get("wrestler_id"))
     event_ids_all = set(r["event_id"] for r in events if r.get("event_id"))
+    source_ids_all = set(r["source_id"] for r in sources if r.get("source_id"))
+    promotion_ids = set(r["promotion_id"] for r in promotions if r.get("promotion_id"))
+    championship_ids = set(r["championship_id"] for r in championships if r.get("championship_id"))
 
     # ---- whole-database: dangling cross-references ----
     for r in entrants:
@@ -146,6 +159,62 @@ def main():
             if wid not in wrestler_ids:
                 errors.append(f"notable_moments.csv: {r.get('moment_id')} references "
                                f"unknown wrestler_id {wid!r}")
+
+    for r in ratings:
+        rid = r.get("rating_id", "")
+        eid = r.get("event_id", "")
+        if eid and eid not in event_ids_all:
+            errors.append(f"event_ratings.csv: {rid} references unknown event_id {eid!r}")
+        if r.get("rating_type", "") not in VALID_RATING_TYPES:
+            errors.append(f"event_ratings.csv: {rid} has invalid rating_type="
+                          f"{r.get('rating_type')!r}")
+        if r.get("rating_status", "") not in VALID_STATUS:
+            errors.append(f"event_ratings.csv: {rid} has invalid rating_status="
+                          f"{r.get('rating_status')!r}")
+        if not r.get("rating_value", ""):
+            errors.append(f"event_ratings.csv: {rid} has blank rating_value")
+        for sid in split_ids(r.get("source_ids", "")):
+            if sid not in source_ids_all:
+                errors.append(f"event_ratings.csv: {rid} references unknown source_id {sid!r}")
+
+    for r in championships:
+        cid = r.get("championship_id", "")
+        if r.get("promotion_id", "") not in promotion_ids:
+            errors.append(f"championships.csv: {cid} references unknown promotion_id "
+                          f"{r.get('promotion_id')!r}")
+        for field in ("predecessor_championship_ids", "successor_championship_ids"):
+            for linked_cid in split_ids(r.get(field, "")):
+                if linked_cid not in championship_ids:
+                    errors.append(f"championships.csv: {cid} {field} references "
+                                  f"unknown championship_id {linked_cid!r}")
+        if r.get("data_quality_status", "") not in VALID_STATUS:
+            errors.append(f"championships.csv: {cid} has invalid data_quality_status="
+                          f"{r.get('data_quality_status')!r}")
+        for sid in split_ids(r.get("source_ids", "")):
+            if sid not in source_ids_all:
+                errors.append(f"championships.csv: {cid} references unknown source_id {sid!r}")
+
+    for r in championship_reigns:
+        rid = r.get("reign_id", "")
+        cid = r.get("championship_id", "")
+        if cid not in championship_ids:
+            errors.append(f"championship_reigns.csv: {rid} references unknown "
+                          f"championship_id {cid!r}")
+        if r.get("record_type", "") not in VALID_CHAMPIONSHIP_RECORD_TYPES:
+            errors.append(f"championship_reigns.csv: {rid} has invalid record_type="
+                          f"{r.get('record_type')!r}")
+        if r.get("record_type") == "reign" and not r.get("champion_name"):
+            errors.append(f"championship_reigns.csv: {rid} reign has blank champion_name")
+        for wid in split_ids(r.get("champion_wrestler_ids", "")):
+            if wid not in wrestler_ids:
+                errors.append(f"championship_reigns.csv: {rid} references unknown "
+                              f"wrestler_id {wid!r}")
+        if r.get("data_quality_status", "") not in VALID_STATUS:
+            errors.append(f"championship_reigns.csv: {rid} has invalid data_quality_status="
+                          f"{r.get('data_quality_status')!r}")
+        for sid in split_ids(r.get("source_ids", "")):
+            if sid not in source_ids_all:
+                errors.append(f"championship_reigns.csv: {rid} references unknown source_id {sid!r}")
 
     for fl in flags:
         for eid in split_ids(fl.get("event_id", "")):

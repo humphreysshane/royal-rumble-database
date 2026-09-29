@@ -112,6 +112,16 @@ try:
     notable_moments = load("notable_moments.csv")
 except FileNotFoundError:
     notable_moments = []
+try:
+    event_ratings = load("event_ratings.csv")
+except FileNotFoundError:
+    event_ratings = []
+try:
+    promotions = load("promotions.csv")
+    championships = load("championships.csv")
+    championship_reigns = load("championship_reigns.csv")
+except FileNotFoundError:
+    promotions, championships, championship_reigns = [], [], []
 
 wrestlers_by_id = {w["wrestler_id"]: w for w in wrestlers}
 events_by_id = {ev["event_id"]: ev for ev in events}
@@ -229,6 +239,18 @@ for m in notable_moments:
     div = division_of(eid)
     for w in wids:
         moments_by_wrestler_div.setdefault((w, div), []).append(dict(entry, eventId=eid))
+
+ratings_by_event = {}
+for rating in event_ratings:
+    ratings_by_event.setdefault(rating["event_id"], []).append({
+        "source": rating.get("source_name") or None,
+        "scale": rating.get("rating_scale") or None,
+        "value": rating.get("rating_value") or None,
+        "type": rating.get("rating_type") or None,
+        "url": rating.get("review_url") or None,
+        "quality": rating.get("rating_status") or None,
+        "notes": rating.get("notes") or None,
+    })
 
 occupancy_by_event = {r["event_id"]: r for r in ring_occupancy_stats}
 entrance_stats_by_event = {r["event_id"]: r for r in entrance_event_stats}
@@ -438,6 +460,7 @@ for ev in events:
         "quality": ev.get("data_quality_status") or None,
         "entrants": ent_out,
         "notableMoments": moments_by_event.get(eid, []),
+        "ratings": ratings_by_event.get(eid, []),
         "occupancy": ({
             "peakCount": i(occupancy_by_event[eid].get("peak_in_ring_count")),
             "startSec": i(occupancy_by_event[eid].get("peak_start_seconds")),
@@ -1161,47 +1184,21 @@ topics_out = {
 }
 
 # ---------------------------------------------------------------------------
-# World map -- wrestlers grouped by billed/recorded nationality, aggregated to
-# country level for the "World Map" dashboard page. Nationality is read
-# directly from wrestlers.csv -- the same field event_nationality_breakdown.csv
-# uses -- so this is a global, cross-division view (one wrestler identity can
-# span both divisions; it is counted once here). Compound nationality strings
-# (e.g. "Mexican-American") are plotted at the country named by the FIRST
-# component only -- a simple, mechanical rule applied uniformly rather than a
-# per-wrestler judgment call, and never at a blended/interpolated location.
-# Any nationality string with no entry in NATIONALITY_TO_COUNTRY is skipped
-# and reported in world_map["unmapped"] rather than guessed at or dropped
-# silently -- add it to the table (and its country to COUNTRY_COORDS) the
-# next time this script needs to cover a new nationality.
+# World map -- wrestlers grouped by recorded nationality and aggregated to
+# country level. Compound values use the first named country consistently;
+# unmapped values remain visible in the output rather than being guessed.
 # ---------------------------------------------------------------------------
 NATIONALITY_TO_COUNTRY = {
-    "American": "United States",
-    "Canadian": "Canada",
-    "Japanese": "Japan",
-    "Mexican": "Mexico",
-    "Australian": "Australia",
-    "Irish": "Ireland",
-    "Scottish": "Scotland",
-    "New Zealander": "New Zealand",
-    "Tongan": "Tonga",
-    "English": "England",
-    "Nigerian": "Nigeria",
-    "German": "Germany",
-    "Mexican-American": "Mexico",
-    "Croatian-American": "Croatia",
-    "French": "France",
-    "Dutch": "Netherlands",
-    "Chinese": "China",
-    "New Zealand-born, Australia-billed": "New Zealand",
-    "Welsh": "Wales",
-    "Puerto Rican": "Puerto Rico",
-    "Austrian": "Austria",
-    "Chilean": "Chile",
-    "Russian-German": "Russia",
-    "Cuban-American": "Cuba",
+    "American": "United States", "Canadian": "Canada", "Japanese": "Japan",
+    "Mexican": "Mexico", "Australian": "Australia", "Irish": "Ireland",
+    "Scottish": "Scotland", "New Zealander": "New Zealand", "Tongan": "Tonga",
+    "English": "England", "Nigerian": "Nigeria", "German": "Germany",
+    "Mexican-American": "Mexico", "Croatian-American": "Croatia",
+    "French": "France", "Dutch": "Netherlands", "Chinese": "China",
+    "New Zealand-born, Australia-billed": "New Zealand", "Welsh": "Wales",
+    "Puerto Rican": "Puerto Rico", "Austrian": "Austria", "Chilean": "Chile",
+    "Russian-German": "Russia", "Cuban-American": "Cuba",
 }
-# Approximate country/region centroids (lat, lon) used only to place a map
-# marker -- not precise birthplace geocoding.
 COUNTRY_COORDS = {
     "United States": (39.8, -98.6), "Canada": (56.1, -106.3), "Japan": (36.2, 138.3),
     "Mexico": (23.6, -102.5), "Australia": (-25.3, 133.8), "Ireland": (53.4, -8.2),
@@ -1209,14 +1206,13 @@ COUNTRY_COORDS = {
     "England": (52.5, -1.5), "Nigeria": (9.1, 8.7), "Germany": (51.2, 10.4),
     "France": (46.6, 2.2), "Netherlands": (52.1, 5.3), "China": (35.9, 104.2),
     "Wales": (52.3, -3.8), "Puerto Rico": (18.2, -66.6), "Austria": (47.5, 14.6),
-    "Chile": (-35.7, -71.5), "Croatia": (45.1, 15.2), "Russia": (61.5, 105.3), "Cuba": (21.5, -79.5),
+    "Chile": (-35.7, -71.5), "Croatia": (45.1, 15.2), "Russia": (61.5, 105.3),
+    "Cuba": (21.5, -79.5),
 }
 _MAP_W, _MAP_H = 960, 480
 
 def _project(lat, lon):
-    x = (lon + 180) * (_MAP_W / 360.0)
-    y = (90 - lat) * (_MAP_H / 180.0)
-    return round(x, 1), round(y, 1)
+    return round((lon + 180) * (_MAP_W / 360.0), 1), round((90 - lat) * (_MAP_H / 180.0), 1)
 
 _country_wrestlers = defaultdict(list)
 _unmapped_nationalities = Counter()
@@ -1241,15 +1237,11 @@ for country, members in _country_wrestlers.items():
     world_map_countries.append({
         "country": country, "x": x, "y": y, "count": len(members),
         "nationalities": [{"label": lbl, "count": c} for lbl, c in nat_counts.most_common()],
-        # Full roster, not capped -- the World Map page's click-through panel
-        # lists every wrestler for a country, not just a preview sample.
         "wrestlers": [{"id": wid, "name": nm, "nationality": nat} for wid, nm, nat in members_sorted],
     })
 world_map_countries.sort(key=lambda r: -r["count"])
-
 world_map = {
-    "countries": world_map_countries,
-    "totalWrestlers": len(wrestlers),
+    "countries": world_map_countries, "totalWrestlers": len(wrestlers),
     "totalWithNationality": _with_nationality,
     "totalPlotted": sum(c["count"] for c in world_map_countries),
     "coveragePct": round(100.0 * _with_nationality / len(wrestlers), 1) if wrestlers else 0,
@@ -1262,12 +1254,113 @@ if _unmapped_nationalities:
           " -- these wrestlers are counted in totalWithNationality but not plotted.")
 
 # ---------------------------------------------------------------------------
+# Cross-promotion championship-history browser data
+# ---------------------------------------------------------------------------
+championship_reigns_by_title = defaultdict(list)
+championship_summary_by_wrestler = defaultdict(lambda: {
+    "reignIds": set(), "championshipIds": set(), "promotionIds": set(),
+})
+championships_by_id = {row["championship_id"]: row for row in championships}
+
+for row in championship_reigns:
+    compact = {
+        "id": row["reign_id"],
+        "type": row["record_type"],
+        "champion": row["champion_name"],
+        "wrestlerIds": [x for x in row.get("champion_wrestler_ids", "").split(";") if x],
+        "reignNumber": i(row.get("reign_number")),
+        "wonDate": row.get("won_date") or None,
+        "lostDate": row.get("lost_date") or None,
+        "daysReported": row.get("days_reported") or None,
+        "daysRecognizedReported": row.get("days_recognized_reported") or None,
+        "event": row.get("event_name") or None,
+        "location": row.get("location") or None,
+        "current": row.get("is_current") == "TRUE",
+        "status": row.get("data_quality_status") or None,
+        "notes": row.get("notes") or None,
+    }
+    championship_reigns_by_title[row["championship_id"]].append(compact)
+    if row.get("record_type") == "reign":
+        championship = championships_by_id.get(row["championship_id"], {})
+        for wrestler_id in compact["wrestlerIds"]:
+            summary = championship_summary_by_wrestler[wrestler_id]
+            summary["reignIds"].add(row["reign_id"])
+            summary["championshipIds"].add(row["championship_id"])
+            if championship.get("promotion_id"):
+                summary["promotionIds"].add(championship["promotion_id"])
+
+# A performer can have several deliberately separate gimmick-era wrestler IDs
+# in the Rumble data. Make the championship summary career-spanning across the
+# same sourced identity groups used by the wrestler profile, while the reign
+# row itself keeps the historically correct ring-name-specific link.
+for wrestler_id, siblings in same_performer.items():
+    group = {wrestler_id, *siblings}
+    reign_ids = set()
+    championship_ids = set()
+    promotion_ids = set()
+    for group_id in group:
+        summary = championship_summary_by_wrestler.get(group_id)
+        if not summary:
+            continue
+        reign_ids.update(summary["reignIds"])
+        championship_ids.update(summary["championshipIds"])
+        promotion_ids.update(summary["promotionIds"])
+    if not reign_ids:
+        continue
+    for group_id in group:
+        championship_summary_by_wrestler[group_id] = {
+            "reignIds": set(reign_ids),
+            "championshipIds": set(championship_ids),
+            "promotionIds": set(promotion_ids),
+        }
+
+championship_history_out = {
+    "asOf": "2026-09-28",
+    "scope": "World-title lineages; source snapshots, not a live dependency",
+    "promotions": [
+        {
+            "id": row["promotion_id"], "name": row["promotion_name"],
+            "abbreviation": row.get("abbreviation") or None,
+            "country": row.get("country") or None,
+            "activeFrom": row.get("active_from") or None,
+            "activeTo": row.get("active_to") or None,
+            "formerNames": [x for x in row.get("former_names", "").split(";") if x],
+            "officialUrl": row.get("official_url") or None,
+            "wikipediaUrl": row.get("wikipedia_url") or None,
+        }
+        for row in promotions
+    ],
+    "championships": [
+        {
+            "id": row["championship_id"], "promotionId": row["promotion_id"],
+            "name": row["championship_name"], "level": row["championship_level"],
+            "division": row["division"], "activeFrom": row.get("active_from") or None,
+            "activeTo": row.get("active_to") or None, "status": row.get("status") or None,
+            "predecessorIds": [x for x in row.get("predecessor_championship_ids", "").split(";") if x],
+            "successorIds": [x for x in row.get("successor_championship_ids", "").split(";") if x],
+            "officialHistoryUrl": row.get("official_history_url") or None,
+            "wikipediaHistoryUrl": row.get("wikipedia_history_url") or None,
+            "reigns": championship_reigns_by_title.get(row["championship_id"], []),
+        }
+        for row in championships
+    ],
+    "wrestlerSummary": {
+        wrestler_id: {
+            "reigns": len(summary["reignIds"]),
+            "championshipIds": sorted(summary["championshipIds"]),
+            "promotionIds": sorted(summary["promotionIds"]),
+        }
+        for wrestler_id, summary in championship_summary_by_wrestler.items()
+    },
+}
+
+# ---------------------------------------------------------------------------
 # Flags summary (lightweight -- counts + status breakdown, not the full table)
 # ---------------------------------------------------------------------------
 status_counts = Counter(fl["status"] for fl in flags)
 
 meta = {
-    "generated": "2026-09-20",
+    "generated": "2026-09-28",
     "wrestlers": len(wrestlers),
     "entrants": len(entrants),
     "eliminations": len(eliminations),
@@ -1304,6 +1397,7 @@ out = {
     ],
     "topics": topics_out,
     "worldMap": world_map,
+    "championshipHistory": championship_history_out,
 }
 
 os.makedirs(os.path.dirname(OUT_PATH) or ".", exist_ok=True)

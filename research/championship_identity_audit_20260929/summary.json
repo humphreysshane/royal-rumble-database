@@ -1,0 +1,15 @@
+{
+  "wrestler_master_rows": 530,
+  "distinct_rumble_entrant_ids": 488,
+  "championship_reign_rows": 9298,
+  "linked_rumble_wrestler_ids": 415,
+  "rumble_wrestlers_without_linked_reigns": 73,
+  "distinct_rumble_performers": 464,
+  "rumble_performers_without_linked_reigns": 58,
+  "distinct_unlinked_champion_names": 3613,
+  "unlinked_reign_rows": 6600,
+  "duplicate_identity_candidates": 32,
+  "ambiguous_normalized_aliases": 55,
+  "linked_nonentrant_master_ids": 17,
+  "championships": 256
+}
