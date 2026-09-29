@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Royal Rumble Event Logger</title>
+<style>
+  :root{
+    --bg:#faf8f4; --surface:#ffffff; --surface-2:#f2efe6; --surface-3:#ece7db;
+    --ink:#17140d; --ink-2:#413a2c; --ink-3:#746b56;
+    --border:rgba(23,20,13,0.11); --border-strong:rgba(23,20,13,0.20);
+    --accent:#9d7200; --accent-strong:#7a5900; --accent-wash:#f4e6c2; --accent-wash-2:#ece0bd;
+    --good:#2f7d4f; --good-wash:#e2f2e7;
+    --warn:#a15b00; --warn-wash:#fbead2;
+    --unsure:#5b5648; --unsure-wash:#eae6da;
+    --bad:#a1301f; --bad-wash:#fbe3de;
+    --font-b: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-b); line-height:1.45;}
+  a{color:inherit;}
+  button{font-family:inherit; cursor:pointer;}
+  .app{max-width:1180px; margin:0 auto; padding:20px 20px 80px;}
+  header.top{display:flex; align-items:center; justify-content:space-between; padding:10px 0 18px; border-bottom:1px solid var(--border); margin-bottom:20px;}
+  header.top .brand{font-weight:700; font-size:17px;}
+  header.top .brand .eyebrow{display:block; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); font-weight:600;}
+  header.top nav a{margin-left:16px; font-size:13.5px; color:var(--ink-2); text-decoration:none; padding:6px 4px; border-bottom:2px solid transparent;}
+  header.top nav a.active{color:var(--ink); border-color:var(--accent); font-weight:600;}
+
+  .panel{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-bottom:16px;}
+  h1{font-size:22px; margin:0 0 4px;}
+  h2{font-size:16px; margin:0 0 10px;}
+  .sub{color:var(--ink-3); font-size:13px;}
+  .btn{display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:8px; border:1px solid var(--border-strong); background:var(--surface-2); color:var(--ink); font-size:13.5px; font-weight:600;}
+  .btn:hover{background:var(--surface-3);}
+  .btn.primary{background:var(--accent); border-color:var(--accent-strong); color:#fff;}
+  .btn.primary:hover{background:var(--accent-strong);}
+  .btn.big{padding:14px 22px; font-size:15px; border-radius:10px;}
+  .btn:disabled{opacity:0.45; cursor:not-allowed;}
+
+  table.idx{width:100%; border-collapse:collapse; font-size:13.5px;}
+  table.idx th{text-align:left; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-3); padding:8px 10px; border-bottom:1px solid var(--border-strong);}
+  table.idx td{padding:9px 10px; border-bottom:1px solid var(--border);}
+  table.idx tr.clickable{cursor:pointer;}
+  table.idx tr.clickable:hover{background:var(--surface-2);}
+
+  .progress{height:8px; border-radius:5px; background:var(--surface-3); overflow:hidden; width:160px;}
+  .progress > div{height:100%; background:var(--accent);}
+
+  .badge{display:inline-block; padding:2px 9px; border-radius:99px; font-size:11px; font-weight:700; letter-spacing:0.02em;}
+  .badge.unreviewed{background:var(--surface-3); color:var(--ink-3);}
+  .badge.confirmed{background:var(--good-wash); color:var(--good);}
+  .badge.corrected{background:var(--warn-wash); color:var(--warn);}
+  .badge.uncertain{background:var(--unsure-wash); color:var(--unsure);}
+  .badge.conflict{background:var(--bad-wash); color:var(--bad);}
+  .badge.importconflict{background:var(--bad-wash); color:var(--bad); margin-left:6px;}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-3); margin-bottom:5px;}
+  .field input[type=text], .field input[type=number], .field textarea, .field select{
+    width:100%; padding:9px 10px; border-radius:7px; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink); font-size:14px; font-family:inherit;
+  }
+  .field textarea{min-height:64px; resize:vertical;}
+  .field .imported-hint{font-size:11.5px; color:var(--ink-3); margin-top:4px;}
+  .checkrow{display:flex; align-items:center; gap:8px; font-size:13.5px; margin-top:6px;}
+
+  .review-head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:6px;}
+  .jumpbar{display:flex; align-items:center; gap:8px;}
+  .jumpbar input{width:64px; padding:6px 8px; border-radius:6px; border:1px solid var(--border-strong); text-align:center;}
+
+  .statusrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:18px;}
+  .statusbtn{flex:1; min-width:130px; padding:12px; border-radius:9px; border:1px solid var(--border-strong); background:var(--surface-2); font-weight:700; font-size:13.5px; text-align:center;}
+  .statusbtn small{display:block; font-weight:500; font-size:11px; color:var(--ink-3); margin-top:2px;}
+  .statusbtn.confirmed{background:var(--good-wash); border-color:var(--good);}
+  .statusbtn.corrected{background:var(--warn-wash); border-color:var(--warn);}
+  .statusbtn.uncertain{background:var(--unsure-wash); border-color:var(--unsure);}
+  .statusbtn.conflict{background:var(--bad-wash); border-color:var(--bad);}
+
+  .kbd{display:inline-block; padding:1px 6px; border:1px solid var(--border-strong); border-radius:4px; font-family:var(--font-mono); font-size:11px; background:var(--surface-2);}
+  .hint{color:var(--ink-3); font-size:12.5px;}
+
+  .entrant-ref{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+  .entrant-chip{font-size:12px; padding:4px 9px; border-radius:99px; background:var(--surface-2); border:1px solid var(--border);}
+  .entrant-chip.winner{background:var(--accent-wash); border-color:var(--accent); font-weight:700;}
+
+  .empty{color:var(--ink-3); padding:30px; text-align:center;}
+  .toast{position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:10px 18px; border-radius:8px; font-size:13.5px; opacity:0; transition:opacity 0.2s; pointer-events:none;}
+  .toast.show{opacity:0.95;}
+  .filters{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
+  .filters select{padding:7px 10px; border-radius:7px; border:1px solid var(--border-strong); font-size:13px;}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const API = ""; // same-origin
+
+function el(tag, attrs, children){
+  const e = document.createElement(tag);
+  for (const k in (attrs||{})){
+    if (k === "class") e.className = attrs[k];
+    else if (k === "text") e.textContent = attrs[k];
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  (children||[]).forEach(c => { if (c) e.appendChild(c); });
+  return e;
+}
+function fmtPct(n, d){ return d ? Math.round(100*n/d)+"%" : "0%"; }
+
+async function api(path, opts){
+  const res = await fetch(API + path, opts);
+  if (!res.ok) throw new Error("API error " + res.status + " on " + path);
+  return res.json();
+}
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 1600);
+}
+
+const STATUS_LABELS = {
+  unreviewed: "Unreviewed",
+  confirmed: "Confirmed",
+  corrected: "Corrected",
+  uncertain: "Uncertain",
+  conflict: "Conflict",
+};
+
+// ---------------- routing ----------------
+function navigate(hash){ location.hash = hash; }
+window.addEventListener("hashchange", render);
+window.addEventListener("DOMContentLoaded", render);
+
+async function render(){
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+  const h = (location.hash || "#/home").replace(/^#\/?/, "");
+  const parts = h.split("/").filter(Boolean);
+
+  app.appendChild(await header(parts[0] || "home"));
+
+  try {
+    if (!parts.length || parts[0] === "home") app.appendChild(await pageHome());
+    else if (parts[0] === "events" && parts[1] && !parts[2]) app.appendChild(await pageEventOverview(parts[1]));
+    else if (parts[0] === "review" && parts[1]) app.appendChild(await pageReview(parts[1]));
+    else if (parts[0] === "overview") app.appendChild(await pageGlobalOverview());
+    else app.appendChild(el("div", {class:"panel empty", text:"Not found."}));
+  } catch (e) {
+    app.appendChild(el("div", {class:"panel", text:"Error loading this page: " + e.message}));
+  }
+}
+
+async function header(active){
+  return el("header", {class:"top"}, [
+    el("div", {class:"brand"}, [
+      el("span", {class:"eyebrow", text:"Royal Rumble"}),
+      document.createTextNode("Event Logger"),
+    ]),
+    el("nav", {}, [
+      el("a", {href:"#/home", class: active==="home"?"active":"", text:"Home"}),
+      el("a", {href:"#/overview", class: active==="overview"?"active":"", text:"Overview"}),
+    ]),
+  ]);
+}
+
+// ---------------- Home ----------------
+async function pageHome(){
+  const data = await api("/api/events");
+  const events = data.events;
+  const totalUnreviewed = events.reduce((s,e)=>s+e.counts.unreviewed,0);
+  const totalRows = events.reduce((s,e)=>s+e.total,0);
+  const totalConflicts = events.reduce((s,e)=>s+e.importConflicts,0);
+
+  const c = el("div", {});
+
+  const cont = el("div", {class:"panel"});
+  cont.appendChild(el("h1", {text:"Elimination review queue"}));
+  cont.appendChild(el("div", {class:"sub", text:
+    (totalRows-totalUnreviewed)+" of "+totalRows+" eliminations reviewed across "+events.length+" events."
+    + (totalConflicts ? " " + totalConflicts + " row(s) need a look -- their live data changed after review." : "")
+  }));
+  const contBtn = el("button", {class:"btn primary big", text: totalUnreviewed ? "Continue from next unreviewed elimination" : "All eliminations reviewed"});
+  contBtn.disabled = totalUnreviewed === 0;
+  contBtn.style.marginTop = "14px";
+  contBtn.addEventListener("click", async () => {
+    const next = await api("/api/next-unreviewed");
+    if (next.reviewId) navigate("/review/" + next.reviewId);
+  });
+  cont.appendChild(contBtn);
+  c.appendChild(cont);
+
+  const listPanel = el("div", {class:"panel"});
+  listPanel.appendChild(el("h2", {text:"Events"}));
+  const table = el("table", {class:"idx"});
+  const thead = el("tr", {}, ["Event","Division","Date","Progress","Status"].map(l => el("th", {text:l})));
+  table.appendChild(el("thead", {}, [thead]));
+  const tbody = el("tbody");
+  events.forEach(ev => {
+    const pct = fmtPct(ev.reviewedCount, ev.total);
+    const tr = el("tr", {class:"clickable", onclick: () => navigate("/events/"+ev.eventId)}, [
+      el("td", {}, [
+        el("div", {text: ev.eventName || ev.eventId, style:"font-weight:600;"}),
+        el("div", {class:"sub", text: ev.matchName || ""}),
+      ]),
+      el("td", {text: ev.division}),
+      el("td", {text: ev.eventDate}),
+      el("td", {}, [
+        el("div", {class:"progress"}, [el("div", {style:"width:"+pct+";"})]),
+        el("div", {class:"sub", text: ev.reviewedCount+"/"+ev.total+" ("+pct+")"}),
+      ]),
+      el("td", {}, [
+        ev.reviewedCount === ev.total
+          ? el("span", {class:"badge confirmed", text:"Complete"})
+          : el("span", {class:"badge unreviewed", text: ev.counts.unreviewed+" open"}),
+        ev.importConflicts ? el("span", {class:"badge importconflict", text: ev.importConflicts+" conflict"}) : null,
+      ]),
+    ]);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  listPanel.appendChild(table);
+  c.appendChild(listPanel);
+
+  return c;
+}
+
+// ---------------- Event Overview ----------------
+async function pageEventOverview(eventId){
+  const data = await api("/api/events/" + encodeURIComponent(eventId));
+  const ev = data.event;
+  const c = el("div", {});
+
+  const head = el("div", {class:"panel"});
+  head.appendChild(el("h1", {text: ev.eventName || ev.eventId}));
+  head.appendChild(el("div", {class:"sub", text: ev.matchName + " · " + ev.division + " · " + ev.eventDate + " · " + ev.entrantCount + " entrants"}));
+
+  const vidField = el("div", {class:"field", style:"margin-top:14px; max-width:480px;"}, [
+    el("label", {text:"Video reference (local path or URL, optional)"}),
+    (() => {
+      const inp = el("input", {type:"text", value: ev.videoReference || ""});
+      inp.addEventListener("change", async () => {
+        await api("/api/events/" + encodeURIComponent(eventId) + "/video", {
+          method:"POST", headers:{"Content-Type":"application/json"},
+          body: JSON.stringify({videoReference: inp.value, videoReferenceNotes: ev.videoReferenceNotes || ""}),
+        });
+        toast("Video reference saved.");
+      });
+      return inp;
+    })(),
+  ]);
+  head.appendChild(vidField);
+
+  const entrantWrap = el("div", {style:"margin-top:10px;"});
+  entrantWrap.appendChild(el("div", {class:"sub", text:"Entrants (reference)"}));
+  const chipWrap = el("div", {class:"entrant-ref"});
+  data.entrants.forEach(en => {
+    chipWrap.appendChild(el("span", {class:"entrant-chip"+(en.isWinner?" winner":""), text:"#"+(en.entryNumber||"?")+" "+en.name}));
+  });
+  entrantWrap.appendChild(chipWrap);
+  head.appendChild(entrantWrap);
+
+  const unreviewed = data.reviews.filter(r => r.verification_status === "unreviewed");
+  const contBtn = el("button", {class:"btn primary", text: unreviewed.length ? "Continue reviewing this event" : "All reviewed in this event", style:"margin-top:16px;"});
+  contBtn.disabled = !unreviewed.length;
+  contBtn.addEventListener("click", () => navigate("/review/" + unreviewed[0].review_id));
+  head.appendChild(contBtn);
+  c.appendChild(head);
+
+  const listPanel = el("div", {class:"panel"});
+  listPanel.appendChild(el("h2", {text:"Eliminations ("+data.reviews.length+")"}));
+  const table = el("table", {class:"idx"});
+  table.appendChild(el("thead", {}, [el("tr", {}, ["#","Eliminated","Eliminator","Clock","Status"].map(l=>el("th",{text:l})))]));
+  const tbody = el("tbody");
+  data.reviews.forEach(r => {
+    const order = r.reviewed_order_in_match || r.imported_order_in_match || "—";
+    const tr = el("tr", {class:"clickable", onclick: () => navigate("/review/"+r.review_id)}, [
+      el("td", {text: "#"+order}),
+      el("td", {text: r.eliminated_wrestler_name}),
+      el("td", {text: r.reviewed_eliminator_wrestler_name || "—"}),
+      el("td", {text: r.reviewed_elimination_clock_time || r.imported_elimination_clock_time || "—"}),
+      el("td", {}, [
+        el("span", {class:"badge "+r.verification_status, text: STATUS_LABELS[r.verification_status]}),
+        r.import_conflict ? el("span", {class:"badge importconflict", text:"live changed"}) : null,
+      ]),
+    ]);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  listPanel.appendChild(table);
+  c.appendChild(listPanel);
+
+  return c;
+}
+
+// ---------------- Global Overview ----------------
+async function pageGlobalOverview(){
+  const c = el("div", {});
+  const panel = el("div", {class:"panel"});
+  panel.appendChild(el("h1", {text:"Overview"}));
+  panel.appendChild(el("div", {class:"sub", text:"Every elimination row across every event, filterable."}));
+
+  const filters = el("div", {class:"filters"});
+  const statusSel = el("select", {}, [el("option", {value:"", text:"All statuses"})].concat(
+    Object.keys(STATUS_LABELS).map(s => el("option", {value:s, text:STATUS_LABELS[s]}))
+  ));
+  const conflictSel = el("select", {}, [
+    el("option", {value:"0", text:"All rows"}),
+    el("option", {value:"1", text:"Import conflicts only"}),
+  ]);
+  filters.appendChild(statusSel);
+  filters.appendChild(conflictSel);
+  panel.appendChild(filters);
+
+  const resultsWrap = el("div", {});
+  panel.appendChild(resultsWrap);
+  c.appendChild(panel);
+
+  async function load(){
+    resultsWrap.innerHTML = "";
+    const qs = new URLSearchParams();
+    if (statusSel.value) qs.set("status", statusSel.value);
+    if (conflictSel.value === "1") qs.set("conflicts", "1");
+    const data = await api("/api/overview?" + qs.toString());
+    const table = el("table", {class:"idx"});
+    table.appendChild(el("thead", {}, [el("tr", {}, ["Event","#","Eliminated","Eliminator","Status"].map(l=>el("th",{text:l})))]));
+    const tbody = el("tbody");
+    data.rows.forEach(r => {
+      const order = r.reviewed_order_in_match || r.imported_order_in_match || "—";
+      const tr = el("tr", {class:"clickable", onclick: () => navigate("/review/"+r.review_id)}, [
+        el("td", {text: r.eventName || r.event_id}),
+        el("td", {text: "#"+order}),
+        el("td", {text: r.eliminated_wrestler_name}),
+        el("td", {text: r.reviewed_eliminator_wrestler_name || "—"}),
+        el("td", {}, [
+          el("span", {class:"badge "+r.verification_status, text: STATUS_LABELS[r.verification_status]}),
+          r.import_conflict ? el("span", {class:"badge importconflict", text:"live changed"}) : null,
+        ]),
+      ]);
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    resultsWrap.appendChild(table);
+    if (!data.rows.length) resultsWrap.appendChild(el("div", {class:"empty", text:"No rows match these filters."}));
+  }
+  statusSel.addEventListener("change", load);
+  conflictSel.addEventListener("change", load);
+  await load();
+
+  return c;
+}
+
+// ---------------- Review screen ----------------
+async function pageReview(reviewId){
+  const data = await api("/api/review/" + reviewId);
+  const r = data.review;
+  const eventData = await api("/api/events/" + encodeURIComponent(r.event_id));
+  const ev = eventData.event;
+  const entrantOptions = eventData.entrants;
+
+  const c = el("div", {});
+
+  const head = el("div", {class:"review-head"});
+  head.appendChild(el("div", {}, [
+    el("div", {class:"sub", text: ev.eventName + " · " + ev.division}),
+    el("h1", {text: "Eliminated: " + r.eliminated_wrestler_name, style:"margin-top:2px;"}),
+    ev.videoReference ? el("div", {class:"sub", text:"Video: "+ev.videoReference}) : el("div", {class:"sub", text:"No video reference set for this event yet — set one from the event's Overview page."}),
+  ]));
+  const jumpBar = el("div", {class:"jumpbar"});
+  const prevBtn = el("button", {class:"btn", text:"← Prev"});
+  const nextBtn = el("button", {class:"btn", text:"Next →"});
+  jumpBar.appendChild(prevBtn);
+  jumpBar.appendChild(nextBtn);
+  head.appendChild(jumpBar);
+  c.appendChild(head);
+
+  // set up prev/next based on order within event
+  const allReviews = eventData.reviews;
+  const idx = allReviews.findIndex(x => String(x.review_id) === String(reviewId));
+  if (idx > 0) prevBtn.addEventListener("click", () => navigate("/review/"+allReviews[idx-1].review_id));
+  else prevBtn.disabled = true;
+  if (idx >= 0 && idx < allReviews.length-1) nextBtn.addEventListener("click", () => navigate("/review/"+allReviews[idx+1].review_id));
+  else nextBtn.disabled = true;
+
+  const panel = el("div", {class:"panel"});
+
+  const datalistId = "entrant-list-"+r.event_id;
+  const datalist = el("datalist", {id: datalistId});
+  entrantOptions.forEach(en => datalist.appendChild(el("option", {value: en.name})));
+  panel.appendChild(datalist);
+
+  const grid = el("div", {class:"grid2"});
+
+  function textField(label, id, value, hint, opts){
+    opts = opts || {};
+    const wrap = el("div", {class:"field"});
+    wrap.appendChild(el("label", {text: label}));
+    const inp = el("input", {type:"text", id: id, value: value || ""});
+    if (opts.list) inp.setAttribute("list", opts.list);
+    wrap.appendChild(inp);
+    if (hint) wrap.appendChild(el("div", {class:"imported-hint", text: hint}));
+    return wrap;
+  }
+  function textAreaField(label, id, value, hint){
+    const wrap = el("div", {class:"field"});
+    wrap.appendChild(el("label", {text: label}));
+    const inp = el("textarea", {id: id, text: value || ""});
+    wrap.appendChild(inp);
+    if (hint) wrap.appendChild(el("div", {class:"imported-hint", text: hint}));
+    return wrap;
+  }
+  function selectField(label, id, value, options){
+    const wrap = el("div", {class:"field"});
+    wrap.appendChild(el("label", {text: label}));
+    const sel = el("select", {id: id});
+    options.forEach(o => {
+      const opt = el("option", {value:o, text:o||"(blank)"});
+      if (o === value) opt.setAttribute("selected", "selected");
+      sel.appendChild(opt);
+    });
+    wrap.appendChild(sel);
+    return wrap;
+  }
+
+  grid.appendChild(textField("Eliminator", "f_eliminator", r.reviewed_eliminator_wrestler_name || r.imported_eliminator_wrestler_name,
+    "Imported: " + (r.imported_eliminator_wrestler_name || "—"), {list: datalistId}));
+  grid.appendChild(textField("Order in match", "f_order", r.reviewed_order_in_match, "Imported: " + (r.imported_order_in_match || "—")));
+  grid.appendChild(textField("Elimination clock (mm:ss)", "f_clock", r.reviewed_elimination_clock_time, "Imported: " + (r.imported_elimination_clock_time || "—")));
+  grid.appendChild(selectField("Location side", "f_location", r.reviewed_location_side, ["", "Left", "Right", "Hard camera", "Far side", "Corner", "Unknown"]));
+  grid.appendChild(selectField("Elimination type", "f_type", r.reviewed_elimination_type, ["", "over_top_rope", "both_feet_touch_floor", "other"]));
+  grid.appendChild(textField("Assisting wrestler(s) — semicolon separated", "f_assisting", r.reviewed_assisting_wrestler_ids, "Imported: " + (r.imported_assisting_wrestler_ids || "—")));
+  panel.appendChild(grid);
+
+  panel.appendChild(textAreaField("Elimination method (narrative)", "f_method", r.reviewed_elimination_method, "Imported: " + (r.imported_elimination_method || "—")));
+
+  const checkWrap = el("div", {class:"grid2"});
+  const soloWrap = el("div", {class:"checkrow"});
+  const soloChk = el("input", {type:"checkbox", id:"f_solo"});
+  soloChk.checked = (r.reviewed_is_solo || r.imported_is_solo) === "TRUE";
+  soloWrap.appendChild(soloChk);
+  soloWrap.appendChild(el("label", {text:"Solo elimination", for:"f_solo"}));
+  checkWrap.appendChild(soloWrap);
+
+  const sharedWrap = el("div", {class:"checkrow"});
+  const sharedChk = el("input", {type:"checkbox", id:"f_shared"});
+  sharedChk.checked = (r.reviewed_is_shared || r.imported_is_shared) === "TRUE";
+  sharedWrap.appendChild(sharedChk);
+  sharedWrap.appendChild(el("label", {text:"Shared/group elimination", for:"f_shared"}));
+  checkWrap.appendChild(sharedWrap);
+  panel.appendChild(checkWrap);
+
+  panel.appendChild(textAreaField("Notes", "f_notes", r.reviewed_notes));
+
+  // status buttons
+  const statusRow = el("div", {class:"statusrow"});
+  const statusDefs = [
+    {key:"confirmed", label:"Confirm as-is", hint:"Matches the imported data exactly", key1:"1"},
+    {key:"corrected", label:"Save correction", hint:"You changed something above", key1:"2"},
+    {key:"uncertain", label:"Mark uncertain", hint:"Not confident, needs another pass", key1:"3"},
+    {key:"conflict", label:"Flag conflict", hint:"Sources genuinely disagree", key1:"4"},
+  ];
+  const buttons = {};
+  statusDefs.forEach(sd => {
+    const btn = el("button", {class:"statusbtn "+sd.key}, [
+      document.createTextNode(sd.label + " "),
+      el("span", {class:"kbd", text: sd.key1}),
+      el("small", {text: sd.hint}),
+    ]);
+    btn.addEventListener("click", () => save(sd.key));
+    buttons[sd.key] = btn;
+    statusRow.appendChild(btn);
+  });
+  panel.appendChild(statusRow);
+  panel.appendChild(el("div", {class:"hint", style:"margin-top:10px;", text:
+    "Keyboard: 1 confirm · 2 correction · 3 uncertain · 4 conflict · ←/→ prev/next elimination (when not typing in a field)."}));
+
+  c.appendChild(panel);
+
+  async function save(status){
+    const payload = {
+      verificationStatus: status,
+      eliminator_wrestler_id: resolveWrestlerId(document.getElementById("f_eliminator").value, entrantOptions, r.imported_eliminator_wrestler_id),
+      order_in_match: document.getElementById("f_order").value,
+      elimination_clock_time: document.getElementById("f_clock").value,
+      location_side: document.getElementById("f_location").value,
+      elimination_type: document.getElementById("f_type").value,
+      assisting_wrestler_ids: document.getElementById("f_assisting").value,
+      elimination_method: document.getElementById("f_method").value,
+      is_solo: document.getElementById("f_solo").checked ? "TRUE" : "FALSE",
+      is_shared: document.getElementById("f_shared").checked ? "TRUE" : "FALSE",
+      notes: document.getElementById("f_notes").value,
+    };
+    const res = await api("/api/review/" + reviewId, {
+      method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload),
+    });
+    toast("Saved as " + STATUS_LABELS[status] + ".");
+    if (res.nextReviewIdInEvent) {
+      navigate("/review/" + res.nextReviewIdInEvent);
+    } else {
+      navigate("/events/" + r.event_id);
+    }
+  }
+
+  function keyHandler(e){
+    const tag = (document.activeElement && document.activeElement.tagName || "").toLowerCase();
+    const typing = tag === "input" || tag === "textarea" || tag === "select";
+    if (!typing && ["1","2","3","4"].includes(e.key)){
+      const map = {"1":"confirmed","2":"corrected","3":"uncertain","4":"conflict"};
+      save(map[e.key]);
+    } else if (!typing && e.key === "ArrowLeft" && !prevBtn.disabled){
+      prevBtn.click();
+    } else if (!typing && e.key === "ArrowRight" && !nextBtn.disabled){
+      nextBtn.click();
+    }
+  }
+  document.addEventListener("keydown", keyHandler);
+  // clean up the listener when navigating away
+  const cleanup = () => { document.removeEventListener("keydown", keyHandler); window.removeEventListener("hashchange", cleanup); };
+  window.addEventListener("hashchange", cleanup, {once:true});
+
+  return c;
+}
+
+function resolveWrestlerId(nameOrId, entrantOptions, fallbackId){
+  if (!nameOrId) return "";
+  const exact = entrantOptions.find(e => e.name === nameOrId);
+  if (exact) return exact.wrestlerId;
+  // if it already looks like it wasn't changed, keep the original id
+  return fallbackId || nameOrId;
+}
+</script>
+</body>
+</html>
