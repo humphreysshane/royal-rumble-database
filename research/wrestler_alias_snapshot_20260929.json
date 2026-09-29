@@ -1,0 +1,619 @@
+{
+  "accessed_date": "2026-09-29",
+  "results": [
+    {
+      "wrestler_id": "adam-bomb",
+      "ring_name": "Adam Bomb",
+      "existing_aliases": [],
+      "page_title": "Bryan Clark",
+      "url": "https://en.wikipedia.org/wiki/Bryan_Clark",
+      "page_selected_from_existing_source": false,
+      "search_candidates": [
+        "Bryan Clark",
+        "Jorge González (wrestler)",
+        "Mark Starr",
+        "Bob Evans (wrestler)",
+        "Gillberg (wrestler)"
+      ],
+      "birth_name": [
+        "Bryan Emmett Clark"
+      ],
+      "ring_names": [
+        "Adam Bomb",
+        "Bryan Clark",
+        "The Nightstalker",
+        "Wrath"
+      ],
+      "wikitext_sha_length": 28856
+    },
+    {
+      "wrestler_id": "adam-rose",
+      "ring_name": "Adam Rose",
+      "existing_aliases": [],
+      "page_title": "Adam Rose (wrestler)",
+      "url": "https://en.wikipedia.org/wiki/Adam_Rose_(wrestler)",
+      "page_selected_from_existing_source": true,
+      "search_candidates": [],
+      "birth_name": [
+        "Raymond John Leppan"
+      ],
+      "ring_names": [
+        "Adam Rose",
+        "Dameon Duke",
+        "Krugar",
+        "Leo Kruger",
+        "Z-Max"
+      ],
+      "wikitext_sha_length": 52025
+    },
+    {
+      "wrestler_id": "aldo-montoya",
+      "ring_name": "Aldo Montoya",
+      "existing_aliases": [],
+      "page_title": "Justin Credible",
+      "url": "https://en.wikipedia.org/wiki/Justin_Credible",
+      "page_selected_from_existing_source": false,
+      "search_candidates": [
+        "Justin Credible",
+        "Montoya",
+        "Harry Del Rios",
+        "Steve Doll",
+        "Fidel Sierra"
+      ],
+      "birth_name": [
+        "Peter Joseph Polaco"
+      ],
+      "ring_names": [
+        "Aldo Montoya",
+        "'Justin Credible'",
+        "Justin Time",
+        "Man O' War",
+        "PG-187",
+        "P. G. Walker",
+        "P. J. Polaco",
+        "P. J. Walker"
+      ],
+      "wikitext_sha_length": 46795
+    },
+    {
+      "wrestler_id": "alex-riley",
+      "ring_name": "Alex Riley",
+      "existing_aliases": [],
+      "page_title": "Alex Riley",
+      "url": "https://en.wikipedia.org/wiki/Alex_Riley",
+      "page_selected_from_existing_source": false,
+      "search_candidates": [
+        "Alex Riley",
+        "Alexander Riley",
+        "Cutter (professional wrestling)",
+        "Tom Prichard",
+        "Lucky Cannon"
+      ],
+      "birth_name": [
+        "Kevin Robert Kiley Jr."
+      ],
+      "ring_names": [
+        "Alex Riley",
+        "Carson Oakley",
+        "'Kevin Kiley Jr.'"
+      ],
+      "wikitext_sha_length": 48914
+    },
+    {
+      "wrestler_id": "ax",
+      "ring_name": "Ax",
+      "existing_aliases": [
+        "Demolition Axe"
+      ],
+      "page_title": "Ax (wrestler)",
+      "url": "https://en.wikipedia.org/wiki/Ax_(wrestler)",
+      "page_selected_from_existing_source": false,
+      "search_candidates": [
+        "Ax (wrestler)",
+        "Smash (wrestler)",
+        "Professional wrestling strikes",
+        "Koichiro Kimura",
+        "Demolition (professional wrestling)"
+      ],
+      "birth_name": [
+        "William Reid Eadie"
+      ],
+      "ring_names": [
+        "{{Ubl | Ax | Ax Demolition | Axis the Demolisher | Bill Eadie | Billy Crusher | Bolo | Bolo Mongol | Demolition Ax | International Superstar | Masked Destroyer | Masked Superstar | Masked Superstar #1 | The Paramedic | Super Machine | Superstar"
+      ],
+      "wikitext_sha_length": 37040
+    },
+    {
+      "wrestler_id": "b-brian-blair",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "b-fab",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "bad-news-brown",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "barry-horowitz",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "bastion-booger",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "big-bossman",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "big-cass",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "big-john-studd",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "bill-demott",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "bill-goldberg",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "blue-meanie",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "brian-christopher",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "brodus-clay",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "brutus-beefcake",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "bull-buchanan",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "cactus-jack",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "carlos-colon",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "chris-masters",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "chris-nowinski",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "damien-demento",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "daniel-puder",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "doink",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "doink-1995",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "drew-carey",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "droz",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "dude-love",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "duke-droese",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "earthquake",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "eight-ball",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "el-grande-americano-i",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "el-torito",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "eli-blu",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "elijah-burke",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "ernest-miller",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "eugene",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "fake-diesel",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "fake-razor-ramon",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "flash-funk",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "gangrel",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "gene-snitsky",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "gillberg",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "golga",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "hakushi",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "headhunter-1",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "headhunter-2",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "headshrinker-sione",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "henry-godwinn",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "hillbilly-jim",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "hunico",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "husky-harris",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "irwin-r-schyster",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "isaac-yankem",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "ishowspeed",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "ivy-nile",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "jack-gallagher",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "jacob-blu",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "jaida-parker",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "james-ellsworth",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "jesse-james",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "jevon-evans",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "jim-neidhart",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "jimmy-del-ray",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "johnny-knoxville",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "jonathan-coachman",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "jtg",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "kama",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "kenny-dykstra",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "kevin-thorn",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "kharma",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "kiana-james",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "koko-b-ware",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "kurrgan",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "kwang",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "lacey-evans",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "lana",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "luther-reigns",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "mankind",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "mantaur",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "mason-ryan",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "max-moon",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "mia-yim",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "michael-cole",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "mike-knox",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "mo",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "muhammad-hassan",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "nikolai-volkoff",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "no-way-jose",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "papa-shango",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "pat-mcafee",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "renee-dupree",
+      "error": "HTTPError: HTTP Error 429: Too Many Requests"
+    },
+    {
+      "wrestler_id": "ricardo-rodriguez",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "rick-boogs",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "road-warrior-animal",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "ronnie-garvin",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "rosey",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "ruby-riott",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "saba-simba",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "sam-houston",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "sarah-logan",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "sid-justice",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "simon-dean",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "skinner",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "smash",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "sparky-plugg",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "summer-rae",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "sylvan-grenier",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "tatanka",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "tegan-nox",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "the-berzerker",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "the-boogeyman",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "the-sultan",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "the-warlord",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "tiger-ali-singh",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "timothy-well",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "tom-brandi",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "tom-prichard",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "torrie-wilson",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "tugboat",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "tyler-reks",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "vickie-guerrero",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "xia-li",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "yoshi-tatsu",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    },
+    {
+      "wrestler_id": "zoey-stark",
+      "error": "HTTPError: HTTP Error 429: Too many requests (f061ab2)"
+    }
+  ]
+}

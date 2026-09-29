@@ -9,153 +9,312 @@ RR1989M,Men's,New Zealander,2,6.7,30,30,100.0,DERIVED,
 RR1989M,Men's,French,1,3.3,30,30,100.0,DERIVED,
 RR1989M,Men's,Mexican-American,1,3.3,30,30,100.0,DERIVED,
 RR1989M,Men's,Tongan,1,3.3,30,30,100.0,DERIVED,
-RR1990M,Men's,American,19,73.1,26,30,86.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1990M,Men's,Canadian,3,11.5,26,30,86.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1990M,Men's,Tongan,2,7.7,26,30,86.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1990M,Men's,French,1,3.8,26,30,86.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1990M,Men's,Mexican-American,1,3.8,26,30,86.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1991M,Men's,American,10,58.8,17,29,58.6,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1991M,Men's,Canadian,3,17.6,17,29,58.6,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1991M,Men's,New Zealander,2,11.8,17,29,58.6,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1991M,Men's,Mexican-American,1,5.9,17,29,58.6,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1991M,Men's,Tongan,1,5.9,17,29,58.6,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1992M,Men's,American,12,70.6,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1992M,Men's,Tongan,2,11.8,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1992M,Men's,Canadian,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1992M,Men's,Croatian-American,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1992M,Men's,Mexican-American,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1993M,Men's,American,7,77.8,9,30,30.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1993M,Men's,Canadian,1,11.1,9,30,30.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1993M,Men's,Mexican-American,1,11.1,9,30,30.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1994M,Men's,American,5,71.4,7,29,24.1,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1994M,Men's,Canadian,2,28.6,7,29,24.1,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1995M,Men's,New Zealander,2,50.0,4,30,13.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1995M,Men's,American,1,25.0,4,30,13.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1995M,Men's,Canadian,1,25.0,4,30,13.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1996M,Men's,American,3,100.0,3,30,10.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1997M,Men's,American,1,50.0,2,30,6.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1997M,Men's,Canadian,1,50.0,2,30,6.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1998M,Men's,American,1,100.0,1,29,3.4,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR1999M,Men's,American,1,100.0,1,30,3.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2000M,Men's,,0,,0,30,0.0,DERIVED,No entrant in this field has a recorded nationality yet.
-RR2001M,Men's,American,1,50.0,2,30,6.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2001M,Men's,Tongan,1,50.0,2,30,6.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2002M,Men's,American,1,100.0,1,30,3.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2003M,Men's,American,1,100.0,1,30,3.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2004M,Men's,,0,,0,29,0.0,DERIVED,No entrant in this field has a recorded nationality yet.
-RR2005M,Men's,American,1,100.0,1,29,3.4,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2006M,Men's,American,1,100.0,1,30,3.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2007M,Men's,American,1,100.0,1,30,3.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2008M,Men's,American,1,100.0,1,29,3.4,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2009M,Men's,American,1,100.0,1,30,3.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2010M,Men's,American,1,100.0,1,30,3.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2011M,Men's,,0,,0,40,0.0,DERIVED,No entrant in this field has a recorded nationality yet.
-RR2012M,Men's,American,1,100.0,1,30,3.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2013M,Men's,,0,,0,30,0.0,DERIVED,No entrant in this field has a recorded nationality yet.
-RR2014M,Men's,,0,,0,30,0.0,DERIVED,No entrant in this field has a recorded nationality yet.
-RR2015M,Men's,,0,,0,29,0.0,DERIVED,No entrant in this field has a recorded nationality yet.
-RR2016M,Men's,,0,,0,30,0.0,DERIVED,No entrant in this field has a recorded nationality yet.
-RR2017M,Men's,,0,,0,30,0.0,DERIVED,No entrant in this field has a recorded nationality yet.
-RR2018M,Men's,Irish,1,33.3,3,30,10.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2018M,Men's,Japanese,1,33.3,3,30,10.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2018M,Men's,Mexican,1,33.3,3,30,10.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2018W,Women's,Canadian,2,40.0,5,30,16.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2018W,Women's,Japanese,2,40.0,5,30,16.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2018W,Women's,Irish,1,20.0,5,30,16.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019M,Men's,American,5,55.6,9,30,30.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019M,Men's,Dutch,1,11.1,9,30,30.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019M,Men's,English,1,11.1,9,30,30.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019M,Men's,Japanese,1,11.1,9,30,30.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019M,Men's,Mexican,1,11.1,9,30,30.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019W,Women's,American,8,47.1,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019W,Women's,Australian,3,17.6,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019W,Women's,Japanese,2,11.8,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019W,Women's,Canadian,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019W,Women's,Chinese,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019W,Women's,Irish,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2019W,Women's,Scottish,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020M,Men's,American,7,70.0,10,30,33.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020M,Men's,Canadian,1,10.0,10,30,33.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020M,Men's,Dutch,1,10.0,10,30,33.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020M,Men's,Japanese,1,10.0,10,30,33.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020W,Women's,American,9,52.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020W,Women's,Canadian,2,11.8,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020W,Women's,Chinese,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020W,Women's,Japanese,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020W,Women's,"New Zealand-born, Australia-billed",1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020W,Women's,New Zealander,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020W,Women's,Scottish,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2020W,Women's,Welsh,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2021M,Men's,American,7,87.5,8,30,26.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2021M,Men's,Japanese,1,12.5,8,30,26.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2021W,Women's,American,10,58.8,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2021W,Women's,Australian,3,17.6,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2021W,Women's,Canadian,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2021W,Women's,"New Zealand-born, Australia-billed",1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2021W,Women's,New Zealander,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2021W,Women's,Scottish,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022M,Men's,American,12,70.6,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022M,Men's,Canadian,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022M,Men's,English,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022M,Men's,Japanese,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022M,Men's,Nigerian,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022M,Men's,Puerto Rican,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022W,Women's,American,11,73.3,15,30,50.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022W,Women's,Canadian,2,13.3,15,30,50.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022W,Women's,Australian,1,6.7,15,30,50.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2022W,Women's,Scottish,1,6.7,15,30,50.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023M,Men's,American,11,73.3,15,29,51.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023M,Men's,Austrian,1,6.7,15,29,51.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023M,Men's,Irish,1,6.7,15,29,51.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023M,Men's,Mexican,1,6.7,15,29,51.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023M,Men's,Nigerian,1,6.7,15,29,51.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023W,Women's,American,10,43.5,23,30,76.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023W,Women's,Australian,3,13.0,23,30,76.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023W,Women's,Canadian,2,8.7,23,30,76.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023W,Women's,Japanese,2,8.7,23,30,76.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023W,Women's,Scottish,2,8.7,23,30,76.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023W,Women's,Chinese,1,4.3,23,30,76.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023W,Women's,Irish,1,4.3,23,30,76.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023W,Women's,New Zealander,1,4.3,23,30,76.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2023W,Women's,Welsh,1,4.3,23,30,76.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024M,Men's,American,9,47.4,19,30,63.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024M,Men's,Australian,2,10.5,19,30,63.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024M,Men's,Irish,2,10.5,19,30,63.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024M,Men's,Mexican,2,10.5,19,30,63.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024M,Men's,Austrian,1,5.3,19,30,63.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024M,Men's,German,1,5.3,19,30,63.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024M,Men's,Japanese,1,5.3,19,30,63.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024M,Men's,Nigerian,1,5.3,19,30,63.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024W,Women's,American,15,60.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024W,Women's,Canadian,2,8.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024W,Women's,Japanese,2,8.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024W,Women's,Scottish,2,8.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024W,Women's,Australian,1,4.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024W,Women's,Chinese,1,4.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024W,Women's,Irish,1,4.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2024W,Women's,Welsh,1,4.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025M,Men's,American,10,58.8,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025M,Men's,Mexican,3,17.6,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025M,Men's,German,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025M,Men's,Irish,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025M,Men's,Japanese,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025M,Men's,Scottish,1,5.9,17,30,56.7,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025W,Women's,American,16,66.7,24,30,80.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025W,Women's,Canadian,3,12.5,24,30,80.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025W,Women's,Japanese,2,8.3,24,30,80.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025W,Women's,Chilean,1,4.2,24,30,80.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025W,Women's,Irish,1,4.2,24,30,80.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2025W,Women's,Scottish,1,4.2,24,30,80.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026M,Men's,American,11,52.4,21,30,70.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026M,Men's,Mexican,5,23.8,21,30,70.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026M,Men's,Australian,1,4.8,21,30,70.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026M,Men's,Austrian,1,4.8,21,30,70.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026M,Men's,German,1,4.8,21,30,70.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026M,Men's,Nigerian,1,4.8,21,30,70.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026M,Men's,Russian-German,1,4.8,21,30,70.0,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026W,Women's,American,15,60.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026W,Women's,Japanese,4,16.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026W,Women's,Canadian,2,8.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026W,Women's,Irish,2,8.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026W,Women's,Australian,1,4.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
-RR2026W,Women's,Cuban-American,1,4.0,25,30,83.3,DERIVED,"Percentage is of entrants with a known nationality, not of the full field -- see coverage_percentage."
+RR1990M,Men's,American,20,66.7,30,30,100.0,DERIVED,
+RR1990M,Men's,Canadian,5,16.7,30,30,100.0,DERIVED,
+RR1990M,Men's,Tongan,2,6.7,30,30,100.0,DERIVED,
+RR1990M,Men's,Fijian-American,1,3.3,30,30,100.0,DERIVED,
+RR1990M,Men's,French,1,3.3,30,30,100.0,DERIVED,
+RR1990M,Men's,Mexican-American,1,3.3,30,30,100.0,DERIVED,
+RR1991M,Men's,American,19,65.5,29,29,100.0,DERIVED,
+RR1991M,Men's,Canadian,4,13.8,29,29,100.0,DERIVED,
+RR1991M,Men's,New Zealander,2,6.9,29,29,100.0,DERIVED,
+RR1991M,Men's,English,1,3.4,29,29,100.0,DERIVED,
+RR1991M,Men's,Fijian-American,1,3.4,29,29,100.0,DERIVED,
+RR1991M,Men's,Mexican-American,1,3.4,29,29,100.0,DERIVED,
+RR1991M,Men's,Tongan,1,3.4,29,29,100.0,DERIVED,
+RR1992M,Men's,American,21,70.0,30,30,100.0,DERIVED,
+RR1992M,Men's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR1992M,Men's,Tongan,2,6.7,30,30,100.0,DERIVED,
+RR1992M,Men's,Croatian-American,1,3.3,30,30,100.0,DERIVED,
+RR1992M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR1992M,Men's,Fijian-American,1,3.3,30,30,100.0,DERIVED,
+RR1992M,Men's,Iranian-American,1,3.3,30,30,100.0,DERIVED,
+RR1992M,Men's,Mexican-American,1,3.3,30,30,100.0,DERIVED,
+RR1993M,Men's,American,23,76.7,30,30,100.0,DERIVED,
+RR1993M,Men's,Canadian,3,10.0,30,30,100.0,DERIVED,
+RR1993M,Men's,Canadian-Croatia,1,3.3,30,30,100.0,DERIVED,
+RR1993M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR1993M,Men's,Mexican-American,1,3.3,30,30,100.0,DERIVED,
+RR1993M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR1994M,Men's,American,23,79.3,29,29,100.0,DERIVED,
+RR1994M,Men's,Canadian,3,10.3,29,29,100.0,DERIVED,
+RR1994M,Men's,Japanese,2,6.9,29,29,100.0,DERIVED,
+RR1994M,Men's,Puerto Rican,1,3.4,29,29,100.0,DERIVED,
+RR1995M,Men's,American,23,76.7,30,30,100.0,DERIVED,
+RR1995M,Men's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR1995M,Men's,New Zealander,2,6.7,30,30,100.0,DERIVED,
+RR1995M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR1995M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR1995M,Men's,Tongan,1,3.3,30,30,100.0,DERIVED,
+RR1996M,Men's,American,25,83.3,30,30,100.0,DERIVED,
+RR1996M,Men's,Japanese,2,6.7,30,30,100.0,DERIVED,
+RR1996M,Men's,Canadian,1,3.3,30,30,100.0,DERIVED,
+RR1996M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR1996M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR1997M,Men's,American,21,70.0,30,30,100.0,DERIVED,
+RR1997M,Men's,Mexican,4,13.3,30,30,100.0,DERIVED,
+RR1997M,Men's,Canadian,3,10.0,30,30,100.0,DERIVED,
+RR1997M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR1997M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR1998M,Men's,American,26,89.7,29,29,100.0,DERIVED,
+RR1998M,Men's,Canadian,2,6.9,29,29,100.0,DERIVED,
+RR1998M,Men's,Puerto Rican,1,3.4,29,29,100.0,DERIVED,
+RR1999M,Men's,American,23,76.7,30,30,100.0,DERIVED,
+RR1999M,Men's,Canadian,7,23.3,30,30,100.0,DERIVED,
+RR2000M,Men's,American,24,80.0,30,30,100.0,DERIVED,
+RR2000M,Men's,Canadian,4,13.3,30,30,100.0,DERIVED,
+RR2000M,Men's,Canadian-American,1,3.3,30,30,100.0,DERIVED,
+RR2000M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR2001M,Men's,American,26,86.7,30,30,100.0,DERIVED,
+RR2001M,Men's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2001M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR2001M,Men's,Tongan,1,3.3,30,30,100.0,DERIVED,
+RR2002M,Men's,American,26,86.7,30,30,100.0,DERIVED,
+RR2002M,Men's,Canadian,4,13.3,30,30,100.0,DERIVED,
+RR2003M,Men's,American,24,80.0,30,30,100.0,DERIVED,
+RR2003M,Men's,Canadian,3,10.0,30,30,100.0,DERIVED,
+RR2003M,Men's,Canadian-American,1,3.3,30,30,100.0,DERIVED,
+RR2003M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2003M,Men's,Samoan-American,1,3.3,30,30,100.0,DERIVED,
+RR2004M,Men's,American,24,82.8,29,29,100.0,DERIVED,
+RR2004M,Men's,Canadian,3,10.3,29,29,100.0,DERIVED,
+RR2004M,Men's,Canadian-American,1,3.4,29,29,100.0,DERIVED,
+RR2004M,Men's,Japanese,1,3.4,29,29,100.0,DERIVED,
+RR2005M,Men's,American,23,79.3,29,29,100.0,DERIVED,
+RR2005M,Men's,Canadian,4,13.8,29,29,100.0,DERIVED,
+RR2005M,Men's,Canadian-American,1,3.4,29,29,100.0,DERIVED,
+RR2005M,Men's,Japanese,1,3.4,29,29,100.0,DERIVED,
+RR2006M,Men's,American,25,83.3,30,30,100.0,DERIVED,
+RR2006M,Men's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2006M,Men's,Mexican,2,6.7,30,30,100.0,DERIVED,
+RR2006M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR2007M,Men's,American,24,80.0,30,30,100.0,DERIVED,
+RR2007M,Men's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2007M,Men's,Indian,1,3.3,30,30,100.0,DERIVED,
+RR2007M,Men's,Mexican,1,3.3,30,30,100.0,DERIVED,
+RR2007M,Men's,Northern Irish,1,3.3,30,30,100.0,DERIVED,
+RR2007M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR2008M,Men's,American,23,79.3,29,29,100.0,DERIVED,
+RR2008M,Men's,Canadian,2,6.9,29,29,100.0,DERIVED,
+RR2008M,Men's,Fijian-American,1,3.4,29,29,100.0,DERIVED,
+RR2008M,Men's,Indian,1,3.4,29,29,100.0,DERIVED,
+RR2008M,Men's,Puerto Rican,1,3.4,29,29,100.0,DERIVED,
+RR2008M,Men's,Samoan-American,1,3.4,29,29,100.0,DERIVED,
+RR2009M,Men's,American,22,73.3,30,30,100.0,DERIVED,
+RR2009M,Men's,Canadian,1,3.3,30,30,100.0,DERIVED,
+RR2009M,Men's,Canadian-American,1,3.3,30,30,100.0,DERIVED,
+RR2009M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR2009M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2009M,Men's,Indian,1,3.3,30,30,100.0,DERIVED,
+RR2009M,Men's,Northern Irish,1,3.3,30,30,100.0,DERIVED,
+RR2009M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR2009M,Men's,Ukrainian-American,1,3.3,30,30,100.0,DERIVED,
+RR2010M,Men's,American,23,76.7,30,30,100.0,DERIVED,
+RR2010M,Men's,Canadian,1,3.3,30,30,100.0,DERIVED,
+RR2010M,Men's,Canadian-American,1,3.3,30,30,100.0,DERIVED,
+RR2010M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2010M,Men's,Indian,1,3.3,30,30,100.0,DERIVED,
+RR2010M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2010M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR2010M,Men's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2011M,Men's,American,26,65.0,40,40,100.0,DERIVED,
+RR2011M,Men's,Canadian,2,5.0,40,40,100.0,DERIVED,
+RR2011M,Men's,English,2,5.0,40,40,100.0,DERIVED,
+RR2011M,Men's,Ghanaian-American,1,2.5,40,40,100.0,DERIVED,
+RR2011M,Men's,Guyanese-American,1,2.5,40,40,100.0,DERIVED,
+RR2011M,Men's,Indian,1,2.5,40,40,100.0,DERIVED,
+RR2011M,Men's,Irish,1,2.5,40,40,100.0,DERIVED,
+RR2011M,Men's,Japanese,1,2.5,40,40,100.0,DERIVED,
+RR2011M,Men's,Mexican,1,2.5,40,40,100.0,DERIVED,
+RR2011M,Men's,Scottish,1,2.5,40,40,100.0,DERIVED,
+RR2011M,Men's,South African,1,2.5,40,40,100.0,DERIVED,
+RR2011M,Men's,Ukrainian-American,1,2.5,40,40,100.0,DERIVED,
+RR2011M,Men's,Welsh,1,2.5,40,40,100.0,DERIVED,
+RR2012M,Men's,American,19,63.3,30,30,100.0,DERIVED,
+RR2012M,Men's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2012M,Men's,Puerto Rican,2,6.7,30,30,100.0,DERIVED,
+RR2012M,Men's,Canadian-American,1,3.3,30,30,100.0,DERIVED,
+RR2012M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR2012M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2012M,Men's,Guyanese-American,1,3.3,30,30,100.0,DERIVED,
+RR2012M,Men's,Indian,1,3.3,30,30,100.0,DERIVED,
+RR2012M,Men's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2012M,Men's,South African,1,3.3,30,30,100.0,DERIVED,
+RR2013M,Men's,American,21,70.0,30,30,100.0,DERIVED,
+RR2013M,Men's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2013M,Men's,Canadian-American,1,3.3,30,30,100.0,DERIVED,
+RR2013M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR2013M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2013M,Men's,Indian,1,3.3,30,30,100.0,DERIVED,
+RR2013M,Men's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2013M,Men's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2013M,Men's,Swiss,1,3.3,30,30,100.0,DERIVED,
+RR2014M,Men's,American,23,76.7,30,30,100.0,DERIVED,
+RR2014M,Men's,Mexican,2,6.7,30,30,100.0,DERIVED,
+RR2014M,Men's,Bulgarian,1,3.3,30,30,100.0,DERIVED,
+RR2014M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2014M,Men's,Indian,1,3.3,30,30,100.0,DERIVED,
+RR2014M,Men's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2014M,Men's,Swiss,1,3.3,30,30,100.0,DERIVED,
+RR2015M,Men's,American,23,79.3,29,29,100.0,DERIVED,
+RR2015M,Men's,Bulgarian,1,3.4,29,29,100.0,DERIVED,
+RR2015M,Men's,Canadian,1,3.4,29,29,100.0,DERIVED,
+RR2015M,Men's,English,1,3.4,29,29,100.0,DERIVED,
+RR2015M,Men's,Ghanaian-American,1,3.4,29,29,100.0,DERIVED,
+RR2015M,Men's,South African,1,3.4,29,29,100.0,DERIVED,
+RR2015M,Men's,Swiss,1,3.4,29,29,100.0,DERIVED,
+RR2016M,Men's,American,21,70.0,30,30,100.0,DERIVED,
+RR2016M,Men's,Canadian,3,10.0,30,30,100.0,DERIVED,
+RR2016M,Men's,Bulgarian,1,3.3,30,30,100.0,DERIVED,
+RR2016M,Men's,Canadian-American,1,3.3,30,30,100.0,DERIVED,
+RR2016M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR2016M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2016M,Men's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2016M,Men's,Mexican,1,3.3,30,30,100.0,DERIVED,
+RR2017M,Men's,American,22,73.3,30,30,100.0,DERIVED,
+RR2017M,Men's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2017M,Men's,Bulgarian,1,3.3,30,30,100.0,DERIVED,
+RR2017M,Men's,Canadian-American,1,3.3,30,30,100.0,DERIVED,
+RR2017M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR2017M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2017M,Men's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2017M,Men's,Swiss,1,3.3,30,30,100.0,DERIVED,
+RR2018M,Men's,American,21,70.0,30,30,100.0,DERIVED,
+RR2018M,Men's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2018M,Men's,Irish,2,6.7,30,30,100.0,DERIVED,
+RR2018M,Men's,Bulgarian,1,3.3,30,30,100.0,DERIVED,
+RR2018M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2018M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2018M,Men's,Mexican,1,3.3,30,30,100.0,DERIVED,
+RR2018M,Men's,Swiss,1,3.3,30,30,100.0,DERIVED,
+RR2018W,Women's,American,24,80.0,30,30,100.0,DERIVED,
+RR2018W,Women's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2018W,Women's,Japanese,2,6.7,30,30,100.0,DERIVED,
+RR2018W,Women's,Australian-American,1,3.3,30,30,100.0,DERIVED,
+RR2018W,Women's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2019M,Men's,American,22,73.3,30,30,100.0,DERIVED,
+RR2019M,Men's,Australian-American,1,3.3,30,30,100.0,DERIVED,
+RR2019M,Men's,Canadian,1,3.3,30,30,100.0,DERIVED,
+RR2019M,Men's,Dutch,1,3.3,30,30,100.0,DERIVED,
+RR2019M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR2019M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2019M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2019M,Men's,Mexican,1,3.3,30,30,100.0,DERIVED,
+RR2019M,Men's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2019W,Women's,American,20,66.7,30,30,100.0,DERIVED,
+RR2019W,Women's,Australian,3,10.0,30,30,100.0,DERIVED,
+RR2019W,Women's,Japanese,2,6.7,30,30,100.0,DERIVED,
+RR2019W,Women's,Australian-American,1,3.3,30,30,100.0,DERIVED,
+RR2019W,Women's,Canadian,1,3.3,30,30,100.0,DERIVED,
+RR2019W,Women's,Chinese,1,3.3,30,30,100.0,DERIVED,
+RR2019W,Women's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2019W,Women's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2020M,Men's,American,22,73.3,30,30,100.0,DERIVED,
+RR2020M,Men's,Canadian,3,10.0,30,30,100.0,DERIVED,
+RR2020M,Men's,Dutch,1,3.3,30,30,100.0,DERIVED,
+RR2020M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2020M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2020M,Men's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2020M,Men's,Swiss,1,3.3,30,30,100.0,DERIVED,
+RR2020W,Women's,American,21,70.0,30,30,100.0,DERIVED,
+RR2020W,Women's,Canadian,3,10.0,30,30,100.0,DERIVED,
+RR2020W,Women's,Chinese,1,3.3,30,30,100.0,DERIVED,
+RR2020W,Women's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2020W,Women's,"New Zealand-born, Australia-billed",1,3.3,30,30,100.0,DERIVED,
+RR2020W,Women's,New Zealander,1,3.3,30,30,100.0,DERIVED,
+RR2020W,Women's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2020W,Women's,Welsh,1,3.3,30,30,100.0,DERIVED,
+RR2021M,Men's,American,23,76.7,30,30,100.0,DERIVED,
+RR2021M,Men's,Canadian,3,10.0,30,30,100.0,DERIVED,
+RR2021M,Men's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2021M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2021M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR2021M,Men's,Swiss,1,3.3,30,30,100.0,DERIVED,
+RR2021W,Women's,American,22,73.3,30,30,100.0,DERIVED,
+RR2021W,Women's,Australian,3,10.0,30,30,100.0,DERIVED,
+RR2021W,Women's,Australian-American,1,3.3,30,30,100.0,DERIVED,
+RR2021W,Women's,Canadian,1,3.3,30,30,100.0,DERIVED,
+RR2021W,Women's,"New Zealand-born, Australia-billed",1,3.3,30,30,100.0,DERIVED,
+RR2021W,Women's,New Zealander,1,3.3,30,30,100.0,DERIVED,
+RR2021W,Women's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2022M,Men's,American,20,66.7,30,30,100.0,DERIVED,
+RR2022M,Men's,Canadian,3,10.0,30,30,100.0,DERIVED,
+RR2022M,Men's,English,1,3.3,30,30,100.0,DERIVED,
+RR2022M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2022M,Men's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2022M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2022M,Men's,Nigerian,1,3.3,30,30,100.0,DERIVED,
+RR2022M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR2022M,Men's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2022W,Women's,American,26,86.7,30,30,100.0,DERIVED,
+RR2022W,Women's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2022W,Women's,Australian,1,3.3,30,30,100.0,DERIVED,
+RR2022W,Women's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2023M,Men's,American,21,72.4,29,29,100.0,DERIVED,
+RR2023M,Men's,Irish,2,6.9,29,29,100.0,DERIVED,
+RR2023M,Men's,Austrian,1,3.4,29,29,100.0,DERIVED,
+RR2023M,Men's,Canadian,1,3.4,29,29,100.0,DERIVED,
+RR2023M,Men's,Ghanaian-American,1,3.4,29,29,100.0,DERIVED,
+RR2023M,Men's,Mexican,1,3.4,29,29,100.0,DERIVED,
+RR2023M,Men's,Nigerian,1,3.4,29,29,100.0,DERIVED,
+RR2023M,Men's,Scottish,1,3.4,29,29,100.0,DERIVED,
+RR2023W,Women's,American,16,53.3,30,30,100.0,DERIVED,
+RR2023W,Women's,Australian,3,10.0,30,30,100.0,DERIVED,
+RR2023W,Women's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2023W,Women's,Japanese,2,6.7,30,30,100.0,DERIVED,
+RR2023W,Women's,Scottish,2,6.7,30,30,100.0,DERIVED,
+RR2023W,Women's,Australian-American,1,3.3,30,30,100.0,DERIVED,
+RR2023W,Women's,Chinese,1,3.3,30,30,100.0,DERIVED,
+RR2023W,Women's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2023W,Women's,New Zealander,1,3.3,30,30,100.0,DERIVED,
+RR2023W,Women's,Welsh,1,3.3,30,30,100.0,DERIVED,
+RR2024M,Men's,American,16,53.3,30,30,100.0,DERIVED,
+RR2024M,Men's,Australian,2,6.7,30,30,100.0,DERIVED,
+RR2024M,Men's,Irish,2,6.7,30,30,100.0,DERIVED,
+RR2024M,Men's,Mexican,2,6.7,30,30,100.0,DERIVED,
+RR2024M,Men's,Austrian,1,3.3,30,30,100.0,DERIVED,
+RR2024M,Men's,Canadian,1,3.3,30,30,100.0,DERIVED,
+RR2024M,Men's,German,1,3.3,30,30,100.0,DERIVED,
+RR2024M,Men's,Ghanaian-American,1,3.3,30,30,100.0,DERIVED,
+RR2024M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2024M,Men's,Nigerian,1,3.3,30,30,100.0,DERIVED,
+RR2024M,Men's,Puerto Rican,1,3.3,30,30,100.0,DERIVED,
+RR2024M,Men's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2024W,Women's,American,19,63.3,30,30,100.0,DERIVED,
+RR2024W,Women's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2024W,Women's,Japanese,2,6.7,30,30,100.0,DERIVED,
+RR2024W,Women's,Scottish,2,6.7,30,30,100.0,DERIVED,
+RR2024W,Women's,Australian,1,3.3,30,30,100.0,DERIVED,
+RR2024W,Women's,Australian-American,1,3.3,30,30,100.0,DERIVED,
+RR2024W,Women's,Chinese,1,3.3,30,30,100.0,DERIVED,
+RR2024W,Women's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2024W,Women's,Welsh,1,3.3,30,30,100.0,DERIVED,
+RR2025M,Men's,American,20,66.7,30,30,100.0,DERIVED,
+RR2025M,Men's,Mexican,3,10.0,30,30,100.0,DERIVED,
+RR2025M,Men's,Irish,2,6.7,30,30,100.0,DERIVED,
+RR2025M,Men's,Scottish,2,6.7,30,30,100.0,DERIVED,
+RR2025M,Men's,Canadian,1,3.3,30,30,100.0,DERIVED,
+RR2025M,Men's,German,1,3.3,30,30,100.0,DERIVED,
+RR2025M,Men's,Japanese,1,3.3,30,30,100.0,DERIVED,
+RR2025W,Women's,American,21,70.0,30,30,100.0,DERIVED,
+RR2025W,Women's,Canadian,3,10.0,30,30,100.0,DERIVED,
+RR2025W,Women's,Japanese,2,6.7,30,30,100.0,DERIVED,
+RR2025W,Women's,Australian-American,1,3.3,30,30,100.0,DERIVED,
+RR2025W,Women's,Chilean,1,3.3,30,30,100.0,DERIVED,
+RR2025W,Women's,Irish,1,3.3,30,30,100.0,DERIVED,
+RR2025W,Women's,Scottish,1,3.3,30,30,100.0,DERIVED,
+RR2026M,Men's,American,19,63.3,30,30,100.0,DERIVED,
+RR2026M,Men's,Mexican,5,16.7,30,30,100.0,DERIVED,
+RR2026M,Men's,Australian,1,3.3,30,30,100.0,DERIVED,
+RR2026M,Men's,Austrian,1,3.3,30,30,100.0,DERIVED,
+RR2026M,Men's,Bulgarian,1,3.3,30,30,100.0,DERIVED,
+RR2026M,Men's,German,1,3.3,30,30,100.0,DERIVED,
+RR2026M,Men's,Nigerian,1,3.3,30,30,100.0,DERIVED,
+RR2026M,Men's,Russian-German,1,3.3,30,30,100.0,DERIVED,
+RR2026W,Women's,American,19,63.3,30,30,100.0,DERIVED,
+RR2026W,Women's,Japanese,4,13.3,30,30,100.0,DERIVED,
+RR2026W,Women's,Canadian,2,6.7,30,30,100.0,DERIVED,
+RR2026W,Women's,Irish,2,6.7,30,30,100.0,DERIVED,
+RR2026W,Women's,Australian,1,3.3,30,30,100.0,DERIVED,
+RR2026W,Women's,Australian-American,1,3.3,30,30,100.0,DERIVED,
+RR2026W,Women's,Cuban-American,1,3.3,30,30,100.0,DERIVED,

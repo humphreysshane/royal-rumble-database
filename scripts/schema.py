@@ -173,6 +173,43 @@ NOTABLE_MOMENTS_FIELDS = [
     "moment_id", "event_id", "wrestler_ids_involved", "category", "title",
     "description", "data_quality_status", "source_ids", "notes",
 ]
+
+# One raw observation per source/rater. Different scales are deliberately
+# preserved rather than normalized or averaged together.
+EVENT_RATINGS_FIELDS = [
+    "rating_id", "event_id", "source_name", "rating_scale", "rating_value",
+    "rating_type", "review_url", "rating_status", "source_ids", "notes",
+]
+
+# Career-spanning championship history. These tables are deliberately
+# independent of entrants.csv:current_champion_title, which remains a
+# point-in-time fact about the start of a particular Royal Rumble match.
+PROMOTIONS_FIELDS = [
+    "promotion_id", "promotion_name", "abbreviation", "country",
+    "active_from", "active_to", "former_names", "official_url",
+    "wikipedia_url", "data_quality_status", "source_ids", "notes",
+]
+
+CHAMPIONSHIPS_FIELDS = [
+    "championship_id", "promotion_id", "championship_name",
+    "championship_level", "division", "active_from", "active_to",
+    "status", "predecessor_championship_ids", "successor_championship_ids",
+    "official_history_url", "wikipedia_history_url",
+    "data_quality_status", "source_ids", "notes",
+]
+
+# champion_name is the exact historical display name from the source.
+# champion_wrestler_ids is an optional link to this project's wrestler
+# registry; it may be blank when a champion never entered a Royal Rumble.
+# record_type preserves vacancies/unifications rather than forcing them into
+# a wrestler reign.
+CHAMPIONSHIP_REIGNS_FIELDS = [
+    "reign_id", "championship_id", "record_type", "champion_name",
+    "champion_wrestler_ids", "reign_number", "won_date", "lost_date",
+    "days_reported", "days_recognized_reported", "event_name", "location",
+    "is_current", "notes", "data_quality_status", "source_ids",
+]
+# rating_type: "critic_review" | "fan_aggregate" | "match_rating"
 # category (closed-ish vocabulary, extend as new kinds of finding turn up):
 #   "record" | "milestone_first" | "notable_absence_or_substitution" |
 #   "behind_the_scenes" | "storyline_moment" | "controversy" | "botch" |
@@ -232,6 +269,10 @@ TABLES = {
     "other_matches.csv": OTHER_MATCHES_FIELDS,
     "show_appearances.csv": SHOW_APPEARANCES_FIELDS,
     "notable_moments.csv": NOTABLE_MOMENTS_FIELDS,
+    "event_ratings.csv": EVENT_RATINGS_FIELDS,
+    "promotions.csv": PROMOTIONS_FIELDS,
+    "championships.csv": CHAMPIONSHIPS_FIELDS,
+    "championship_reigns.csv": CHAMPIONSHIP_REIGNS_FIELDS,
     "entrances.csv": ENTRANCES_FIELDS,
     "moves.csv": MOVES_FIELDS,
     "near_eliminations.csv": NEAR_ELIMINATIONS_FIELDS,

@@ -366,17 +366,8 @@ write("event_field_physical_stats.csv", DERIVED_TABLES["event_field_physical_sta
 
 # ---------------------------------------------------------------------------
 # event_nationality_breakdown.csv -- one row per (event, nationality) actually
-# represented in that event's field, per Shane's request. Nationality comes
-# straight from wrestlers.csv:nationality (a per-wrestler fact, not
-# appearance-specific like billed weight/height above) -- no attempt is made
-# to split a compound value ("Mexican-American", "New Zealand-born,
-# Australia-billed") into separate counts; each distinct recorded string is
-# its own bucket, exactly as sourced. percentage_of_known is of entrants
-# whose nationality IS filled in, not of the whole field, so a thin-coverage
-# event doesn't produce a misleadingly precise-looking breakdown -- coverage
-# itself is reported alongside so a reader can judge how much of the field
-# the breakdown actually represents. Same actual-entrant (no-show-excluded,
-# winner-retained) convention as event_field_physical_stats.csv above.
+# represented in that event's field. Compound values remain intact and the
+# known-nationality percentage is kept separate from whole-field coverage.
 # ---------------------------------------------------------------------------
 nationality_rows = []
 for eid, ev in sorted(events.items(), key=lambda kv: kv[1].get("event_date") or kv[0]):
@@ -530,11 +521,8 @@ for eid, ev in sorted(events.items(), key=lambda kv: kv[1].get("event_date") or 
     if not eligible_count or len(intervals) != eligible_count or not has_global_clock:
         continue
 
-    # `coverage` above reflects only the first (elimination_clock_minus_ring_time)
-    # attempt. When the sourced-physical-entry fallback replaced `intervals`,
-    # recompute it against the interval set actually used below -- otherwise a
-    # fully-covered fallback event reports its stale, pre-fallback percentage
-    # (frequently 0.0%) instead of the true one.
+    # The fallback above may replace the original interval set. Report coverage
+    # for the intervals actually used, not the discarded first attempt.
     coverage = round(100 * len(intervals) / eligible_count, 1) if eligible_count else 0
 
     starts = defaultdict(list)
