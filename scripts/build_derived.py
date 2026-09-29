@@ -941,6 +941,23 @@ for division in DIVISIONS:
         add(division, "Frequency", "Most career appearances", most_appearances["wrestler_id"], most_appearances["total_appearances"], div_latest_event_id)
         add(division, "Frequency", "Most Rumble wins", most_wins["wrestler_id"], most_wins["wins"], div_latest_event_id)
 
+        # "Most runner-up finishes (career)" -- zero-new-research, derived
+        # purely from career_stats.csv's existing runner_up_finishes column
+        # (IDEAS.md Phase A wishlist, 2026-09-29: surface the repeat-runner-up
+        # pattern -- e.g. Roman Reigns' four Men's runner-up finishes --
+        # rather than leaving it buried in each wrestler's own profile page).
+        most_ru = [r for r in div_career_rows if r["runner_up_finishes"] > 0]
+        if most_ru:
+            max_ru_count = max(r["runner_up_finishes"] for r in most_ru)
+            tied_ru = sorted((r for r in most_ru if r["runner_up_finishes"] == max_ru_count),
+                              key=lambda r: r["wrestler_id"])
+            top_ru = tied_ru[0]
+            ru_note = ""
+            if len(tied_ru) > 1:
+                others = ", ".join(r["wrestler_id"] for r in tied_ru[1:])
+                ru_note = f"Tied with: {others} (all at {max_ru_count})."
+            add(division, "Frequency", "Most runner-up finishes (career)", top_ru["wrestler_id"], max_ru_count, div_latest_event_id, ru_note)
+
     if div_dyn_rows:
         most_hof = max(div_dyn_rows, key=lambda r: r["hof_members_eventually_count"])
         most_hof_at_time = max(div_dyn_rows, key=lambda r: int(r.get("hof_members_at_time_count") or 0))

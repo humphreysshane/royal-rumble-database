@@ -89,3 +89,5 @@ R087,Women's,Durability,Best bounce-back (earliest elimination immediately follo
 R088,Women's,Match dynamics,Most wrestlers simultaneously in the ring,,12,RR2021W,2026-09-29,Peak window 17:48-18:45. Tied with: RR2023W. Based on 6 complete-timeline Women's events only; incomplete events are excluded rather than estimated.
 R089,Women's,Match dynamics,Highest combined billed weight simultaneously in the ring,,839.0 kg,RR2023W,2026-09-29,Peak window: 51:44-53:41. Complete-timeline events with 100% appearance-specific profile coverage only; no missing value is estimated.
 R090,Women's,Match dynamics,Greatest combined billed height simultaneously in the ring,,20.46 m,RR2023W,2026-09-29,Peak window: 51:44-53:41. Complete-timeline events with 100% appearance-specific profile coverage only; no missing value is estimated.
+R091,Men's,Frequency,Most runner-up finishes (career),roman-reigns,4,RR2026M,2026-09-29,
+R092,Women's,Frequency,Most runner-up finishes (career),charlotte-flair,2,RR2026W,2026-09-29,Tied with: liv-morgan (all at 2).
