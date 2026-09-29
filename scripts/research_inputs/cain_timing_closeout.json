@@ -1,0 +1,1390 @@
+{
+  "RR1988M": {
+    "source_id": "S008",
+    "url": "https://www.cagesideseats.com/2014/1/21/5329040/match-times-the-1988-royal-rumble",
+    "survival": {
+      "bret-hart": 1546,
+      "jake-roberts": 7,
+      "jim-neidhart": 14,
+      "danny-davis": 8,
+      "don-muraco": 16,
+      "jim-duggan": 33,
+      "sam-houston": 4,
+      "jim-brunzell": 6,
+      "nikolai-volkoff": 3,
+      "tito-santana": 644,
+      "ron-bass": 9,
+      "harley-race": 8,
+      "dino-bravo": 6,
+      "one-man-gang": 12,
+      "hillbilly-jim": 6,
+      "b-brian-blair": 7,
+      "the-ultimate-warrior": 6,
+      "butch-reed": 10,
+      "boris-zhukov": 7,
+      "junkyard-dog": 6
+    },
+    "entrance_delay": {
+      "jim-duggan": 33,
+      "don-muraco": 16,
+      "jim-neidhart": 14,
+      "one-man-gang": 12,
+      "butch-reed": 10,
+      "ron-bass": 9,
+      "harley-race": 8,
+      "danny-davis": 8,
+      "jake-roberts": 7,
+      "boris-zhukov": 7,
+      "b-brian-blair": 7,
+      "dino-bravo": 6,
+      "hillbilly-jim": 6,
+      "jim-brunzell": 6,
+      "the-ultimate-warrior": 6,
+      "junkyard-dog": 6,
+      "sam-houston": 4,
+      "nikolai-volkoff": 3
+    },
+    "buzzer_intervals": [
+      {
+        "seconds": 117,
+        "label": "Buzzer 1 - Butch Reed"
+      },
+      {
+        "seconds": 98,
+        "label": "Buzzer 2 - Jim Neidhart"
+      },
+      {
+        "seconds": 99,
+        "label": "Buzzer 3 - Jake Roberts"
+      },
+      {
+        "seconds": 90,
+        "label": "Buzzer 4 - Harley Race"
+      },
+      {
+        "seconds": 88,
+        "label": "Buzzer 5 - Jim Brunzell"
+      },
+      {
+        "seconds": 89,
+        "label": "Buzzer 6 - Sam Houston"
+      },
+      {
+        "seconds": 90,
+        "label": "Buzzer 7 - Danny Davis"
+      },
+      {
+        "seconds": 90,
+        "label": "Buzzer 8 - Boris Zhukov"
+      },
+      {
+        "seconds": 119,
+        "label": "Buzzer 9 - Don Muraco"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 10 - Nikolai Volkoff"
+      },
+      {
+        "seconds": 88,
+        "label": "Buzzer 11 - Jim Duggan"
+      },
+      {
+        "seconds": 89,
+        "label": "Buzzer 12 - Ron Bass"
+      },
+      {
+        "seconds": 87,
+        "label": "Buzzer 13 - B. Brian Blair"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 14 - Hillbilly Jim"
+      },
+      {
+        "seconds": 89,
+        "label": "Buzzer 15 - Dino Bravo"
+      },
+      {
+        "seconds": 86,
+        "label": "Buzzer 16 - Ultimate Warrior"
+      },
+      {
+        "seconds": 51,
+        "label": "Buzzer 17 - One Man Gang"
+      },
+      {
+        "seconds": 73,
+        "label": "Buzzer 18 - Junkyard Dog"
+      }
+    ],
+    "unmatched": []
+  },
+  "RR1989M": {
+    "source_id": "S012",
+    "url": "https://www.cagesideseats.com/wwe/2016/1/18/10687110/wwe-royal-rumble-1989-match-statistics-time",
+    "survival": {
+      "mr-perfect": 1679,
+      "one-man-gang": 1231,
+      "greg-valentine": 1194,
+      "butch-miller": 1095,
+      "bad-news-brown": 984,
+      "brutus-beefcake": 897,
+      "ax": 878,
+      "shawn-michaels": 872,
+      "big-john-studd": 856,
+      "andre-the-giant": 837,
+      "tito-santana": 767,
+      "ron-bass": 758,
+      "randy-savage": 747,
+      "the-barbarian": 736,
+      "hulk-hogan": 693,
+      "red-rooster": 677,
+      "arn-anderson": 600,
+      "ted-dibiase": 501,
+      "tully-blanchard": 483,
+      "marty-jannetty": 472,
+      "hercules": 432,
+      "rick-martel": 426,
+      "smash": 295,
+      "big-boss-man": 259,
+      "the-honky-tonk-man": 253,
+      "luke-williams": 198,
+      "ronnie-garvin": 159,
+      "jake-roberts": 128,
+      "koko-b-ware": 67,
+      "the-warlord": 3
+    },
+    "entrance_delay": {
+      "andre-the-giant": 36,
+      "big-john-studd": 32,
+      "mr-perfect": 27,
+      "brutus-beefcake": 27,
+      "the-warlord": 25,
+      "big-boss-man": 25,
+      "ted-dibiase-jr": 25,
+      "the-honky-tonk-man": 19,
+      "the-barbarian": 18,
+      "greg-valentine": 17,
+      "butch-miller": 15,
+      "one-man-gang": 15,
+      "luke-williams": 13,
+      "ronnie-garvin": 13,
+      "arn-anderson": 12,
+      "bad-news-brown": 11,
+      "koko-b-ware": 11,
+      "hercules": 11,
+      "tully-blanchard": 10,
+      "hulk-hogan": 10,
+      "ron-bass": 9,
+      "marty-jannetty": 9,
+      "red-rooster": 9,
+      "rick-martel": 9,
+      "jake-roberts": 8,
+      "shawn-michaels": 8,
+      "tito-santana": 8,
+      "randy-savage": 7
+    },
+    "buzzer_intervals": [
+      {
+        "seconds": 128,
+        "label": "Buzzer 1 - Andre"
+      },
+      {
+        "seconds": 122,
+        "label": "Buzzer 2 - Mr. Perfect"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 3 - Garvin"
+      },
+      {
+        "seconds": 121,
+        "label": "Buzzer 4 - Valentine"
+      },
+      {
+        "seconds": 121,
+        "label": "Buzzer 5 - Roberts"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 6 - Bass"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 7 - HBK"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 8 - Butch"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 9 - Honky Tonk Man"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 10 - Santana"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 11 - Bad News Brown"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 12 - Jannetty"
+      },
+      {
+        "seconds": 121,
+        "label": "Buzzer 13 - Savage"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 14 - Arn Anderson"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 15 - Blanchard"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 16 - Hogan"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 17 - Luke"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 18 - Koko B. Ware"
+      },
+      {
+        "seconds": 121,
+        "label": "Buzzer 19 - Warlord"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 20 - Boss Man"
+      },
+      {
+        "seconds": 123,
+        "label": "Buzzer 21 - Akeem"
+      },
+      {
+        "seconds": 119,
+        "label": "Buzzer 22 - Beefcake"
+      },
+      {
+        "seconds": 121,
+        "label": "Buzzer 23 - Rooster"
+      },
+      {
+        "seconds": 121,
+        "label": "Buzzer 24 - Barbarian"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 25 - Studd"
+      },
+      {
+        "seconds": 119,
+        "label": "Buzzer 26 - Hercules"
+      },
+      {
+        "seconds": 122,
+        "label": "Buzzer 27 - Martel"
+      },
+      {
+        "seconds": 121,
+        "label": "Buzzer 28 - DiBiase"
+      }
+    ],
+    "unmatched": []
+  },
+  "RR1994M": {
+    "source_id": "S1754",
+    "url": "https://www.cagesideseats.com/wwe/2017/1/21/14334142/wwe-royal-rumble-1994-match-time-statistics",
+    "survival": {
+      "bam-bam-bigelow": 1815,
+      "shawn-michaels": 1760,
+      "demolition-crush": 1506,
+      "mo": 1368,
+      "lex-luger": 1312,
+      "sparky-plugg": 1295,
+      "greg-valentine": 1242,
+      "tatanka": 1209,
+      "diesel": 1062,
+      "genichiro-tenryu": 1043,
+      "bret-hart": 901,
+      "fatu": 785,
+      "rick-martel": 683,
+      "mabel": 597,
+      "scott-steiner": 542,
+      "marty-jannetty": 500,
+      "kwang": 358,
+      "adam-bomb": 296,
+      "randy-savage": 279,
+      "owen-hart": 251,
+      "rick-steiner": 238,
+      "samu": 195,
+      "bart-gunn": 149,
+      "great-kabuki": 107,
+      "doink": 106,
+      "jeff-jarrett": 77,
+      "bob-backlund": 42,
+      "virgil": 32,
+      "billy-gunn": 14,
+      "bastion-booger": 0
+    },
+    "entrance_delay": {
+      "adam-bomb": 36,
+      "bret-hart": 35,
+      "mabel": 34,
+      "doink": 32,
+      "fatu": 25,
+      "diesel": 24,
+      "randy-savage": 24,
+      "bam-bam-bigelow": 22,
+      "rick-steiner": 20,
+      "genichiro-tenryu": 19,
+      "great-kabuki": 19,
+      "kwang": 17,
+      "owen-hart": 16,
+      "mo": 14,
+      "shawn-michaels": 12,
+      "demolition-crush": 12,
+      "rick-martel": 12,
+      "bart-gunn": 10,
+      "greg-valentine": 9,
+      "jeff-jarrett": 9,
+      "bob-backlund": 9,
+      "lex-luger": 8,
+      "sparky-plugg": 8,
+      "tatanka": 8,
+      "marty-jannetty": 8,
+      "virgil": 8,
+      "billy-gunn": 8,
+      "bastion-booger": 0
+    },
+    "buzzer_intervals": [
+      {
+        "seconds": 92,
+        "label": "Buzzer 1 - Rick Steiner"
+      },
+      {
+        "seconds": 97,
+        "label": "Buzzer 2 - Kwang"
+      },
+      {
+        "seconds": 94,
+        "label": "Buzzer 3 - Owen Hart"
+      },
+      {
+        "seconds": 94,
+        "label": "Buzzer 4 - Bart Gunn"
+      },
+      {
+        "seconds": 96,
+        "label": "Buzzer 5 - Diesel"
+      },
+      {
+        "seconds": 96,
+        "label": "Buzzer 6 - Bob Backlund"
+      },
+      {
+        "seconds": 96,
+        "label": "Buzzer 7 - Billy Gunn"
+      },
+      {
+        "seconds": 90,
+        "label": "Buzzer 8 - Virgil"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 9 - Randy Savage"
+      },
+      {
+        "seconds": 100,
+        "label": "Buzzer 10 - Jeff Jarrett"
+      },
+      {
+        "seconds": 94,
+        "label": "Buzzer 11 - Crush"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 12 - Doink the Clown"
+      },
+      {
+        "seconds": 96,
+        "label": "Buzzer 13 - Bam Bam Bigelow"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 14 - Mabel"
+      },
+      {
+        "seconds": 97,
+        "label": "Buzzer 15 - Sparky Plugg"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 16 - Shawn Michaels"
+      },
+      {
+        "seconds": 103,
+        "label": "Buzzer 17 - Mo"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 18 - Greg Valentine"
+      },
+      {
+        "seconds": 94,
+        "label": "Buzzer 19 - Tatanka"
+      },
+      {
+        "seconds": 95,
+        "label": "Buzzer 20 - Great Kabuki"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 21 - Lex Luger"
+      },
+      {
+        "seconds": 102,
+        "label": "Buzzer 22 - Genichiro Tenryu"
+      },
+      {
+        "seconds": 94,
+        "label": "Buzzer 23 - Bastion Booger"
+      },
+      {
+        "seconds": 95,
+        "label": "Buzzer 24 - Rick Martel"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 25 - Bret Hart"
+      },
+      {
+        "seconds": 101,
+        "label": "Buzzer 26 - Fatu"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 27 - Marty Jannetty"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 28 - Adam Bomb"
+      }
+    ],
+    "unmatched": []
+  },
+  "RR2000M": {
+    "source_id": "S1757",
+    "url": "https://www.cagesideseats.com/wwe/2017/1/23/14347624/wwe-royal-rumble-2000-match-time-statistics",
+    "survival": {
+      "test": 1578,
+      "gangrel": 1400,
+      "big-boss-man": 1368,
+      "jesse-james": 1144,
+      "al-snow": 1038,
+      "rikishi": 984,
+      "british-bulldog": 922,
+      "crash-holly": 895,
+      "edge": 889,
+      "rocky-maivia": 886,
+      "val-venis": 708,
+      "hardcore-holly": 708,
+      "prince-albert": 683,
+      "big-show": 666,
+      "billy-gunn": 579,
+      "brian-christopher": 463,
+      "kane": 372,
+      "d-lo-brown": 370,
+      "chris-jericho": 227,
+      "mosh": 218,
+      "1-2-3-kid": 212,
+      "christian": 129,
+      "bob-backlund": 120,
+      "the-godfather": 93,
+      "mabel": 86,
+      "scott-taylor": 62,
+      "steve-blackman": 45,
+      "chyna": 38,
+      "bradshaw": 25,
+      "faarooq": 17
+    },
+    "entrance_delay": {
+      "big-boss-man": 132,
+      "the-godfather": 70,
+      "test": 35,
+      "big-show": 29,
+      "kane": 23,
+      "gangrel": 19,
+      "1-2-3-kid": 19,
+      "bob-backlund": 19,
+      "mabel": 18,
+      "chyna": 15,
+      "chris-jericho": 13,
+      "edge": 12,
+      "rocky-maivia": 12,
+      "faarooq": 12,
+      "rikishi": 11,
+      "crash-holly": 11,
+      "hardcore-holly": 11,
+      "bradshaw": 11,
+      "christian": 9,
+      "mosh": 7,
+      "al-snow": 6,
+      "val-venis": 6,
+      "billy-gunn": 6,
+      "scott-taylor": 6,
+      "jesse-james": 5,
+      "british-bulldog": 5,
+      "steve-blackman": 5,
+      "prince-albert": 4
+    },
+    "buzzer_intervals": [
+      {
+        "seconds": 94,
+        "label": "Buzzer 1 - Mosh"
+      },
+      {
+        "seconds": 101,
+        "label": "Buzzer 2 - Christian"
+      },
+      {
+        "seconds": 99,
+        "label": "Buzzer 3 - Rikishi"
+      },
+      {
+        "seconds": 101,
+        "label": "Buzzer 4 - Scotty 2 Hotty"
+      },
+      {
+        "seconds": 123,
+        "label": "Buzzer 5 - Steve Blackman"
+      },
+      {
+        "seconds": 96,
+        "label": "Buzzer 6 - Viscera"
+      },
+      {
+        "seconds": 119,
+        "label": "Buzzer 7 - Big Boss Man"
+      },
+      {
+        "seconds": 101,
+        "label": "Buzzer 8 - Test"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 9 - British Bulldog"
+      },
+      {
+        "seconds": 107,
+        "label": "Buzzer 10 - Gangrel"
+      },
+      {
+        "seconds": 103,
+        "label": "Buzzer 11 - Edge"
+      },
+      {
+        "seconds": 110,
+        "label": "Buzzer 12 - Bob Backlund"
+      },
+      {
+        "seconds": 112,
+        "label": "Buzzer 13 - Chris Jericho"
+      },
+      {
+        "seconds": 100,
+        "label": "Buzzer 14 - Crash Holly"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 15 - Chyna"
+      },
+      {
+        "seconds": 97,
+        "label": "Buzzer 16 - Faarooq"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 17 - Road Dogg"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 18 - Al Snow"
+      },
+      {
+        "seconds": 98,
+        "label": "Buzzer 19 - Val Venis"
+      },
+      {
+        "seconds": 99,
+        "label": "Buzzer 20 - Prince Albert"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 21 - Hardcore Holly"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 22 - The Rock"
+      },
+      {
+        "seconds": 102,
+        "label": "Buzzer 23 - Mr. Ass"
+      },
+      {
+        "seconds": 99,
+        "label": "Buzzer 24 - Big Show"
+      },
+      {
+        "seconds": 90,
+        "label": "Buzzer 25 - Bradshaw"
+      },
+      {
+        "seconds": 105,
+        "label": "Buzzer 26 - Kane"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 27 - The Godfather"
+      },
+      {
+        "seconds": 95,
+        "label": "Buzzer 28 - X-Pac"
+      }
+    ],
+    "unmatched": []
+  },
+  "RR2002M": {
+    "source_id": "S1758",
+    "url": "https://www.cagesideseats.com/wwe/2017/1/6/14185306/wwe-royal-rumble-2002-match-time-statistics",
+    "survival": {
+      "steve-austin": 1607,
+      "hunter-hearst-helmsley": 1388,
+      "kurt-angle": 966,
+      "mr-perfect": 920,
+      "rikishi": 820,
+      "goldust": 782,
+      "christian": 767,
+      "chuck-palumbo": 544,
+      "the-undertaker": 461,
+      "bradshaw": 438,
+      "diamond-dallas-page": 318,
+      "al-snow": 312,
+      "lance-storm": 287,
+      "matt-hardy": 257,
+      "billy-gunn": 217,
+      "maven": 215,
+      "big-boss-man": 185,
+      "val-venis": 177,
+      "perry-saturn": 176,
+      "big-show": 166,
+      "scott-taylor": 155,
+      "rob-van-dam": 135,
+      "the-godfather": 108,
+      "test": 103,
+      "jeff-hardy": 90,
+      "kane": 61,
+      "mabel": 48,
+      "the-hurricane": 40,
+      "faarooq": 35,
+      "booker-t": 33
+    },
+    "entrance_delay": {
+      "scott-taylor": 214,
+      "hunter-hearst-helmsley": 136,
+      "the-godfather": 131,
+      "mr-perfect": 48,
+      "val-venis": 48,
+      "the-undertaker": 32,
+      "big-show": 29,
+      "christian": 29,
+      "kane": 27,
+      "steve-austin": 26,
+      "booker-t": 26,
+      "big-boss-man": 20,
+      "diamond-dallas-page": 20,
+      "the-hurricane": 19,
+      "matt-hardy": 19,
+      "maven": 18,
+      "rob-van-dam": 16,
+      "kurt-angle": 13,
+      "chuck-palumbo": 13,
+      "jeff-hardy": 13,
+      "test": 12,
+      "perry-saturn": 11,
+      "lance-storm": 10,
+      "bradshaw": 9,
+      "billy-gunn": 9,
+      "al-snow": 8,
+      "faarooq": 8,
+      "mabel": 8
+    },
+    "buzzer_intervals": [
+      {
+        "seconds": 120,
+        "label": "Buzzer 1 - Big Boss Man"
+      },
+      {
+        "seconds": 124,
+        "label": "Buzzer 2 - Bradshaw"
+      },
+      {
+        "seconds": 122,
+        "label": "Buzzer 3 - Lance Storm"
+      },
+      {
+        "seconds": 120,
+        "label": "Buzzer 4 - Al Snow"
+      },
+      {
+        "seconds": 114,
+        "label": "Buzzer 5 - Billy Gunn"
+      },
+      {
+        "seconds": 125,
+        "label": "Buzzer 6 - Undertaker"
+      },
+      {
+        "seconds": 133,
+        "label": "Buzzer 7 - Matt Hardy"
+      },
+      {
+        "seconds": 141,
+        "label": "Buzzer 8 - Jeff Hardy"
+      },
+      {
+        "seconds": 147,
+        "label": "Buzzer 9 - Maven"
+      },
+      {
+        "seconds": 194,
+        "label": "Buzzer 10 - Scotty 2 Hotty"
+      },
+      {
+        "seconds": 130,
+        "label": "Buzzer 11 - Christian"
+      },
+      {
+        "seconds": 126,
+        "label": "Buzzer 12 - Diamond Dallas Page"
+      },
+      {
+        "seconds": 127,
+        "label": "Buzzer 13 - Chuck Palumbo"
+      },
+      {
+        "seconds": 122,
+        "label": "Buzzer 14 - Godfather"
+      },
+      {
+        "seconds": 141,
+        "label": "Buzzer 15 - Hip Hop Hippo"
+      },
+      {
+        "seconds": 113,
+        "label": "Buzzer 16 - Perry Saturn"
+      },
+      {
+        "seconds": 122,
+        "label": "Buzzer 17 - Steve Austin"
+      },
+      {
+        "seconds": 144,
+        "label": "Buzzer 18 - Val Venis"
+      },
+      {
+        "seconds": 122,
+        "label": "Buzzer 19 - Test"
+      },
+      {
+        "seconds": 151,
+        "label": "Buzzer 20 - Triple H"
+      },
+      {
+        "seconds": 191,
+        "label": "Buzzer 21 - Hurricane"
+      },
+      {
+        "seconds": 107,
+        "label": "Buzzer 22 - Faarooq"
+      },
+      {
+        "seconds": 124,
+        "label": "Buzzer 23 - Mr. Perfect"
+      },
+      {
+        "seconds": 123,
+        "label": "Buzzer 24 - Kurt Angle"
+      },
+      {
+        "seconds": 124,
+        "label": "Buzzer 25 - Big Show"
+      },
+      {
+        "seconds": 122,
+        "label": "Buzzer 26 - Kane"
+      },
+      {
+        "seconds": 123,
+        "label": "Buzzer 27 - Rob Van Dam"
+      },
+      {
+        "seconds": 115,
+        "label": "Buzzer 28 - Booker T"
+      }
+    ],
+    "unmatched": []
+  },
+  "RR2004M": {
+    "source_id": "S1759",
+    "url": "https://www.cagesideseats.com/wwe/2017/1/19/14290878/wwe-royal-rumble-2004-match-time-statistics",
+    "survival": {
+      "chris-benoit": 3691,
+      "randy-orton": 2028,
+      "kurt-angle": 1740,
+      "big-show": 1353,
+      "chris-jericho": 893,
+      "matt-hardy": 859,
+      "rhyno": 842,
+      "matt-morgan": 735,
+      "booker-t": 552,
+      "christian": 458,
+      "john-cena": 450,
+      "charlie-haas": 414,
+      "scott-steiner": 410,
+      "rob-van-dam": 397,
+      "billy-gunn": 343,
+      "mark-henry": 312,
+      "rikishi": 229,
+      "nunzio": 229,
+      "yoshihiro-tajiri": 221,
+      "bill-goldberg": 128,
+      "prince-albert": 104,
+      "kane": 90,
+      "rico": 65,
+      "ernest-miller": 56,
+      "mick-foley": 43,
+      "shelton-benjamin": 38,
+      "bradshaw": 37,
+      "renee-dupree": 33,
+      "the-hurricane": 20,
+      "spike-dudley": 0
+    },
+    "entrance_delay": {
+      "nunzio": 533,
+      "mick-foley": 89,
+      "john-cena": 47,
+      "spike-dudley": 46,
+      "big-show": 32,
+      "kane": 25,
+      "mark-henry": 21,
+      "rikishi": 21,
+      "ernest-miller": 21,
+      "scott-steiner": 20,
+      "rob-van-dam": 20,
+      "matt-morgan": 17,
+      "booker-t": 17,
+      "christian": 16,
+      "bill-goldberg": 16,
+      "renee-dupree": 16,
+      "the-hurricane": 16,
+      "chris-jericho": 15,
+      "bradshaw": 15,
+      "matt-hardy": 13,
+      "rico": 12,
+      "yoshihiro-tajiri": 11,
+      "kurt-angle": 10,
+      "rhyno": 10,
+      "shelton-benjamin": 10,
+      "charlie-haas": 9,
+      "billy-gunn": 9,
+      "prince-albert": 7
+    },
+    "buzzer_intervals": [
+      {
+        "seconds": 90,
+        "label": "Buzzer 1 - Mark Henry"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 2 - Tajiri"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 3 - Bradshaw"
+      },
+      {
+        "seconds": 100,
+        "label": "Buzzer 4 - Rhyno"
+      },
+      {
+        "seconds": 100,
+        "label": "Buzzer 5 - Matt Hardy V1"
+      },
+      {
+        "seconds": 96,
+        "label": "Buzzer 6 - Scott Steiner"
+      },
+      {
+        "seconds": 104,
+        "label": "Buzzer 7 - Matt Morgan"
+      },
+      {
+        "seconds": 102,
+        "label": "Buzzer 8 - Hurricane"
+      },
+      {
+        "seconds": 114,
+        "label": "Buzzer 9 - Booker T"
+      },
+      {
+        "seconds": 102,
+        "label": "Buzzer 10 - Kane"
+      },
+      {
+        "seconds": 96,
+        "label": "Buzzer 11 - Spike Dudley"
+      },
+      {
+        "seconds": 115,
+        "label": "Buzzer 12 - Rikishi"
+      },
+      {
+        "seconds": 103,
+        "label": "Buzzer 13 - Rene Dupree"
+      },
+      {
+        "seconds": 89,
+        "label": "Buzzer 14 - A-Train"
+      },
+      {
+        "seconds": 98,
+        "label": "Buzzer 15 - Shelton Benjamin"
+      },
+      {
+        "seconds": 95,
+        "label": "Buzzer 16 - Ernest Miller"
+      },
+      {
+        "seconds": 115,
+        "label": "Buzzer 17 - Kurt Angle"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 18 - Rico"
+      },
+      {
+        "seconds": 102,
+        "label": "Buzzer 19 - Mick Foley"
+      },
+      {
+        "seconds": 188,
+        "label": "Buzzer 20 - Christian"
+      },
+      {
+        "seconds": 107,
+        "label": "Buzzer 21 - Nunzio"
+      },
+      {
+        "seconds": 115,
+        "label": "Buzzer 22 - Big Show"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 23 - Chris Jericho"
+      },
+      {
+        "seconds": 97,
+        "label": "Buzzer 24 - Charlie Haas"
+      },
+      {
+        "seconds": 94,
+        "label": "Buzzer 25 - Billy Gunn"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 26 - John Cena"
+      },
+      {
+        "seconds": 97,
+        "label": "Buzzer 27 - Rob Van Dam"
+      },
+      {
+        "seconds": 97,
+        "label": "Buzzer 28 - Goldberg"
+      }
+    ],
+    "unmatched": []
+  },
+  "RR2006M": {
+    "source_id": "S1760",
+    "url": "https://www.cagesideseats.com/wwe/2017/1/12/14246008/wwe-royal-rumble-2006-match-time-statistics",
+    "survival": {
+      "rey-mysterio": 3734,
+      "hunter-hearst-helmsley": 3614,
+      "carlito": 2311,
+      "chris-benoit": 1833,
+      "joey-mercury": 1754,
+      "johnny-nitro": 1544,
+      "rob-van-dam": 1432,
+      "eugene": 986,
+      "orlando-jordan": 969,
+      "tatanka": 849,
+      "trevor-murdoch": 823,
+      "randy-orton": 785,
+      "shawn-michaels": 776,
+      "big-show": 543,
+      "matt-hardy": 462,
+      "super-crazy": 462,
+      "chris-masters": 422,
+      "shelton-benjamin": 412,
+      "mabel": 320,
+      "bobby-lashley": 257,
+      "kane": 214,
+      "goldust": 189,
+      "road-warrior-animal": 169,
+      "ric-flair": 78,
+      "psicosis": 76,
+      "chavo-guerrero": 60,
+      "simon-dean": 46,
+      "jonathan-coachman": 31,
+      "sylvan-grenier": 18,
+      "booker-t": 17
+    },
+    "entrance_delay": {
+      "big-show": 30,
+      "tatanka": 28,
+      "chris-masters": 27,
+      "bobby-lashley": 25,
+      "kane": 25,
+      "mabel": 23,
+      "simon-dean": 23,
+      "booker-t": 22,
+      "sylvan-grenier": 21,
+      "eugene": 19,
+      "orlando-jordan": 18,
+      "carlito": 17,
+      "chris-benoit": 17,
+      "joey-mercury": 17,
+      "super-crazy": 17,
+      "ric-flair": 17,
+      "psicosis": 17,
+      "rob-van-dam": 16,
+      "chavo-guerrero": 16,
+      "shelton-benjamin": 16,
+      "trevor-murdoch": 15,
+      "shawn-michaels": 14,
+      "goldust": 14,
+      "johnny-nitro": 13,
+      "jonathan-coachman": 13,
+      "matt-hardy": 13,
+      "road-warrior-animal": 11,
+      "randy-orton": 8
+    },
+    "buzzer_intervals": [
+      {
+        "seconds": 90,
+        "label": "Buzzer 1 - Simon Dean"
+      },
+      {
+        "seconds": 111,
+        "label": "Buzzer 2 - Psicosis"
+      },
+      {
+        "seconds": 108,
+        "label": "Buzzer 3 - Ric Flair"
+      },
+      {
+        "seconds": 111,
+        "label": "Buzzer 4 - Big Show"
+      },
+      {
+        "seconds": 121,
+        "label": "Buzzer 5 - Jonathan Coachman"
+      },
+      {
+        "seconds": 104,
+        "label": "Buzzer 6 - Bobby Lashley"
+      },
+      {
+        "seconds": 110,
+        "label": "Buzzer 7 - Kane"
+      },
+      {
+        "seconds": 110,
+        "label": "Buzzer 8 - Sylvan Grenier"
+      },
+      {
+        "seconds": 144,
+        "label": "Buzzer 9 - Carlito"
+      },
+      {
+        "seconds": 108,
+        "label": "Buzzer 10 - Chris Benoit"
+      },
+      {
+        "seconds": 151,
+        "label": "Buzzer 11 - Booker T"
+      },
+      {
+        "seconds": 115,
+        "label": "Buzzer 12 - Joey Mercury"
+      },
+      {
+        "seconds": 106,
+        "label": "Buzzer 13 - Tatanka"
+      },
+      {
+        "seconds": 112,
+        "label": "Buzzer 14 - Johnny Nitro"
+      },
+      {
+        "seconds": 94,
+        "label": "Buzzer 15 - Trevor Murdoch"
+      },
+      {
+        "seconds": 94,
+        "label": "Buzzer 16 - Eugene"
+      },
+      {
+        "seconds": 96,
+        "label": "Buzzer 17 - Animal"
+      },
+      {
+        "seconds": 97,
+        "label": "Buzzer 18 - Rob Van Dam"
+      },
+      {
+        "seconds": 101,
+        "label": "Buzzer 19 - Orlando Jordan"
+      },
+      {
+        "seconds": 94,
+        "label": "Buzzer 20 - Chavo Guerrero"
+      },
+      {
+        "seconds": 100,
+        "label": "Buzzer 21 - Matt Hardy"
+      },
+      {
+        "seconds": 106,
+        "label": "Buzzer 22 - Super Crazy"
+      },
+      {
+        "seconds": 88,
+        "label": "Buzzer 23 - Shawn Michaels"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 24 - Chris Masters"
+      },
+      {
+        "seconds": 99,
+        "label": "Buzzer 25 - Viscera"
+      },
+      {
+        "seconds": 104,
+        "label": "Buzzer 26 - Shelton Benjamin"
+      },
+      {
+        "seconds": 82,
+        "label": "Buzzer 27 - Goldust"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 28 - Randy Orton"
+      }
+    ],
+    "unmatched": []
+  },
+  "RR2010M": {
+    "source_id": "S096",
+    "url": "https://www.cagesideseats.com/wwe/2017/1/22/14343366/wwe-royal-rumble-2010-match-time-statistics",
+    "survival": {
+      "john-cena": 1331,
+      "shawn-michaels": 1245,
+      "hunter-hearst-helmsley": 1072,
+      "drew-mcintyre": 883,
+      "ted-dibiase-jr": 759,
+      "johnny-nitro": 696,
+      "cm-punk": 604,
+      "kane": 481,
+      "cody-rhodes": 475,
+      "edge": 439,
+      "batista": 324,
+      "carlito": 274,
+      "r-truth": 249,
+      "big-show": 245,
+      "kofi-kingston": 172,
+      "dolph-ziggler": 150,
+      "evan-bourne": 147,
+      "mark-henry": 145,
+      "chris-jericho": 144,
+      "jack-swagger": 127,
+      "the-great-khali": 99,
+      "beth-phoenix": 98,
+      "shelton-benjamin": 49,
+      "zack-ryder": 32,
+      "chris-masters": 30,
+      "yoshi-tatsu": 29,
+      "jtg": 25,
+      "matt-hardy": 21,
+      "the-miz": 17,
+      "mvp": 7
+    },
+    "entrance_delay": {
+      "mvp": 202,
+      "hunter-hearst-helmsley": 56,
+      "drew-mcintyre": 38,
+      "the-great-khali": 31,
+      "john-cena": 27,
+      "kane": 22,
+      "mark-henry": 21,
+      "edge": 20,
+      "zack-ryder": 17,
+      "cody-rhodes": 16,
+      "shawn-michaels": 14,
+      "cm-punk": 14,
+      "ted-dibiase-jr": 13,
+      "big-show": 13,
+      "kofi-kingston": 13,
+      "the-miz": 12,
+      "johnny-nitro": 11,
+      "batista": 11,
+      "carlito": 11,
+      "chris-jericho": 11,
+      "chris-masters": 11,
+      "jtg": 10,
+      "r-truth": 9,
+      "jack-swagger": 9,
+      "shelton-benjamin": 9,
+      "beth-phoenix": 8,
+      "yoshi-tatsu": 8,
+      "matt-hardy": 8
+    },
+    "buzzer_intervals": [
+      {
+        "seconds": 111,
+        "label": "Buzzer 1 - CM Punk"
+      },
+      {
+        "seconds": 96,
+        "label": "Buzzer 2 - JTG"
+      },
+      {
+        "seconds": 87,
+        "label": "Buzzer 3 - Great Khali"
+      },
+      {
+        "seconds": 87,
+        "label": "Buzzer 4 - Beth Phoenix"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 5 - Zack Ryder"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 6 - Triple H"
+      },
+      {
+        "seconds": 104,
+        "label": "Buzzer 7 - Drew McIntyre"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 8 - Ted DiBiase Jr."
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 9 - John Morrison"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 10 - Kane"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 11 - Cody Rhodes"
+      },
+      {
+        "seconds": 105,
+        "label": "Buzzer 12 - MVP"
+      },
+      {
+        "seconds": 89,
+        "label": "Buzzer 13 - Carlito"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 14 - The Miz"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 15 - Matt Hardy"
+      },
+      {
+        "seconds": 85,
+        "label": "Buzzer 16 - Shawn Michaels"
+      },
+      {
+        "seconds": 107,
+        "label": "Buzzer 17 - John Cena"
+      },
+      {
+        "seconds": 93,
+        "label": "Buzzer 18 - Shelton Benjamin"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 19 - Yoshi Tatsu"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 20 - Big Show"
+      },
+      {
+        "seconds": 91,
+        "label": "Buzzer 21 - Mark Henry"
+      },
+      {
+        "seconds": 79,
+        "label": "Buzzer 22 - Chris Masters"
+      },
+      {
+        "seconds": 74,
+        "label": "Buzzer 23 - R-Truth"
+      },
+      {
+        "seconds": 80,
+        "label": "Buzzer 24 - Jack Swagger"
+      },
+      {
+        "seconds": 92,
+        "label": "Buzzer 25 - Kofi Kingston"
+      },
+      {
+        "seconds": 90,
+        "label": "Buzzer 26 - Chris Jericho"
+      },
+      {
+        "seconds": 118,
+        "label": "Buzzer 27 - Edge"
+      },
+      {
+        "seconds": 86,
+        "label": "Buzzer 28 - Batista"
+      }
+    ],
+    "unmatched": []
+  }
+}
