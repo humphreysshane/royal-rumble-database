@@ -53,9 +53,25 @@ DEEP_RESEARCH_INSTRUCTIONS_20260928.md — current open research brief
 ROADMAP.md                 — chronological log of every major change and why
 IDEAS.md                   — brainstormed stats/features not built yet
 docs/BUILD_LOG.md          — detailed year-by-year research/build history
+edit/                      — browser-based data editor (see below)
+logger/                    — Royal Rumble Event Logger, a local tool for
+                              reviewing eliminations against footage
 ```
 
 ## Editing this yourself
+
+**Option A — the browser data editor** (`edit/index.html`, served at
+`<pages-url>/edit/` if this repo is on GitHub Pages, or just open the file
+locally): pick a table, edit it as a spreadsheet with schema-aware dropdowns
+for status/boolean columns, and it opens the result as a normal pull request
+against this repo — no local setup, works from any device. It talks to
+GitHub's API directly from your browser using a personal access token you
+supply and it keeps client-side (instructions are on the page itself). It
+blocks saving on a duplicate primary key but doesn't replicate every check
+`validate_integrity.py` does — run that before merging, same as any other
+change.
+
+**Option B — edit the CSVs directly**, same as always:
 
 1. Edit CSVs in `data/` directly (a spreadsheet app, a text editor, or a
    script — whatever's convenient). Never invent a value to fill a blank
@@ -71,6 +87,12 @@ docs/BUILD_LOG.md          — detailed year-by-year research/build history
    committing.
 
 Requires Python 3, no external packages.
+
+**Reviewing eliminations against footage:** see `logger/README.md` — a
+local tool (`git clone` this repo, `cd logger`, run two Python scripts) for
+going through every recorded elimination one at a time against your own
+video, with every field pre-populated and a review workflow that turns into
+a pull request the same way the data editor does.
 
 ## For an AI working on this repo
 
