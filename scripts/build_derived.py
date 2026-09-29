@@ -632,7 +632,11 @@ for eid, ev in sorted(events.items(), key=lambda kv: kv[1].get("event_date") or 
             next_t = times[idx + 1]
             if next_t <= t:
                 continue
-            combined = sum(values[wid] for wid in active)
+            # Iterate in a fixed order (not raw set order, which is
+            # PYTHONHASHSEED-dependent) so floating-point summation order --
+            # and therefore which of several near-tied windows wins -- is
+            # reproducible from run to run, not a coin flip per process.
+            combined = sum(values[wid] for wid in sorted(active))
             if combined > peak_value:
                 peak_value = combined
                 metric_start, metric_end = t, next_t
