@@ -700,7 +700,22 @@ def match_wrestlers(name: str, aliases: dict[str, str], championship_id: str = "
     without_reign_counts = re.sub(r"\(\s*\d+(?:\s*,\s*\d+)*\s*\)", "", name)
     parenthetical = re.findall(r"\(([^()]*)\)", without_reign_counts)
     member_text = parenthetical[-1] if parenthetical else without_reign_counts
-    if parenthetical or re.search(r"\b(?:and|&)\b|,|/", member_text, flags=re.I):
+    # A trailing ", Jr."/", Sr."/", II"/etc. is a name suffix, not a second
+    # team member -- strip it before deciding whether this text actually
+    # names more than one person. Without this, a solo name like "Davey Boy
+    # Smith, Jr." was split into "Davey Boy Smith" + "Jr." on the bare
+    # comma, and the first fragment could match an unrelated wrestler's
+    # alias (here, the original British Bulldog's entrant display name) --
+    # exactly the false-fragment-match bug this function exists to prevent.
+    suffix_stripped = re.sub(
+        r",\s*(?:Jr\.?|Sr\.?|I{2,3}|IV|V)\s*$", "", member_text, flags=re.I
+    )
+    has_multiple_people = bool(
+        parenthetical
+        or re.search(r"\b(?:and|&)\b|/", suffix_stripped, flags=re.I)
+        or "," in suffix_stripped
+    )
+    if has_multiple_people:
         for part in re.split(r"\s*(?:,|/|&|\band\b)\s*", member_text, flags=re.I):
             member_key = norm(part)
             if not member_key:
