@@ -1,0 +1,1 @@
+event_id,timestamp,wrestler_performing_id,wrestler_receiving_id,move_name,move_category,successful,countered,reversed,knockdown,elimination_attempt,result,video_source,ai_model,ai_confidence,human_verified

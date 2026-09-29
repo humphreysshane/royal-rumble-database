@@ -1,0 +1,20 @@
+family_id,family_name,member_wrestler_ids,relationship_type,notes,data_quality_status,source_ids
+FAM001,Anoaʻi family,tama;yokozuna;fatu;samu;the-sultan;rocky-maivia;rikishi;jamal;rosey;umaga;jey-uso;jimmy-uso;roman-reigns;nia-jax;jacob-fatu;solo-sikoa;naomi,extended family and marriage,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1832
+FAM002,Hart family,bret-hart;owen-hart;jim-neidhart;british-bulldog;natalya;tyson-kidd,extended family and marriage,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1833
+FAM003,Rhodes family,dusty-rhodes;dustin-rhodes;goldust;cody-rhodes,"parent, children and persona identity",Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1834
+FAM004,DiBiase family,ted-dibiase;ted-dibiase-jr,father and son,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S758
+FAM005,Guerrero family,eddie-guerrero;chavo-guerrero;vickie-guerrero,extended family and marriage,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1835
+FAM006,Rotunda-Windham family,irwin-r-schyster;husky-harris;bray-wyatt;bo-dallas,"father, sons and persona identity",Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1836
+FAM007,Bella family,nikki-bella;brie-bella;daniel-bryan,twin sisters and marriage,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1837
+FAM008,Steiner family,rick-steiner;scott-steiner;bron-breakker,brothers and nephew,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1838
+FAM009,Hardy family,matt-hardy;jeff-hardy,brothers,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1839
+FAM010,Harris twins,eli-blu;eight-ball;jacob-blu;skull,twin brothers and persona identities,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S601
+FAM011,Rougeau family,jacques-rougeau;raymond-rougeau,brothers,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1840
+FAM012,Copeland-Copeland family,edge;beth-phoenix,married couple,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S792
+FAM013,Rollins-Lynch family,seth-rollins;becky-lynch,married couple,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S904
+FAM014,Crawford-Lopez family,bianca-belair;montez-ford,married couple,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S210
+FAM015,Calaway-McCool family,the-undertaker;michelle-mccool,married couple,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S916
+FAM016,Budgen-Trinidad family,aleister-black;zelina-vega,married couple,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S943
+FAM017,Gargano-Dawson family,johnny-gargano;candice-lerae,married couple,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S362
+FAM018,Lee-Yim family,keith-lee;mia-yim,married couple,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S949
+FAM019,Barnyashev-Perry family,rusev;lana,former married couple,Includes only identities represented in the Royal Rumble database; persona IDs are retained for entrant joins.,PROBABLE,S1841

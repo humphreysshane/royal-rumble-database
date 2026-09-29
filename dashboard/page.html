@@ -1,0 +1,1983 @@
+<meta charset="utf-8">
+<title>Royal Rumble Database</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f4; --surface:#ffffff; --surface-2:#f2efe6; --surface-3:#ece7db;
+    --ink:#17140d; --ink-2:#57503f; --ink-3:#8a8272;
+    --border:rgba(23,20,13,0.11); --border-strong:rgba(23,20,13,0.20);
+    --accent:#9d7200; --accent-strong:#7a5900; --accent-wash:#f4e6c2; --accent-wash-2:#ece0bd;
+    --accent-ink: #17140d; /* ink to place on accent-wash */
+    --good:#0ca30c; --warning:#b8790a; --serious:#c1552f; --critical:#d03b3b;
+    --good-wash:#dff3df; --warning-wash:#faedd1; --critical-wash:#fbdfdd;
+    --font-d:'Oswald',system-ui,-apple-system,sans-serif;
+    --font-b:'Inter',system-ui,-apple-system,sans-serif;
+    --radius:3px;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#100d08; --surface:#1a160e; --surface-2:#221d13; --surface-3:#2b2417;
+      --ink:#f7f4ec; --ink-2:#cabfa4; --ink-3:#8f8672;
+      --border:rgba(255,255,255,0.12); --border-strong:rgba(255,255,255,0.22);
+      --accent:#e3ae28; --accent-strong:#f0bb3b; --accent-wash:#3a2f13; --accent-wash-2:#4a3c19;
+      --accent-ink:#17140d;
+      --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#e66767;
+      --good-wash:#123317; --warning-wash:#3a2c0d; --critical-wash:#3a1414;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#100d08; --surface:#1a160e; --surface-2:#221d13; --surface-3:#2b2417;
+    --ink:#f7f4ec; --ink-2:#cabfa4; --ink-3:#8f8672;
+    --border:rgba(255,255,255,0.12); --border-strong:rgba(255,255,255,0.22);
+    --accent:#e3ae28; --accent-strong:#f0bb3b; --accent-wash:#3a2f13; --accent-wash-2:#4a3c19;
+    --accent-ink:#17140d;
+    --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#e66767;
+    --good-wash:#123317; --warning-wash:#3a2c0d; --critical-wash:#3a1414;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{background:var(--bg); color:var(--ink); font-family:var(--font-b); line-height:1.45;}
+  a{color:inherit; text-decoration:none;}
+  h1,h2,h3,h4{font-family:var(--font-d); font-weight:600; text-wrap:balance; margin:0; letter-spacing:0.01em;}
+  table{border-collapse:collapse; width:100%;}
+  button{font:inherit; color:inherit;}
+  ::selection{background:var(--accent-wash);}
+
+  #shell{display:flex; min-height:100%; max-width:1400px; margin:0 auto;}
+
+  /* ---------- side nav ---------- */
+  #nav{
+    flex:0 0 auto; width:230px; padding:20px 14px; border-right:1px solid var(--border);
+    position:sticky; top:env(safe-area-inset-top,0px); align-self:flex-start;
+    height:100dvh; overflow-y:auto; background:var(--bg);
+  }
+  .brand{padding:6px 8px 18px; border-bottom:1px solid var(--border); margin-bottom:14px;}
+  .brand .eyebrow{font-family:var(--font-d); font-size:11px; letter-spacing:0.14em; color:var(--accent); text-transform:uppercase;}
+  .brand h1{font-size:21px; line-height:1.1; margin-top:4px;}
+  .navlink{
+    display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius);
+    font-family:var(--font-d); font-size:14px; letter-spacing:0.02em; color:var(--ink-2); cursor:pointer;
+    border-left:3px solid transparent;
+  }
+  .navlink:hover{background:var(--surface-2); color:var(--ink);}
+  .navlink.active{background:var(--accent-wash); color:var(--accent-ink); border-left-color:var(--accent); font-weight:600;}
+  .navsection{font-family:var(--font-d); font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-3); margin:16px 0 4px; padding-left:10px;}
+  .navsection:first-of-type{margin-top:10px;}
+  .navmeta{margin-top:18px; padding-top:14px; border-top:1px solid var(--border); font-size:11.5px; color:var(--ink-3); padding-left:10px;}
+  .navmeta div{margin-bottom:3px;}
+
+  /* mobile top bar */
+  #topbar{display:none;}
+  #tabs{display:none;}
+  @media (max-width:820px){
+    #shell{flex-direction:column;}
+    #nav{display:none;}
+    #topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:12px 16px; padding-top:calc(12px + env(safe-area-inset-top,0px));
+      border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--bg); z-index:20;
+    }
+    #topbar .brand{border:0; padding:0; margin:0;}
+    #topbar .brand h1{font-size:17px;}
+    #tabs{display:flex; gap:4px; padding:8px 12px 12px; overflow-x:auto; border-bottom:1px solid var(--border); background:var(--bg); position:sticky; top:52px; z-index:19;}
+    #tabs .navlink{white-space:nowrap; border-left:0; border-bottom:3px solid transparent;}
+    #tabs .navlink.active{border-left:0; border-bottom-color:var(--accent);}
+  }
+
+  /* ---------- content ---------- */
+  #content{flex:1 1 auto; min-width:0; padding:28px 32px 80px; padding-top:calc(28px + env(safe-area-inset-top,0px));}
+  @media (max-width:820px){ #content{padding:20px 16px 60px;} }
+  .container{max-width:1100px;}
+  .page-head{margin-bottom:22px;}
+  .page-head .eyebrow{font-family:var(--font-d); font-size:12px; letter-spacing:0.12em; color:var(--accent); text-transform:uppercase; margin-bottom:6px;}
+  .page-head h2{font-size:30px;}
+  .page-head p{color:var(--ink-2); margin-top:8px; max-width:70ch;}
+
+  /* ---------- kpi row ---------- */
+  .kpi-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(128px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin:22px 0;}
+  .kpi{background:var(--surface); padding:16px 16px;}
+  .kpi .v{font-family:var(--font-d); font-size:28px; font-variant-numeric:normal;}
+  .kpi .l{font-size:12px; color:var(--ink-3); margin-top:2px;}
+
+  /* ---------- cards / grids ---------- */
+  .grid{display:grid; gap:12px;}
+  .grid.events{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));}
+  .grid.records{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));}
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px; cursor:pointer; transition:border-color .12s ease, transform .12s ease;
+  }
+  .card:hover{border-color:var(--border-strong); transform:translateY(-1px);}
+  .ev-card .yr{font-family:var(--font-d); font-size:26px; color:var(--accent);}
+  .ev-card .nm{font-size:13px; color:var(--ink-2); margin-top:2px;}
+  .ev-card .wn{font-size:12.5px; margin-top:10px; padding-top:10px; border-top:1px solid var(--border); color:var(--ink-3);}
+  .ev-card .wn b{color:var(--ink); font-weight:600;}
+
+  .rec-card{cursor:default;}
+  .rec-card .cat{font-family:var(--font-d); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-3);}
+  .rec-card .nm{font-size:13.5px; margin-top:4px; font-weight:600; min-height:2.6em;}
+  .rec-card .val{font-family:var(--font-d); font-size:24px; color:var(--accent); margin-top:8px;}
+  .rec-card .holder{font-size:12.5px; color:var(--ink-2); margin-top:2px;}
+  .rec-card .note{font-size:11.5px; color:var(--ink-3); margin-top:8px; padding-top:8px; border-top:1px solid var(--border);}
+  .rec-card .member-toggle{cursor:pointer; color:var(--accent); font-weight:600; user-select:none;}
+  .rec-card .member-toggle:hover{color:var(--accent-strong);}
+  .rec-card .member-list{display:none; margin-top:6px; padding-top:2px;}
+  .rec-card .member-row{display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--ink-2); padding:3px 0; border-bottom:1px solid var(--border);}
+  .rec-card .member-row:last-child{border-bottom:0;}
+  .rec-card .member-row .d{color:var(--ink-3); font-variant-numeric:tabular-nums; white-space:nowrap;}
+
+  .search{
+    width:100%; max-width:340px; padding:9px 12px; border:1px solid var(--border-strong); border-radius:var(--radius);
+    background:var(--surface); color:var(--ink); font-family:var(--font-b); font-size:14px;
+  }
+  .search:focus{outline:2px solid var(--accent); outline-offset:1px;}
+
+  /* ---------- event detail ---------- */
+  .backlink{font-family:var(--font-d); font-size:13px; color:var(--ink-2); cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:14px;}
+  .backlink:hover{color:var(--accent);}
+  .ev-hero{border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); padding:22px 24px; margin-bottom:20px;}
+  .ev-hero .yr{font-family:var(--font-d); font-size:42px; line-height:1;}
+  .ev-hero .mn{color:var(--ink-2); font-size:14px; margin-top:4px;}
+  .factrow{display:flex; flex-wrap:wrap; gap:20px 32px; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);}
+  .fact .l{font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-3);}
+  .fact .v{font-size:14.5px; margin-top:2px; font-weight:500;}
+  .badge-winner{display:inline-block; background:var(--accent-wash); color:var(--accent-ink); font-family:var(--font-d); font-size:11px; letter-spacing:0.06em; padding:2px 8px; border-radius:20px; margin-left:8px; vertical-align:1px;}
+  .sig{margin-top:16px; padding-top:16px; border-top:1px solid var(--border); font-size:13.5px; color:var(--ink-2); max-width:80ch;}
+
+  .moment-row{padding:12px 0; border-bottom:1px solid var(--border);}
+  .moment-row:last-child{border-bottom:0; padding-bottom:0;}
+  .moment-row:first-of-type{padding-top:2px;}
+  .moment-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .moment-title{font-family:var(--font-d); font-size:14.5px; font-weight:500;}
+  .moment-desc{font-size:13px; color:var(--ink-2); margin-top:5px; max-width:80ch;}
+
+  .ev-cols{display:grid; grid-template-columns:1fr 1.3fr; gap:22px; align-items:start;}
+  @media (max-width:900px){ .ev-cols{grid-template-columns:1fr;} }
+  .panel{border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); padding:18px 20px;}
+  .panel h3{font-size:15px; margin-bottom:2px;}
+  .panel .sub{font-size:12px; color:var(--ink-3); margin-bottom:14px;}
+
+  /* bar chart */
+  .bar-row{display:flex; align-items:center; gap:10px; padding:3px 0;}
+  .bar-row .nm{flex:0 0 118px; font-size:12px; color:var(--ink-2); text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .bar-track{flex:1 1 auto; position:relative; height:16px; background:var(--surface-2); border-radius:2px;}
+  .bar-fill{position:absolute; top:0; left:0; height:100%; background:var(--accent); border-radius:2px 4px 4px 2px; min-width:2px;}
+  .bar-fill.winner{background:var(--accent-strong);}
+  .bar-val{flex:0 0 48px; font-size:11.5px; color:var(--ink-3); font-variant-numeric:tabular-nums;}
+
+  /* ---------- world map ---------- */
+  .worldmap-panel{border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); padding:18px 20px; position:relative;}
+  .worldmap-svg{width:100%; height:auto; display:block; border-radius:2px; background:var(--surface-2);}
+  .worldmap-land{fill:var(--surface-3); stroke:var(--border-strong); stroke-width:1;}
+  .worldmap-grat{stroke:var(--border); stroke-width:0.7; fill:none;}
+  .worldmap-marker{fill:var(--accent); stroke:var(--surface); stroke-width:1.5; cursor:pointer;
+    transition:transform .15s ease, fill .12s ease; transform-box:fill-box; transform-origin:center;}
+  .worldmap-marker:hover, .worldmap-marker.hovered, .worldmap-marker.selected{fill:var(--accent-strong); transform:scale(1.18);}
+  .worldmap-marker-sheen{fill:#fff; opacity:0.3; pointer-events:none;}
+  .worldmap-label{font-family:var(--font-d); font-size:11px; fill:var(--ink-2); paint-order:stroke; stroke:var(--surface-2); stroke-width:3px; stroke-linejoin:round; pointer-events:none;}
+  .worldmap-legend-text{font-family:var(--font-b); font-size:10.5px; fill:var(--ink-3);}
+  .worldmap-legend-dot{fill:var(--accent); opacity:0.55; stroke:var(--surface); stroke-width:1;}
+  .worldmap-tooltip{
+    position:absolute; pointer-events:none; background:var(--surface); border:1px solid var(--border-strong);
+    border-radius:var(--radius); padding:8px 11px; font-size:12px; color:var(--ink); max-width:230px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.18); z-index:10; display:none;
+  }
+  .worldmap-tooltip .t-name{font-family:var(--font-d); font-size:13.5px; margin-bottom:2px;}
+  .worldmap-tooltip .t-sub{color:var(--ink-3); font-size:11px;}
+  .worldmap-tooltip .t-hint{color:var(--accent); font-size:10.5px; margin-top:5px; font-weight:600;}
+  .worldmap-table{margin-top:18px;}
+  .country-row{border-bottom:1px solid var(--border); padding-bottom:2px; margin-bottom:2px; scroll-margin-top:20px;}
+  .country-row:last-child{border-bottom:0;}
+  .country-row .bar-row{cursor:pointer; border-radius:2px; transition:background .1s ease;}
+  .country-row .bar-row:hover{background:var(--surface-2);}
+  .country-row.open .bar-row{background:var(--accent-wash);}
+  .country-roster{display:none; margin:4px 0 10px 128px; padding:8px 12px; background:var(--surface-2); border-radius:2px;}
+  .country-row.open .country-roster{display:block;}
+  .country-roster .cr-nat{font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); margin:6px 0 3px;}
+  .country-roster .cr-nat:first-child{margin-top:0;}
+  .country-roster .cr-names{font-size:12.5px; line-height:1.9;}
+  .country-roster .cr-names .wlink{margin-right:2px;}
+  .country-roster .cr-sep{color:var(--ink-3); margin:0 3px;}
+  @media (max-width:820px){ .country-roster{margin-left:0;} }
+
+  /* elimination timeline table */
+  .elim-table{font-size:13px;}
+  .elim-table th{
+    text-align:left; font-family:var(--font-d); font-size:10.5px; letter-spacing:0.07em; text-transform:uppercase;
+    color:var(--ink-3); font-weight:500; padding:6px 8px; border-bottom:1px solid var(--border-strong); position:sticky; top:0; background:var(--surface);
+  }
+  .elim-table td{padding:7px 8px; border-bottom:1px solid var(--border); vertical-align:top;}
+  .elim-table tr:hover td{background:var(--surface-2);}
+  .elim-table .num{font-variant-numeric:tabular-nums; color:var(--ink-3);}
+  .name-cell b{font-weight:600;}
+  .name-cell .badges{margin-top:2px;}
+  .chip{display:inline-block; font-size:10px; padding:1px 6px; border-radius:10px; background:var(--surface-3); color:var(--ink-2); margin-right:4px; margin-top:2px;}
+  .quality-pill{display:inline-flex; align-items:center; gap:4px; font-size:10.5px; padding:1px 7px; border-radius:10px; white-space:nowrap;}
+  .quality-pill.confirmed{background:var(--good-wash); color:var(--good);}
+  .quality-pill.probable{background:var(--warning-wash); color:var(--warning);}
+  .quality-pill.disputed, .quality-pill.conflicting{background:var(--critical-wash); color:var(--critical);}
+  .quality-pill.unknown{background:var(--surface-3); color:var(--ink-3);}
+  .by-list{font-size:12.5px;}
+  .method-note{font-size:11.5px; color:var(--ink-3); margin-top:2px; max-width:32ch;}
+  .table-scroll{overflow-x:auto; margin:0 -20px; padding:0 20px;}
+
+  /* stats table */
+  #stats-table-wrap{overflow-x:auto;}
+  #stats-table{font-size:13px; min-width:760px;}
+  #stats-table th{
+    text-align:right; font-family:var(--font-d); font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--ink-3); font-weight:500; padding:8px 10px; border-bottom:2px solid var(--border-strong); cursor:pointer; white-space:nowrap;
+  }
+  #stats-table th:first-child, #stats-table td:first-child{text-align:left;}
+  #stats-table th.sorted{color:var(--accent);}
+  #stats-table th .arrow{margin-left:3px; opacity:0.7;}
+  #stats-table td{padding:7px 10px; border-bottom:1px solid var(--border); text-align:right; font-variant-numeric:tabular-nums;}
+  #stats-table td:first-child{font-variant-numeric:normal; text-align:left; font-weight:500;}
+  #stats-table tbody tr:hover td{background:var(--surface-2);}
+  #stats-table .rank{color:var(--ink-3); font-size:11.5px; width:34px;}
+
+  .section-gap{margin-top:40px;}
+  .cat-heading{font-family:var(--font-d); font-size:16px; margin:26px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--border);}
+  .cat-heading:first-child{margin-top:0;}
+
+  .footnote{font-size:11.5px; color:var(--ink-3); margin-top:30px; padding-top:16px; border-top:1px solid var(--border); max-width:70ch;}
+
+  #loading{padding:60px 0; text-align:center; color:var(--ink-3); font-family:var(--font-d);}
+
+  /* ---------- wrestler links & profile page ---------- */
+  .wlink{cursor:pointer; color:inherit; border-bottom:1px solid var(--border-strong); transition:color .1s ease, border-color .1s ease;}
+  .wlink:hover{color:var(--accent); border-color:var(--accent);}
+  #stats-table td:first-child .wlink, .rec-card .holder .wlink, .member-row .wlink{border-bottom-color:transparent;}
+  #stats-table tbody tr{cursor:pointer;}
+
+  .wr-hero{border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); padding:22px 24px; margin-bottom:20px;}
+  .wr-hero .nm{font-family:var(--font-d); font-size:34px; line-height:1.1;}
+  .wr-hero .aliases{font-size:12.5px; color:var(--ink-3); margin-top:4px;}
+  .badge-deceased{display:inline-block; background:var(--critical-wash); color:var(--critical); font-family:var(--font-d); font-size:11px; letter-spacing:0.06em; padding:2px 8px; border-radius:20px; margin-left:8px; vertical-align:2px;}
+  .badge-hof{display:inline-block; background:var(--accent-wash); color:var(--accent-ink); font-family:var(--font-d); font-size:11px; letter-spacing:0.06em; padding:2px 8px; border-radius:20px; margin-left:8px; vertical-align:2px;}
+  .fact .v .quality-pill{margin-left:6px; vertical-align:1px;}
+  .badge-gimmick{display:inline-block; background:var(--surface-3); color:var(--ink-2); font-family:var(--font-d); font-size:10.5px; letter-spacing:0.05em; padding:1px 7px; border-radius:20px; margin-left:7px; vertical-align:2px; border:1px solid var(--border-strong); cursor:help;}
+  .wr-index-table td:first-child .badge-gimmick, #stats-table td:first-child .badge-gimmick{vertical-align:1px;}
+
+  .also-panel{border:1px solid var(--border); border-radius:var(--radius); background:var(--surface-2); padding:16px 20px; margin-bottom:20px;}
+  .also-panel .also-head{font-family:var(--font-d); font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px;}
+  .also-panel .also-list{font-size:14px; line-height:1.7;}
+  .also-panel .also-list .ay{color:var(--ink-3); font-size:12px;}
+  .also-panel .combined-row{margin-top:12px; padding-top:12px; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; gap:22px;}
+  .also-panel .combined-row .kpi{min-width:70px;}
+  .also-panel .combined-row .kpi .v{font-family:var(--font-d); font-size:20px; color:var(--accent);}
+  .also-panel .combined-row .kpi .l{font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-3); margin-top:2px;}
+
+  .hist-table{font-size:13px;}
+  .hist-table th{
+    text-align:left; font-family:var(--font-d); font-size:10.5px; letter-spacing:0.07em; text-transform:uppercase;
+    color:var(--ink-3); font-weight:500; padding:6px 8px; border-bottom:1px solid var(--border-strong);
+  }
+  .hist-table td{padding:7px 8px; border-bottom:1px solid var(--border); vertical-align:top;}
+  .hist-table tr{cursor:pointer;}
+  .hist-table tr:hover td{background:var(--surface-2);}
+  .hist-table .num{font-variant-numeric:tabular-nums; color:var(--ink-3);}
+  .result-win{color:var(--good); font-weight:600;}
+  .result-runnerup{color:var(--accent); font-weight:600;}
+
+  .rec-mini{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:13px;}
+  .rec-mini:last-child{border-bottom:0;}
+  .rec-mini .cat{font-size:11px; color:var(--ink-3);}
+
+  .wr-index-table{font-size:13px;}
+  .wr-index-table th{
+    text-align:left; font-family:var(--font-d); font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--ink-3); font-weight:500; padding:8px 10px; border-bottom:2px solid var(--border-strong); white-space:nowrap;
+  }
+  .wr-index-table td{padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top;}
+  .wr-index-table tbody tr{cursor:pointer;}
+  .wr-index-table tbody tr:hover td{background:var(--surface-2);}
+  .wr-index-table .num{font-variant-numeric:tabular-nums; color:var(--ink-3); text-align:right;}
+
+  /* ---------- home / division picker ---------- */
+  .div-card .eyebrow{color:var(--accent);}
+</style>
+
+<div id="topbar">
+  <div class="brand">
+    <div class="eyebrow">Opta for the</div>
+    <h1>Royal Rumble</h1>
+  </div>
+</div>
+<div id="tabs"></div>
+
+<div id="shell">
+  <nav id="nav">
+    <div class="brand">
+      <div class="eyebrow">Opta for the</div>
+      <h1>Royal Rumble</h1>
+    </div>
+    <div id="navlinks"></div>
+    <div class="navmeta" id="navmeta"></div>
+  </nav>
+  <main id="content"><div id="loading">Loading database…</div></main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var DATA_URL = "data.json";
+  var DB = null;
+  var byId = {};   // event id -> event (globally unique across divisions)
+  var CUR_DIV = null; // division key ("mens"/"womens") currently being rendered, null on Home
+
+  function el(tag, attrs, children){
+    var e = document.createElement(tag);
+    attrs = attrs || {};
+    for (var k in attrs){
+      if (k === "class") e.className = attrs[k];
+      else if (k === "html") e.innerHTML = attrs[k];
+      else if (k === "text") e.textContent = attrs[k];
+      else if (k.indexOf("on") === 0 && typeof attrs[k] === "function") e.addEventListener(k.slice(2), attrs[k]);
+      else e.setAttribute(k, attrs[k]);
+    }
+    (children||[]).forEach(function(c){ if (c) e.appendChild(c); });
+    return e;
+  }
+  function fmtNum(n){ if (n===null||n===undefined) return "—"; return n.toLocaleString(); }
+  function fmtPct(n){ if (n===null||n===undefined) return "—"; return n.toFixed(1)+"%"; }
+  function fmtDec(n, digits){ if (n===null||n===undefined) return "—"; return n.toLocaleString('en-US', {minimumFractionDigits: digits, maximumFractionDigits: digits}); }
+  function fmtSec(s){
+    if (s===null||s===undefined) return "—";
+    var m = Math.floor(s/60), sec = s%60;
+    return m+":"+(sec<10?"0":"")+sec;
+  }
+  function qualityClass(q, disputed){
+    if (disputed) return "disputed";
+    if (!q) return "unknown";
+    var v = q.toLowerCase();
+    if (v==="confirmed") return "confirmed";
+    if (v==="probable") return "probable";
+    if (v==="conflicting") return "conflicting";
+    return "unknown";
+  }
+  function qualityLabel(q, disputed){
+    if (disputed) return "Disputed";
+    return q || "Unverified";
+  }
+  function getDivision(key){
+    var list = (DB && DB.divisions) || [];
+    for (var i=0;i<list.length;i++) if (list[i].key === key) return list[i];
+    return null;
+  }
+  // A clickable wrestler name -> their profile page, when we actually have a
+  // profile for that id IN THE GIVEN DIVISION (each division has its own
+  // independent wrestler roster/stat lines -- a wrestler_id who only
+  // appeared in the other division has no entry here, so this correctly
+  // falls back to plain text rather than linking to a dead-end). Defaults to
+  // whichever division is currently being rendered (CUR_DIV); pass divKey
+  // explicitly to link across divisions (see otherDivision).
+  function wlink(idOrObj, fallbackName, divKey){
+    var id = idOrObj && typeof idOrObj === "object" ? idOrObj.id : idOrObj;
+    var nm = (idOrObj && typeof idOrObj === "object" ? idOrObj.name : null) || fallbackName || id;
+    var dk = divKey || CUR_DIV;
+    var div = getDivision(dk);
+    if (!id || !div || !div._byWid[id]) return document.createTextNode(nm || "—");
+    return el("span", {class:"wlink", text: nm, onclick: function(ev){ ev.stopPropagation(); navigate("/"+dk+"/wrestlers/"+id); }});
+  }
+  // Like wlink, but for a cross-division context (the World Map) where no
+  // single CUR_DIV applies -- resolves whichever division actually holds
+  // this wrestler_id (checking Men's first, matching the site's existing
+  // "assume Men's, fall back" convention elsewhere) rather than requiring
+  // the caller to know it in advance.
+  function anyDivWlink(id, name){
+    var div = (DB.divisions || []).find(function(d){ return d._byWid && d._byWid[id]; });
+    return wlink(id, name, div ? div.key : null);
+  }
+  // Small badge marking a name as one of several ring identities for the same
+  // real performer (e.g. Kane / Isaac Yankem / Fake Diesel), with the sibling
+  // names in a hover title so a table row doesn't need extra columns. Scoped
+  // to the current division -- a sibling only appears here if THEY also have
+  // a stat line in this same division.
+  function gimmickBadge(w){
+    if (!w || !w.samePerformer || !w.samePerformer.length) return null;
+    var others = w.samePerformer.map(function(s){ return s.name; }).join(", ");
+    return el("span", {class:"badge-gimmick", text:"also "+w.samePerformer.length+" gimmick"+(w.samePerformer.length>1?"s":""), title:"Same performer also wrestled as: "+others});
+  }
+  // Small badge marking a wrestler_id that ALSO has a stat line in the other
+  // division (e.g. Beth Phoenix: Men's 2010 + Women's 2018) -- the division
+  // split otherwise makes this invisible, since her two stat lines never
+  // appear on the same page.
+  function otherDivisionBadge(w){
+    if (!w || !w.otherDivision || !w.otherDivision.length) return null;
+    var labels = w.otherDivision.map(function(o){ return o.divisionLabel.replace(" Royal Rumble",""); }).join(", ");
+    return el("span", {class:"badge-gimmick", text:"also "+labels, title:"Also wrestled in the "+labels+" Royal Rumble"});
+  }
+  function fmtDate(d){ return d || "—"; }
+  function ageAt(dobStr, atDateStr){
+    if (!dobStr) return null;
+    var d = new Date(dobStr), ref = atDateStr ? new Date(atDateStr) : new Date();
+    if (isNaN(d.getTime()) || isNaN(ref.getTime())) return null;
+    var yrs = ref.getFullYear() - d.getFullYear();
+    var m = ref.getMonth() - d.getMonth();
+    if (m < 0 || (m===0 && ref.getDate() < d.getDate())) yrs--;
+    return yrs;
+  }
+
+  // ---------------- routing ----------------
+  // Two-track scheme: "/", "/home" -> the combined landing page. Everything
+  // else is "/<divisionKey>/<page>[/<arg>]", e.g. "/mens/events/RR2018M",
+  // "/womens/wrestlers/beth-phoenix". A division key that doesn't match a
+  // division actually present in the data (e.g. a stale link) falls back to
+  // Home in render() below, rather than erroring.
+  function parseHash(){
+    var h = (location.hash || "#/home").replace(/^#\/?/, "");
+    var parts = h.split("/").filter(Boolean);
+    if (!parts.length || parts[0] === "home") return {division:null, page:"home", arg:null};
+    if (parts[0] === "explore") return {division:null, page:"explore", arg: parts[1] ? decodeURIComponent(parts[1]) : null};
+    if (parts[0] === "map") return {division:null, page:"map", arg:null};
+    return {division: parts[0], page: parts[1] || "events", arg: parts[2] || null};
+  }
+  window.addEventListener("hashchange", render);
+
+  function navigate(path){ location.hash = path; }
+
+  // ---------------- render: shell nav ----------------
+  function renderNav(route){
+    var navlinks = document.getElementById("navlinks");
+    var tabs = document.getElementById("tabs");
+    navlinks.innerHTML = ""; tabs.innerHTML = "";
+
+    function mk(label, path, isActive){
+      return el("div", {class:"navlink"+(isActive?" active":""), text:label, onclick:function(){ navigate(path); }});
+    }
+
+    var homeActive = route.page === "home" || (!route.division && route.page !== "explore" && route.page !== "map");
+    navlinks.appendChild(mk("Home", "/home", homeActive));
+    tabs.appendChild(mk("Home", "/home", homeActive));
+
+    var exploreActive = route.page === "explore";
+    navlinks.appendChild(mk("Explore", "/explore", exploreActive));
+    tabs.appendChild(mk("Explore", "/explore", exploreActive));
+
+    var mapActive = route.page === "map";
+    navlinks.appendChild(mk("World Map", "/map", mapActive));
+    tabs.appendChild(mk("World Map", "/map", mapActive));
+
+    (DB && DB.divisions || []).forEach(function(d){
+      navlinks.appendChild(el("div", {class:"navsection", text:d.label}));
+      [["events","Events"],["records","Records & Leaderboards"],["wrestlers","Wrestlers"],["entry-numbers","Entry Number Stats"],["locations","Host Locations"]].forEach(function(pair){
+        var isActive = route.division === d.key && route.page === pair[0];
+        var path = "/"+d.key+"/"+pair[0];
+        navlinks.appendChild(mk(pair[1], path, isActive));
+        tabs.appendChild(mk(d.label.replace(" Royal Rumble","")+" "+pair[1], path, isActive));
+      });
+    });
+
+    var meta = document.getElementById("navmeta");
+    if (DB){
+      meta.innerHTML =
+        "<div>"+DB.meta.wrestlers+" wrestlers · "+DB.meta.events+" events</div>"+
+        "<div>"+DB.meta.entrants+" entrants · "+DB.meta.eliminations+" eliminations</div>"+
+        "<div>"+DB.meta.flagsOpen+" open / "+DB.meta.flagsResolved+" resolved data flags</div>";
+    }
+  }
+
+  // ---------------- page: explore (cross-division topic search) ----------------
+  // Searches DB.topics -- a flat, pre-built index (see
+  // scripts/build_dashboard_data.py's "TOPIC EXPLORER" section) covering
+  // records, notable moments, elimination narrative text, event-level
+  // trivia, and a per-entry-number highlight card. Client-side substring
+  // match only, no server -- the whole index is already in DB.topics.
+  function numberProfileCard(div, np){
+    if (!np) return null;
+    var card = el("div", {class:"panel", style:"margin-bottom:14px;"});
+    card.appendChild(el("h3", {text:"Entry #"+np.entryNumber+" — "+div.label}));
+    var facts = el("div", {class:"factrow"});
+    function fact(l,v){ if (v===null||v===undefined||v==="") return; facts.appendChild(el("div",{class:"fact"},[el("div",{class:"l",text:l}), el("div",{class:"v",text:v})])); }
+    fact("Appearances", fmtNum(np.appearances));
+    fact("Wins", np.wins+(np.appearances?(" ("+((np.wins/np.appearances)*100).toFixed(1)+"%)"):""));
+    fact("Final Four finishes", fmtNum(np.finalFourCount));
+    card.appendChild(facts);
+    if (np.winners && np.winners.length){
+      var wwrap = el("div", {class:"sub", style:"margin-top:10px;"}, [document.createTextNode("Winners from #"+np.entryNumber+": ")]);
+      np.winners.forEach(function(w, idx){
+        if (idx) wwrap.appendChild(document.createTextNode(", "));
+        wwrap.appendChild(wlink({id:w.id, name:w.name}, null, div.key));
+        wwrap.appendChild(document.createTextNode(" ("+w.year+")"));
+      });
+      card.appendChild(wwrap);
+    }
+    if (np.longestSurvival){
+      var ls = np.longestSurvival;
+      card.appendChild(el("div",{class:"sub", style:"margin-top:6px;"}, [
+        document.createTextNode("Longest survival from #"+np.entryNumber+": "),
+        wlink({id:ls.id, name:ls.name}, null, div.key),
+        document.createTextNode(" — "+fmtSec(ls.sec)+" ("+ls.year+")")
+      ]));
+    }
+    if (np.mostEliminations){
+      var me = np.mostEliminations;
+      card.appendChild(el("div",{class:"sub", style:"margin-top:6px;"}, [
+        document.createTextNode("Most eliminations made from #"+np.entryNumber+": "),
+        wlink({id:me.id, name:me.name}, null, div.key),
+        document.createTextNode(" — "+me.count+" ("+me.year+")")
+      ]));
+    }
+    return card;
+  }
+
+  function pageExplore(initialQuery){
+    var c = el("div", {class:"container"});
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:"Both divisions"}),
+      el("h2", {text:"Explore"}),
+      el("p", {text:"Search across every tracked record, notable moment, elimination description and entry-number highlight in the database — try a number (1–40), a wrestler's name, or a keyword like “chair”. Coverage note: hometown search only finds what's already recorded (a small share of entrants today — this grows automatically as biography research continues), and there's no tag yet for things like masked gimmicks, so those searches will come up empty until that data exists."})
+    ]));
+
+    var searchWrap = el("div", {style:"margin-bottom:10px;"});
+    var search = el("input", {class:"search", type:"text", style:"max-width:480px;", placeholder:"Try “23”, “chair”, “Shawn Michaels”…"});
+    search.value = initialQuery || "";
+    searchWrap.appendChild(search);
+    c.appendChild(searchWrap);
+
+    var chipsWrap = el("div", {style:"margin-bottom:18px; display:flex; gap:6px; flex-wrap:wrap;"});
+    ["23","chair","masked","Boston","40","Shawn Michaels"].forEach(function(ex){
+      chipsWrap.appendChild(el("span", {class:"chip", style:"cursor:pointer;", text:ex, onclick:function(){ search.value = ex; draw(ex); }}));
+    });
+    c.appendChild(chipsWrap);
+
+    var results = el("div", {id:"explore-results"});
+    c.appendChild(results);
+
+    var TYPE_LABELS = {trivia:"Trivia", record:"Records", moment:"Notable Moments", elimination:"Eliminations mentioning this"};
+
+    function draw(qraw){
+      var q = (qraw||"").trim();
+      results.innerHTML = "";
+      if (!q){
+        results.appendChild(el("div",{class:"sub", text:"Start typing to search, or pick an example above."}));
+        return;
+      }
+      var ql = q.toLowerCase();
+      var anyResult = false;
+
+      if (/^\d{1,3}$/.test(q)){
+        var n = String(parseInt(q,10));
+        (DB.divisions||[]).forEach(function(d){
+          var np = DB.topics.numberProfiles[d.key] && DB.topics.numberProfiles[d.key][n];
+          if (np){ anyResult = true; results.appendChild(numberProfileCard(d, np)); }
+        });
+        if (!anyResult) results.appendChild(el("div",{class:"sub", text:"No entrant has ever drawn #"+n+" in either division."}));
+      }
+
+      var wMatches = (DB.topics.wrestlerIndex||[]).filter(function(w){
+        var hay = (w.name+" "+(w.aliases||[]).join(" ")+" "+(w.birthplace||"")+" "+(w.nationality||"")+" "+(w.ethnicity||"")+" "+(w.profileTerms||[]).join(" ")).toLowerCase();
+        return hay.indexOf(ql) !== -1;
+      });
+      if (wMatches.length){
+        anyResult = true;
+        results.appendChild(el("div",{class:"cat-heading", text:"Wrestlers ("+wMatches.length+")"}));
+        var wgrid = el("div", {class:"grid", style:"grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); margin-bottom:10px;"});
+        wMatches.slice(0,24).forEach(function(w){
+          var wdiv = getDivision(w.div);
+          var card = el("div", {class:"card", onclick:(function(divKey,wid){return function(){navigate("/"+divKey+"/wrestlers/"+wid);};})(w.div,w.id)});
+          card.appendChild(el("div",{style:"font-weight:600;", text:w.name}));
+          card.appendChild(el("div",{class:"sub", text:(wdiv?wdiv.label.replace(" Royal Rumble",""):"")+(w.birthplace?(" · "+w.birthplace):"")+(w.ethnicity?(" · "+w.ethnicity):"")}));
+          wgrid.appendChild(card);
+        });
+        results.appendChild(wgrid);
+        if (wMatches.length > 24) results.appendChild(el("div",{class:"sub", style:"margin-bottom:10px;", text:"+"+(wMatches.length-24)+" more wrestlers match — refine your search."}));
+      }
+
+      var byType = {};
+      (DB.topics.facts||[]).forEach(function(fct){
+        var hay = (fct.title+" "+fct.text+" "+(fct.tags||[]).join(" ")).toLowerCase();
+        if (hay.indexOf(ql) === -1) return;
+        (byType[fct.type] = byType[fct.type]||[]).push(fct);
+      });
+      ["trivia","record","moment","elimination"].forEach(function(ty){
+        var list = byType[ty];
+        if (!list || !list.length) return;
+        anyResult = true;
+        results.appendChild(el("div",{class:"cat-heading", text:TYPE_LABELS[ty]+" ("+list.length+")"}));
+        list.slice(0,30).forEach(function(fct){
+          var pageSeg = fct.link && fct.link.page === "event" ? "events" : "wrestlers";
+          var row = el("div", {class:"moment-row", style: fct.link ? "cursor:pointer;" : "",
+            onclick: fct.link ? (function(divKey,seg,id){return function(){navigate("/"+divKey+"/"+seg+"/"+id);};})(fct.link.div, pageSeg, fct.link.id) : null});
+          row.appendChild(el("div",{class:"moment-title", text:fct.title}));
+          if (fct.text) row.appendChild(el("div",{class:"moment-desc", text:fct.text}));
+          results.appendChild(row);
+        });
+        if (list.length > 30) results.appendChild(el("div",{class:"sub", style:"margin-top:6px;", text:"+"+(list.length-30)+" more — refine your search."}));
+      });
+
+      if (!anyResult){
+        results.appendChild(el("div",{class:"sub", text:"No matches for “"+q+"” yet. Try a different spelling, an entry number, or a wrestler's name."}));
+      }
+    }
+
+    search.addEventListener("input", function(){ draw(search.value); });
+    if (initialQuery) draw(initialQuery);
+    else results.appendChild(el("div",{class:"sub", text:"Start typing to search, or pick an example above."}));
+    return c;
+  }
+
+  // ---------------- page: home (combined landing page) ----------------
+  function pageHome(){
+    var c = el("div", {class:"container"});
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:"Est. 1988"}),
+      el("h2", {text:"The Royal Rumble Database"}),
+      el("p", {text:"Every Royal Rumble match, rebuilt to a reference-database standard: every eliminator credit, entry number and record is sourced, cross-checked against at least two independent accounts where possible, and tagged for how solid it is — confirmed, probable, or an open conflict — rather than smoothed over. The Men's and Women's Royal Rumble are tracked as two fully separate divisions below, each with its own Events, Records and Wrestlers — nothing here is blended into one combined stat line."})
+    ]));
+
+    var kpi = el("div", {class:"kpi-row"});
+    [["events","Events built"],["wrestlers","Wrestlers"],["entrants","Entrants"],
+     ["eliminations","Eliminations"],["records","Tracked records"]].forEach(function(pair){
+      kpi.appendChild(el("div",{class:"kpi"},[
+        el("div",{class:"v",text:fmtNum(DB.meta[pair[0]])}),
+        el("div",{class:"l",text:pair[1]})
+      ]));
+    });
+    c.appendChild(kpi);
+
+    c.appendChild(el("div",{class:"cat-heading section-gap", text:"Choose a division"}));
+    var grid = el("div", {class:"grid", style:"grid-template-columns:repeat(auto-fit,minmax(280px,1fr));"});
+    (DB.divisions||[]).forEach(function(d){
+      var years = d._minYear ? (d._minYear===d._maxYear ? (""+d._minYear) : (d._minYear+"–"+d._maxYear)) : "";
+      grid.appendChild(el("div",{class:"card div-card", onclick:function(){navigate("/"+d.key+"/events");}},[
+        el("div",{class:"eyebrow", text:years}),
+        el("h3",{text:d.label}),
+        el("div",{class:"ev-card wn", text:d.events.length+" event"+(d.events.length!==1?"s":"")+" · "+d.wrestlers.length+" wrestler entries · "+d.records.length+" tracked records"})
+      ]));
+    });
+    c.appendChild(grid);
+
+    c.appendChild(el("div",{class:"footnote", text:"Data quality is tracked, not assumed: every eliminator credit, event fact and career total in this database carries a CONFIRMED / PROBABLE / CONFLICTING status behind the scenes, and genuine disagreements between sources are preserved as flags rather than silently resolved. "+DB.meta.flagsOpen+" of those flags are still open. Men's and Women's Royal Rumble stats are kept completely separate throughout this dashboard; a wrestler who has competed in both (e.g. Beth Phoenix) keeps one profile identity but two fully independent stat lines, cross-linked from each division's wrestler page."}));
+
+    return c;
+  }
+
+  function barRow(label, value, maxValue, isWinner, valueFmt, wid){
+    var pct = maxValue > 0 ? Math.max(2, Math.round((value/maxValue)*100)) : 0;
+    var nmEl = el("div", {class:"nm", title:label});
+    nmEl.appendChild(wid ? wlink(wid, label) : document.createTextNode(label));
+    return el("div", {class:"bar-row"}, [
+      nmEl,
+      el("div", {class:"bar-track"}, [
+        el("div", {class:"bar-fill"+(isWinner?" winner":""), style:"width:"+pct+"%;"})
+      ]),
+      el("div", {class:"bar-val", text: valueFmt ? valueFmt(value) : fmtNum(value)})
+    ]);
+  }
+
+  // ---------------- page: world map ----------------
+  // A simplified, stylized equirectangular world outline (viewBox 960x480,
+  // x = (lon+180)*960/360, y = (90-lat)*480/180) hand-built as a lightweight
+  // backdrop for the nationality markers below -- not sourced from any
+  // geographic dataset, and not intended as an accurate coastline. Country
+  // marker positions (DB.worldMap.countries[].x/y) are computed server-side
+  // with the same projection in build_dashboard_data.py.
+  var WORLD_LAND = [
+    {d:"M 40.0,58.7 L 80.0,53.3 L 146.7,48.0 L 226.7,45.3 L 266.7,58.7 L 306.7,80.0 L 333.3,112.0 L 306.7,125.3 L 280.0,146.7 L 264.0,173.3 L 221.3,170.7 L 200.0,186.7 L 234.7,202.7 L 256.0,216.0 L 240.0,197.3 L 200.0,181.3 L 168.0,154.7 L 149.3,128.0 L 146.7,109.3 L 120.0,85.3 L 74.7,80.0 L 40.0,80.0 Z"},
+    {d:"M 274.7,218.7 L 266.7,245.3 L 264.0,256.0 L 290.7,288.0 L 293.3,320.0 L 285.3,352.0 L 298.7,384.0 L 306.7,381.3 L 325.3,341.3 L 352.0,306.7 L 373.3,266.7 L 386.7,256.0 L 346.7,237.3 L 320.0,218.7 L 288.0,210.7 Z"},
+    {d:"M 456.0,138.7 L 474.7,124.0 L 469.3,113.3 L 468.0,110.7 L 490.7,102.7 L 501.3,92.0 L 498.7,85.3 L 546.7,53.3 L 573.3,58.7 L 666.7,48.0 L 746.7,45.3 L 853.3,45.3 L 933.3,58.7 L 914.7,85.3 L 853.3,106.7 L 824.0,138.7 L 805.3,154.7 L 768.0,210.7 L 754.7,234.7 L 733.3,197.3 L 693.3,205.3 L 685.3,218.7 L 661.3,181.3 L 629.3,168.0 L 613.3,160.0 L 581.3,186.7 L 570.7,160.0 L 560.0,144.0 L 541.3,141.3 L 528.0,133.3 L 512.0,122.7 L 488.0,125.3 L 464.0,144.0 Z"},
+    {d:"M 434.7,184.0 L 434.7,202.7 L 453.3,226.7 L 504.0,229.3 L 504.0,245.3 L 512.0,256.0 L 520.0,288.0 L 528.0,330.7 L 560.0,320.0 L 573.3,293.3 L 586.7,253.3 L 600.0,213.3 L 594.7,208.0 L 581.3,200.0 L 573.3,186.7 L 568.0,157.3 L 546.7,154.7 L 506.7,141.3 L 464.0,146.7 Z"},
+    {d:"M 781.3,298.7 L 805.3,288.0 L 826.7,272.0 L 845.3,272.0 L 858.7,269.3 L 866.7,285.3 L 874.7,293.3 L 888.0,314.7 L 880.0,333.3 L 853.3,341.3 L 845.3,333.3 L 829.3,325.3 L 805.3,330.7 L 786.7,330.7 L 781.3,309.3 Z"},
+    {d:"M 826.7,154.7 L 832.0,149.3 L 842.7,146.7 L 853.3,141.3 L 856.0,133.3 L 858.7,125.3 L 866.7,122.7 L 856.0,120.0 L 850.7,133.3 L 842.7,146.7 L 834.7,149.3 L 826.7,154.7 Z"},
+    {d:"M 466.7,106.7 L 464.0,85.3 L 472.0,82.7 L 477.3,88.0 L 482.7,98.7 L 482.7,104.0 L 474.7,105.3 L 466.7,106.7 Z"},
+    {d:"M 453.3,102.7 L 453.3,93.3 L 464.0,92.5 L 464.0,102.1 L 453.3,102.7 Z"},
+    {d:"M 941.3,349.3 L 946.7,338.7 L 954.7,341.3 L 954.7,349.3 L 944.0,362.7 L 925.3,360.0 L 936.0,352.0 L 941.3,349.3 Z"}
+  ];
+
+  function slugifyCountry(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,""); }
+
+  function pageWorldMap(){
+    var c = el("div", {class:"container"});
+    var wm = (DB && DB.worldMap) || {countries:[], totalWrestlers:0, totalWithNationality:0, coveragePct:0, unmapped:[], mapWidth:960, mapHeight:480};
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:"Cross-division · every wrestler in the database"}),
+      el("h2", {text:"World Map"}),
+      el("p", {text:"Every wrestler's recorded nationality, plotted by country. This spans both divisions — a wrestler counts once here even if they've competed in both Rumbles. Marker size is proportional to wrestler count; click a marker or a row below for the full roster. Placement uses an approximate country centroid, not a real birthplace, and a compound nationality (e.g. \"Mexican-American\") is plotted at whichever country is named first in that string."})
+    ]));
+
+    var kpi = el("div", {class:"kpi-row"});
+    [[fmtNum(wm.totalWithNationality)+" / "+fmtNum(wm.totalWrestlers), "Wrestlers with a known nationality"],
+     [wm.coveragePct+"%", "Coverage of the full roster"],
+     [String(wm.countries.length), "Countries represented"]].forEach(function(pair){
+      kpi.appendChild(el("div",{class:"kpi"},[
+        el("div",{class:"v",text:pair[0]}),
+        el("div",{class:"l",text:pair[1]})
+      ]));
+    });
+    c.appendChild(kpi);
+
+    // ---- shared roster-row registry, built before the map so a marker
+    // click can open + scroll to the matching table row below it ----
+    var rowRefs = {}; // country -> {rowEl, barEl, listEl, open:bool}
+
+    function rosterContent(r){
+      var wrap = el("div", {class:"country-roster"});
+      if (r.nationalities.length > 1){
+        r.nationalities.forEach(function(n){
+          wrap.appendChild(el("div", {class:"cr-nat", text:n.label+" ("+n.count+")"}));
+          var namesWrap = el("div", {class:"cr-names"});
+          r.wrestlers.filter(function(w){ return w.nationality === n.label; }).forEach(function(w, wi){
+            if (wi) namesWrap.appendChild(el("span",{class:"cr-sep", text:"·"}));
+            namesWrap.appendChild(anyDivWlink(w.id, w.name));
+          });
+          wrap.appendChild(namesWrap);
+        });
+      } else {
+        var namesWrap = el("div", {class:"cr-names"});
+        r.wrestlers.forEach(function(w, wi){
+          if (wi) namesWrap.appendChild(el("span",{class:"cr-sep", text:"·"}));
+          namesWrap.appendChild(anyDivWlink(w.id, w.name));
+        });
+        wrap.appendChild(namesWrap);
+      }
+      return wrap;
+    }
+
+    function setOpen(country, open){
+      var ref = rowRefs[country];
+      if (!ref) return;
+      ref.open = open;
+      ref.rowEl.classList.toggle("open", open);
+      if (open && !ref.filled){
+        ref.listEl.appendChild(rosterContent(ref.data));
+        ref.filled = true;
+      }
+    }
+
+    var maxCount = wm.countries.length ? Math.max.apply(null, wm.countries.map(function(r){return r.count;})) : 1;
+
+    var tablePanel = el("div", {class:"panel section-gap worldmap-table"});
+    tablePanel.appendChild(el("h3", {text:"By country"}));
+    tablePanel.appendChild(el("div", {class:"sub", text:"Same data as the map above. Click a country to see its full roster."}));
+    wm.countries.forEach(function(r){
+      var rowEl = el("div", {class:"country-row", id:"country-"+slugifyCountry(r.country)});
+      var bar = barRow(r.country, r.count, maxCount, false, function(v){ return v+(v===1?" wrestler":" wrestlers"); });
+      var listEl = el("div", {});
+      bar.addEventListener("click", function(){ setOpen(r.country, !rowRefs[r.country].open); });
+      rowEl.appendChild(bar);
+      rowEl.appendChild(listEl);
+      tablePanel.appendChild(rowEl);
+      rowRefs[r.country] = {rowEl:rowEl, listEl:listEl, open:false, filled:false, data:r};
+    });
+
+    // ---- map ----
+    var panel = el("div", {class:"worldmap-panel"});
+    var svgns = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(svgns, "svg");
+    svg.setAttribute("viewBox", "0 0 "+wm.mapWidth+" "+wm.mapHeight);
+    svg.setAttribute("class", "worldmap-svg");
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "World map of wrestler nationalities");
+
+    // graticule (subtle lat/long grid, every 30 degrees) for map-like depth
+    var gratG = document.createElementNS(svgns, "g");
+    for (var lon=-150; lon<180; lon+=30){
+      var gx = (lon+180) * (wm.mapWidth/360);
+      var vline = document.createElementNS(svgns, "line");
+      vline.setAttribute("x1", gx); vline.setAttribute("x2", gx);
+      vline.setAttribute("y1", 0); vline.setAttribute("y2", wm.mapHeight);
+      vline.setAttribute("class", "worldmap-grat");
+      gratG.appendChild(vline);
+    }
+    for (var lat=-60; lat<=60; lat+=30){
+      var gy = (90-lat) * (wm.mapHeight/180);
+      var hline = document.createElementNS(svgns, "line");
+      hline.setAttribute("x1", 0); hline.setAttribute("x2", wm.mapWidth);
+      hline.setAttribute("y1", gy); hline.setAttribute("y2", gy);
+      hline.setAttribute("class", "worldmap-grat");
+      gratG.appendChild(hline);
+    }
+    svg.appendChild(gratG);
+
+    var landG = document.createElementNS(svgns, "g");
+    WORLD_LAND.forEach(function(land){
+      var p = document.createElementNS(svgns, "path");
+      p.setAttribute("d", land.d);
+      p.setAttribute("class", "worldmap-land");
+      landG.appendChild(p);
+    });
+    svg.appendChild(landG);
+
+    var tooltip = el("div", {class:"worldmap-tooltip"});
+    panel.appendChild(tooltip);
+
+    var minR = 5, maxR = 27;
+    function radiusFor(count){
+      if (maxCount <= 1) return minR;
+      return minR + (maxR - minR) * Math.sqrt(count / maxCount);
+    }
+
+    var markersG = document.createElementNS(svgns, "g");
+    var markerEls = {}; // country -> circle element, for selected-state styling
+    wm.countries.forEach(function(r){
+      var rad = radiusFor(r.count);
+      var g = document.createElementNS(svgns, "g");
+
+      var circle = document.createElementNS(svgns, "circle");
+      circle.setAttribute("cx", r.x);
+      circle.setAttribute("cy", r.y);
+      circle.setAttribute("r", rad);
+      circle.setAttribute("class", "worldmap-marker");
+      circle.setAttribute("tabindex", "0");
+      circle.setAttribute("role", "button");
+      circle.setAttribute("aria-label", r.country+", "+r.count+" wrestlers");
+      markerEls[r.country] = circle;
+
+      var sheen = document.createElementNS(svgns, "circle");
+      sheen.setAttribute("cx", r.x - rad*0.32);
+      sheen.setAttribute("cy", r.y - rad*0.32);
+      sheen.setAttribute("r", Math.max(rad*0.34, 1.5));
+      sheen.setAttribute("class", "worldmap-marker-sheen");
+
+      function showTip(){
+        var names = r.wrestlers.slice(0,8).map(function(w){return w.name;});
+        var extra = r.count > 8 ? " +"+(r.count-8)+" more" : "";
+        var natLine = r.nationalities.length > 1 ? r.nationalities.map(function(n){return n.label+" ("+n.count+")";}).join(", ") : null;
+        tooltip.innerHTML = "";
+        tooltip.appendChild(el("div", {class:"t-name", text:r.country+" — "+r.count+(r.count===1?" wrestler":" wrestlers")}));
+        if (natLine) tooltip.appendChild(el("div", {class:"t-sub", text:natLine}));
+        tooltip.appendChild(el("div", {class:"t-sub", style:"margin-top:4px; color:var(--ink-2);", text:names.join(", ")+extra}));
+        tooltip.appendChild(el("div", {class:"t-hint", text:"Click for the full roster ↓"}));
+        tooltip.style.display = "block";
+        var panelRect = panel.getBoundingClientRect();
+        var px = (r.x / wm.mapWidth) * panelRect.width;
+        var py = (r.y / wm.mapHeight) * (panelRect.width * wm.mapHeight / wm.mapWidth);
+        var left = Math.min(Math.max(px + 14, 4), panelRect.width - 246);
+        tooltip.style.left = left + "px";
+        tooltip.style.top = Math.max(py - 10, 4) + "px";
+      }
+      function hideTip(){ tooltip.style.display = "none"; }
+      function activate(){
+        Object.keys(rowRefs).forEach(function(k){ if (k!==r.country) setOpen(k, false); });
+        Object.keys(markerEls).forEach(function(k){ markerEls[k].classList.toggle("selected", k===r.country); });
+        setOpen(r.country, true);
+        var rowEl = rowRefs[r.country].rowEl;
+        rowEl.scrollIntoView({behavior:"smooth", block:"center"});
+      }
+      circle.addEventListener("mouseenter", showTip);
+      circle.addEventListener("mousemove", showTip);
+      circle.addEventListener("mouseleave", hideTip);
+      circle.addEventListener("focus", showTip);
+      circle.addEventListener("blur", hideTip);
+      circle.addEventListener("click", activate);
+      circle.addEventListener("keydown", function(ev){ if (ev.key==="Enter" || ev.key===" "){ ev.preventDefault(); activate(); } });
+
+      g.appendChild(circle);
+      g.appendChild(sheen);
+      markersG.appendChild(g);
+    });
+    svg.appendChild(markersG);
+
+    // direct labels for the top handful of markers, spread across
+    // continents rather than the crowded Europe cluster -- readable at a
+    // glance without needing to hover every dot
+    var labelG = document.createElementNS(svgns, "g");
+    var labeled = {};
+    wm.countries.slice(0, 12).forEach(function(r){
+      if (Object.keys(labeled).length >= 6) return;
+      // skip if too close to an already-labeled marker (avoids the tight
+      // Western-Europe cluster turning into overlapping text)
+      var tooClose = Object.keys(labeled).some(function(k){
+        var o = labeled[k];
+        return Math.hypot(o.x-r.x, o.y-r.y) < 70;
+      });
+      if (tooClose) return;
+      labeled[r.country] = r;
+      var rad = radiusFor(r.count);
+      var onRightEdge = r.x > wm.mapWidth - 90;
+      var label = document.createElementNS(svgns, "text");
+      label.setAttribute("x", onRightEdge ? r.x - rad - 6 : r.x + rad + 6);
+      label.setAttribute("y", r.y + 4);
+      label.setAttribute("text-anchor", onRightEdge ? "end" : "start");
+      label.setAttribute("class", "worldmap-label");
+      label.textContent = r.country;
+      labelG.appendChild(label);
+    });
+    svg.appendChild(labelG);
+
+    // size legend, bottom-left
+    var legendG = document.createElementNS(svgns, "g");
+    var legendVals = [Math.max(1, Math.round(maxCount*0.15)), Math.max(2, Math.round(maxCount*0.5)), maxCount];
+    var legendX = 14, legendBaseY = wm.mapHeight - 16;
+    legendG.appendChild((function(){
+      var t = document.createElementNS(svgns, "text");
+      t.setAttribute("x", legendX); t.setAttribute("y", legendBaseY - maxR*2 - 8);
+      t.setAttribute("class", "worldmap-legend-text");
+      t.textContent = "Wrestlers";
+      return t;
+    })());
+    var cursorX = legendX + 6;
+    legendVals.forEach(function(v, i){
+      var r = radiusFor(v);
+      var cy = legendBaseY - r;
+      var dot = document.createElementNS(svgns, "circle");
+      dot.setAttribute("cx", cursorX + r); dot.setAttribute("cy", cy); dot.setAttribute("r", r);
+      dot.setAttribute("class", "worldmap-legend-dot");
+      legendG.appendChild(dot);
+      var lbl = document.createElementNS(svgns, "text");
+      lbl.setAttribute("x", cursorX + r); lbl.setAttribute("y", legendBaseY + 12);
+      lbl.setAttribute("text-anchor", "middle");
+      lbl.setAttribute("class", "worldmap-legend-text");
+      lbl.textContent = String(v);
+      legendG.appendChild(lbl);
+      cursorX += r*2 + 14;
+    });
+    svg.appendChild(legendG);
+
+    panel.appendChild(svg);
+    c.appendChild(panel);
+    c.appendChild(tablePanel);
+
+    if (wm.unmapped && wm.unmapped.length){
+      var unmappedPanel = el("div", {class:"panel section-gap"});
+      unmappedPanel.appendChild(el("h3", {text:"Not yet plotted"}));
+      unmappedPanel.appendChild(el("div", {class:"sub", text:"These recorded nationality strings don't have a country mapping yet, so they're counted in the coverage total above but don't appear on the map."}));
+      var chipWrap = el("div", {class:"badges", style:"margin-top:8px;"});
+      wm.unmapped.forEach(function(u){
+        chipWrap.appendChild(el("span", {class:"chip", text:u.nationality+" ("+u.count+")"}));
+      });
+      unmappedPanel.appendChild(chipWrap);
+      c.appendChild(unmappedPanel);
+    }
+
+    return c;
+  }
+
+  // ---------------- page: events list ----------------
+  function pageEvents(div){
+    var c = el("div", {class:"container"});
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:div.label}),
+      el("h2", {text:"Events"}),
+      el("p", {text:"Every "+div.label+" match built into the database so far. Click a year for the full entrant list, elimination order and timing."})
+    ]));
+    var searchWrap = el("div", {style:"margin-bottom:16px;"});
+    var search = el("input", {class:"search", type:"text", placeholder:"Filter by year, venue or winner…"});
+    searchWrap.appendChild(search);
+    c.appendChild(searchWrap);
+
+    var grid = el("div", {class:"grid events"});
+    c.appendChild(grid);
+
+    function draw(filter){
+      grid.innerHTML = "";
+      var f = (filter||"").toLowerCase();
+      div.events.forEach(function(ev){
+        var winnerNames = (ev.winners && ev.winners.length ? ev.winners.map(function(w){return w.name;}).join(" & ") : "");
+        var hay = (ev.year+" "+(ev.venue||"")+" "+(ev.city||"")+" "+winnerNames).toLowerCase();
+        if (f && hay.indexOf(f) === -1) return;
+        grid.appendChild(el("div", {class:"card ev-card", onclick:(function(id){return function(){navigate("/"+div.key+"/events/"+id);};})(ev.id)}, [
+          el("div", {class:"yr", text:ev.year}),
+          el("div", {class:"nm", text:(ev.venue||"")+(ev.city?(", "+ev.city):"")}),
+          el("div", {class:"wn"}, [document.createTextNode((ev.winners && ev.winners.length>1?"Winners: ":"Winner: ")), el("b",{text: winnerNames || "—"})])
+        ]));
+      });
+      if (!grid.children.length) grid.appendChild(el("div",{class:"sub", text:"No events match “"+filter+"”."}));
+    }
+    draw("");
+    search.addEventListener("input", function(){ draw(search.value); });
+    return c;
+  }
+
+  // ---------------- page: event detail ----------------
+  function pageEventDetail(div, id){
+    var ev = byId[id];
+    var c = el("div", {class:"container"});
+    if (!ev){
+      c.appendChild(el("div",{class:"backlink", text:"← Back to Events", onclick:function(){navigate("/"+div.key+"/events");}}));
+      c.appendChild(el("p", {text:"Event not found."}));
+      return c;
+    }
+    c.appendChild(el("div",{class:"backlink", text:"← Back to Events", onclick:function(){navigate("/"+div.key+"/events");}}));
+
+    var hero = el("div", {class:"ev-hero"});
+    var heroYr = el("div", {class:"yr"}, [document.createTextNode(ev.year+" ")]);
+    if (ev.winners && ev.winners.length){
+      var wbadge = el("span",{class:"badge-winner"});
+      wbadge.appendChild(document.createTextNode((ev.winners.length>1?"WINNERS: ":"WINNER: ")));
+      ev.winners.forEach(function(w, wi){
+        if (wi) wbadge.appendChild(document.createTextNode(" & "));
+        wbadge.appendChild(wlink(w.id, (w.name||"").toUpperCase()));
+      });
+      heroYr.appendChild(wbadge);
+    }
+    hero.appendChild(heroYr);
+    hero.appendChild(el("div", {class:"mn", text:ev.matchName || ev.name}));
+    var facts = el("div", {class:"factrow"});
+    function fact(l,v){ if (v===null||v===undefined||v==="") return; facts.appendChild(el("div",{class:"fact"},[el("div",{class:"l",text:l}), el("div",{class:"v",text:v})])); }
+    function factNode(l, node){ if (!node) return; facts.appendChild(el("div",{class:"fact"},[el("div",{class:"l",text:l}), el("div",{class:"v"},[node])])); }
+    fact("Date", ev.date);
+    fact("Venue", ev.venue);
+    fact("Location", (ev.city||"")+(ev.country?(", "+ev.country):""));
+    fact("Attendance", ev.attendance ? fmtNum(ev.attendance) : null);
+    fact("Duration", ev.duration);
+    fact("Entrants", ev.entrantCount);
+    fact("Eliminations", ev.elimsCount);
+    fact("Champions in field", ev.championsInField);
+    fact("Returning wrestlers", ev.returningCount);
+    if (ev.fieldPhysical && ev.fieldPhysical.combinedWeightKg!==null) fact("Combined billed field weight", fmtDec(ev.fieldPhysical.combinedWeightKg,1)+" kg");
+    if (ev.fieldPhysical && ev.fieldPhysical.averageWeightKg!==null) fact("Average billed weight", fmtDec(ev.fieldPhysical.averageWeightKg,1)+" kg");
+    if (ev.fieldPhysical && ev.fieldPhysical.combinedHeightM!==null) fact("Combined billed field height", fmtDec(ev.fieldPhysical.combinedHeightM,2)+" m");
+    if (ev.fieldPhysical && ev.fieldPhysical.averageHeightM!==null) fact("Average billed height", fmtDec(ev.fieldPhysical.averageHeightM,3)+" m");
+    if (ev.runnerUp) factNode("Runner-up", wlink(ev.runnerUp.id, ev.runnerUp.name));
+    if (ev.occupancy) fact("Peak in ring", ev.occupancy.peakCount+" wrestlers, "+ev.occupancy.startTime+"-"+ev.occupancy.endTime);
+    if (ev.entranceStats && ev.entranceStats.median) fact("Median entrance", ev.entranceStats.median);
+    hero.appendChild(facts);
+    if (ev.significance) hero.appendChild(el("div",{class:"sig", text:ev.significance}));
+    c.appendChild(hero);
+
+    var cols = el("div", {class:"ev-cols"});
+
+    // ring-time chart
+    var chartPanel = el("div", {class:"panel"});
+    chartPanel.appendChild(el("h3", {text:"Time in the ring"}));
+    chartPanel.appendChild(el("div", {class:"sub", text:"Every entrant, longest to shortest"}));
+    var withTime = ev.entrants.filter(function(e){return e.ringSec!==null && e.ringSec!==undefined;});
+    withTime.sort(function(a,b){return (b.ringSec||0)-(a.ringSec||0);});
+    var maxRing = withTime.length ? withTime[0].ringSec : 1;
+    withTime.forEach(function(e){
+      chartPanel.appendChild(barRow(e.name, e.ringSec, maxRing, e.isWinner, fmtSec, e.id));
+    });
+    cols.appendChild(chartPanel);
+
+    // elimination timeline
+    var tPanel = el("div", {class:"panel"});
+    tPanel.appendChild(el("h3", {text:"Elimination order"}));
+    tPanel.appendChild(el("div", {class:"sub", text:"In the order each entrant left the match"}));
+    var scroller = el("div", {class:"table-scroll"});
+    var table = el("table", {class:"elim-table"});
+    table.appendChild(el("thead",{},[el("tr",{},[
+      el("th",{text:"#"}), el("th",{text:"Entry"}), el("th",{text:"Wrestler"}),
+      el("th",{text:"Eliminated by"}), el("th",{text:"Time"}), el("th",{text:"Src"})
+    ])]));
+    var tbody = el("tbody");
+    var ordered = ev.entrants.slice().sort(function(a,b){
+      var an = a.isWinner ? Infinity : (a.elimNum===null?Infinity-1:a.elimNum);
+      var bn = b.isWinner ? Infinity : (b.elimNum===null?Infinity-1:b.elimNum);
+      return an-bn;
+    });
+    ordered.forEach(function(e){
+      var nameCell = el("td", {class:"name-cell"});
+      var nameB = el("b",{});
+      nameB.appendChild(wlink(e.id, e.name));
+      nameCell.appendChild(el("div",{},[nameB, e.isWinner?el("span",{class:"chip", style:"background:var(--accent-wash); color:var(--accent-ink);", text:"Winner"}):null, e.isRunnerUp?el("span",{class:"chip", text:"Runner-up"}):null, e.isSelf?el("span",{class:"chip", text:"Self-elim"}):null]));
+      if (e.badges && e.badges.length){
+        var bwrap = el("div",{class:"badges"});
+        e.badges.forEach(function(b){bwrap.appendChild(el("span",{class:"chip", text:b}));});
+        nameCell.appendChild(bwrap);
+      }
+      var pp = e.physicalProfile || {};
+      var physicalParts = [];
+      if (pp.heightM) physicalParts.push(pp.heightM+" m");
+      if (pp.weightKg) physicalParts.push(pp.weightKg+" kg");
+      if (pp.billedFrom) physicalParts.push("from "+pp.billedFrom);
+      if (physicalParts.length) nameCell.appendChild(el("div",{class:"method-note",text:physicalParts.join(" · ")}));
+      var cp = e.characterProfile || {};
+      var characterParts = [];
+      if (cp.alignment) characterParts.push(cp.alignment);
+      if (cp.gimmick) characterParts.push(cp.gimmick);
+      if (cp.manager) characterParts.push("managed by "+cp.manager);
+      if (cp.tagTeam) characterParts.push(cp.tagTeam);
+      if (cp.faction && cp.faction !== cp.tagTeam) characterParts.push(cp.faction);
+      if (characterParts.length) nameCell.appendChild(el("div",{class:"method-note",text:characterParts.join(" · ")}));
+      var byCell = el("td", {class:"by-list"});
+      if (e.neverEntered){
+        byCell.appendChild(document.createTextNode("Drew a number but never entered"));
+      } else if (e.by && e.by.length){
+        e.by.forEach(function(b, bi){
+          if (bi > 0) byCell.appendChild(document.createTextNode(" & "));
+          byCell.appendChild(wlink(b));
+        });
+        if (e.method) byCell.appendChild(el("div",{class:"method-note", text:e.method}));
+      } else if (e.isWinner){
+        byCell.appendChild(document.createTextNode("—"));
+      } else {
+        byCell.appendChild(document.createTextNode("Unrecorded"));
+      }
+      var qCell = el("td");
+      if (e.neverEntered){
+        qCell.appendChild(el("span",{class:"quality-pill unknown", text:"Non-entry"}));
+      } else if (!e.isWinner){
+        var cls = qualityClass(e.quality, e.disputed);
+        qCell.appendChild(el("span",{class:"quality-pill "+cls, text:qualityLabel(e.quality,e.disputed)}));
+      }
+      tbody.appendChild(el("tr",{},[
+        el("td",{class:"num", text: e.isWinner ? "—" : (e.neverEntered ? "—" : (e.elimNum!==null?e.elimNum:"?"))}),
+        el("td",{class:"num", text: e.entry!==null?e.entry:"—"}),
+        nameCell,
+        byCell,
+        el("td",{class:"num", text: e.neverEntered ? "—" : (e.elimTime || (e.isWinner?ev.duration:"—") || "—")}),
+        qCell
+      ]));
+    });
+    table.appendChild(tbody);
+    scroller.appendChild(table);
+    tPanel.appendChild(scroller);
+    cols.appendChild(tPanel);
+
+    c.appendChild(cols);
+
+    if (ev.occupancy){
+      var occPanel = el("div", {class:"panel section-gap"});
+      occPanel.appendChild(el("h3", {text:"Peak ring occupancy"}));
+      occPanel.appendChild(el("div", {class:"sub", text:ev.occupancy.peakCount+" wrestlers were simultaneously active from "+ev.occupancy.startTime+" to "+ev.occupancy.endTime+". Derived only from the event's recorded ring-time and elimination-clock data; no entry interval is assumed."}));
+      var occNames = el("div", {class:"badges", style:"margin-top:10px;"});
+      ev.occupancy.wrestlers.forEach(function(w){ var chip=el("span",{class:"chip"}); chip.appendChild(wlink(w)); occNames.appendChild(chip); });
+      occPanel.appendChild(occNames);
+      c.appendChild(occPanel);
+    }
+
+    if (ev.crowdedness && ev.crowdedness.length){
+      var crowdPanel = el("div", {class:"panel section-gap"});
+      crowdPanel.appendChild(el("h3", {text:"Ring crowdedness"}));
+      crowdPanel.appendChild(el("div", {class:"sub", text:"Percentage of this match's measured time spent with each number of wrestlers simultaneously in the ring. Same reconstructed timeline as peak ring occupancy above, broken out by every count rather than just the peak."}));
+      var crowdWrap = el("div", {style:"margin-top:10px;"});
+      var maxPct = Math.max.apply(null, ev.crowdedness.map(function(r){ return r.pct||0; }));
+      ev.crowdedness.slice().reverse().forEach(function(r){
+        crowdWrap.appendChild(barRow(r.count+(r.count===1?" wrestler":" wrestlers"), r.pct||0, maxPct, false, function(v){ return v.toFixed(1)+"% ("+r.time+")"; }));
+      });
+      crowdPanel.appendChild(crowdWrap);
+      c.appendChild(crowdPanel);
+    }
+
+    if (ev.nationalityBreakdown && ev.nationalityBreakdown.length){
+      var natPanel = el("div", {class:"panel section-gap"});
+      natPanel.appendChild(el("h3", {text:"Billed nationality"}));
+      var natCoverage = ev.nationalityCoveragePct;
+      var natCoverageText = "Billed nationality is recorded for "+(natCoverage!==null&&natCoverage!==undefined?fmtDec(natCoverage,1)+"%":"an unknown share")+" of this match's actual entrants. Percentages below are of entrants with a known nationality, not the full field — treat sparse-coverage events with caution.";
+      natPanel.appendChild(el("div", {class:"sub", text:natCoverageText}));
+      var natWrap = el("div", {style:"margin-top:10px;"});
+      var maxNatCount = Math.max.apply(null, ev.nationalityBreakdown.map(function(r){ return r.count||0; }));
+      ev.nationalityBreakdown.forEach(function(r){
+        natWrap.appendChild(barRow(r.nationality, r.count, maxNatCount, false, function(v){ return v+" ("+r.pctOfKnown.toFixed(1)+"%)"; }));
+      });
+      natPanel.appendChild(natWrap);
+      c.appendChild(natPanel);
+    }
+
+    if (ev.physicalPeaks){
+      var pp = ev.physicalPeaks;
+      var physicalPeakPanel = el("div", {class:"panel section-gap"});
+      physicalPeakPanel.appendChild(el("h3", {text:"Maximum combined size in the ring"}));
+      physicalPeakPanel.appendChild(el("div", {class:"sub", text:"Derived only where the full match timeline and every entrant's appearance-specific physical profile are complete. Missing height or weight is never estimated."}));
+      var physicalPeakFacts = el("div", {class:"factrow", style:"margin-top:12px;"});
+      function physicalPeakFact(label, row, digits){
+        if (!row) return;
+        physicalPeakFacts.appendChild(el("div", {class:"fact"}, [
+          el("div", {class:"l", text:label}),
+          el("div", {class:"v", text:fmtDec(row.value,digits)+" "+row.unit+" · "+row.startTime+"-"+row.endTime})
+        ]));
+      }
+      physicalPeakFact("Combined billed weight", pp.combined_billed_weight, 1);
+      physicalPeakFact("Combined billed height", pp.combined_billed_height, 2);
+      physicalPeakPanel.appendChild(physicalPeakFacts);
+      [pp.combined_billed_weight, pp.combined_billed_height].forEach(function(row){
+        if (!row) return;
+        var names = el("div", {class:"badges", style:"margin-top:10px;"});
+        row.wrestlers.forEach(function(w){ var chip=el("span",{class:"chip"}); chip.appendChild(wlink(w)); names.appendChild(chip); });
+        physicalPeakPanel.appendChild(names);
+      });
+      c.appendChild(physicalPeakPanel);
+    }
+
+    if (ev.entranceStats){
+      var es = ev.entranceStats;
+      var entrancePanel = el("div", {class:"panel section-gap"});
+      entrancePanel.appendChild(el("h3", {text:"Entrance timing"}));
+      entrancePanel.appendChild(el("div", {class:"sub", text:"Buzzer-to-physical-ring timing from the sourced entrance table. Medians use only rows with an explicit duration; absolute timestamps beyond the recorded match duration are excluded rather than treated as match-clock times."}));
+
+      var entranceFacts = el("div", {class:"factrow", style:"margin-top:12px;"});
+      function entranceFact(label, value){
+        if (value===null || value===undefined || value==="") return;
+        entranceFacts.appendChild(el("div",{class:"fact"},[
+          el("div",{class:"l",text:label}), el("div",{class:"v",text:value})
+        ]));
+      }
+      entranceFact("Timed entrances", es.timed+" of "+es.rows);
+      entranceFact("Median", es.median);
+      entranceFact("Average", es.averageSec===null?null:fmtSec(es.averageSec));
+      entranceFact("Shortest / longest", (es.shortestSec===null?"—":fmtSec(es.shortestSec))+" / "+(es.longestSec===null?"—":fmtSec(es.longestSec)));
+      if (es.latestPhysicalWrestler){
+        entranceFact("Latest physical entry", es.latestPhysical+" · "+es.latestPhysicalWrestler.name);
+      }
+      if (es.intervalSample){
+        entranceFact("Median buzzer interval", fmtSec(es.medianActualIntervalSec)+" · advertised "+fmtSec(es.advertisedIntervalSec));
+      }
+      if (es.largestVarianceWrestler && es.largestVarianceSec!==null){
+        entranceFact("Largest interval variance", (es.largestVarianceSec>=0?"+":"")+es.largestVarianceSec+" sec · "+es.largestVarianceWrestler.name);
+      }
+      entrancePanel.appendChild(entranceFacts);
+
+      var entranceRows = ev.entrants.filter(function(e){ return e.entranceDurationSec!==null && e.entranceDurationSec!==undefined; });
+      entranceRows.sort(function(a,b){ return b.entranceDurationSec-a.entranceDurationSec; });
+      if (entranceRows.length){
+        entrancePanel.appendChild(el("div", {class:"sub", style:"margin-top:14px;", text:"Individual entrance durations · longest to shortest"}));
+        var maxEntrance = Math.max.apply(null, entranceRows.map(function(e){return e.entranceDurationSec;})) || 1;
+        entranceRows.forEach(function(e){
+          entrancePanel.appendChild(barRow(e.name, e.entranceDurationSec, maxEntrance, false, fmtSec, e.id));
+        });
+      }
+      c.appendChild(entrancePanel);
+    }
+
+    if (ev.notableMoments && ev.notableMoments.length){
+      var momPanel = el("div", {class:"panel section-gap"});
+      momPanel.appendChild(el("h3", {text:"Notable moments"}));
+      momPanel.appendChild(el("div", {class:"sub", text:"Weird, wonderful, and behind-the-scenes findings that don't reduce to a single stat"}));
+      ev.notableMoments.forEach(function(m){
+        var row = el("div", {class:"moment-row"});
+        var head = el("div", {class:"moment-head"}, [
+          el("div", {class:"moment-title", text:m.title || ""})
+        ]);
+        if (m.quality && m.quality.toLowerCase() !== "confirmed"){
+          head.appendChild(el("span", {class:"quality-pill "+qualityClass(m.quality,false), text:qualityLabel(m.quality,false)}));
+        }
+        row.appendChild(head);
+        if (m.description) row.appendChild(el("div", {class:"moment-desc", text:m.description}));
+        if (m.wrestlers && m.wrestlers.length){
+          var wwrap = el("div", {class:"badges", style:"margin-top:6px;"});
+          m.wrestlers.forEach(function(w){
+            var chip = el("span",{class:"chip"});
+            chip.appendChild(wlink(w));
+            wwrap.appendChild(chip);
+          });
+          row.appendChild(wwrap);
+        }
+        momPanel.appendChild(row);
+      });
+      c.appendChild(momPanel);
+    }
+
+    return c;
+  }
+
+  // ---------------- page: records & leaderboards ----------------
+  var STATS_COLS = [
+    {k:"name", l:"Wrestler", type:"str"},
+    {k:"appearances", l:"App", type:"num"},
+    {k:"wins", l:"Wins", type:"num"},
+    {k:"runnerUp", l:"R-Up", type:"num"},
+    {k:"finalFour", l:"Final 4", type:"num"},
+    {k:"elims", l:"Career Elims", type:"num"},
+    {k:"avgElims", l:"Avg/App", type:"num1"},
+    {k:"maxElimsSingle", l:"Best Single", type:"num"},
+    {k:"winPct", l:"Win %", type:"pct"},
+    {k:"bestFinish", l:"Best Finish", type:"str"}
+  ];
+  var statsSort = {col:"elims", dir:-1};
+
+  function pageRecords(div){
+    var c = el("div", {class:"container"});
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:div.label+" · All-time"}),
+      el("h2", {text:"Records & Leaderboards"}),
+      el("p", {text:"The database's own tracked records for the "+div.label+" — including ties, which a single “max()” would otherwise hide — plus a fully sortable career stat sheet for every wrestler who's entered this division. Men's and Women's records are never compared against each other; each division has its own independent leaderboard."})
+    ]));
+
+    var byCat = {};
+    div.records.forEach(function(r){ (byCat[r.category]=byCat[r.category]||[]).push(r); });
+    Object.keys(byCat).sort().forEach(function(cat){
+      c.appendChild(el("div", {class:"cat-heading", text:cat}));
+      var grid = el("div", {class:"grid records"});
+      byCat[cat].forEach(function(r){
+        var card = el("div", {class:"card rec-card"});
+        card.appendChild(el("div",{class:"nm", text:r.name}));
+        card.appendChild(el("div",{class:"val", text:r.value}));
+        if (r.holder.name){
+          var holderDiv = el("div",{class:"holder"});
+          // holder.id can be a "a -> b" rivalry pairing rather than a single
+          // wrestler_id -- only linkify when it's a real profile id in THIS division.
+          if (r.holder.id && div._byWid[r.holder.id]) holderDiv.appendChild(wlink(r.holder.id, r.holder.name));
+          else holderDiv.appendChild(document.createTextNode(r.holder.name));
+          if (r.eventId) holderDiv.appendChild(document.createTextNode(" · "+r.eventId.replace("RR","").replace(/[MWG]$/,"")));
+          card.appendChild(holderDiv);
+        } else if (r.eventId){
+          card.appendChild(el("div",{class:"holder", text:r.eventId}));
+        }
+        if (r.notes) card.appendChild(el("div",{class:"note", text:r.notes}));
+        if (r.members && r.members.length){
+          var open = false;
+          var list = el("div", {class:"member-list"});
+          r.members.forEach(function(m){
+            list.appendChild(el("div", {class:"member-row"}, [
+              wlink(m.id, m.name),
+              el("span", {class:"d", text:m.detail||""})
+            ]));
+          });
+          var toggle = el("div", {class:"note member-toggle", text:"Show all "+r.members.length+" ▾"});
+          toggle.addEventListener("click", function(ev){
+            ev.stopPropagation();
+            open = !open;
+            list.style.display = open ? "block" : "none";
+            toggle.textContent = open ? "Hide list ▴" : ("Show all "+r.members.length+" ▾");
+          });
+          card.appendChild(toggle);
+          card.appendChild(list);
+        }
+        grid.appendChild(card);
+      });
+      c.appendChild(grid);
+    });
+    if (!Object.keys(byCat).length){
+      c.appendChild(el("div",{class:"sub", text:"No records tracked yet for the "+div.label+"."}));
+    }
+
+    c.appendChild(el("div", {class:"cat-heading section-gap", text:"All-time career stat sheet — "+div.label}));
+    var searchWrap = el("div", {style:"margin-bottom:14px;"});
+    var search = el("input", {class:"search", type:"text", placeholder:"Search wrestlers…"});
+    searchWrap.appendChild(search);
+    c.appendChild(searchWrap);
+
+    var tableWrap = el("div", {id:"stats-table-wrap"});
+    c.appendChild(tableWrap);
+
+    function drawTable(filter){
+      var f = (filter||"").toLowerCase();
+      var rows = div.wrestlers.filter(function(w){ return !f || w.name.toLowerCase().indexOf(f) !== -1; });
+      rows.sort(function(a,b){
+        var col = statsSort.col, dir = statsSort.dir;
+        var av = a[col], bv = b[col];
+        if (av===null||av===undefined) av = (typeof bv==="number") ? -Infinity : "";
+        if (bv===null||bv===undefined) bv = (typeof av==="number") ? -Infinity : "";
+        if (typeof av === "string") return dir * av.localeCompare(bv);
+        return dir * ((av||0)-(bv||0));
+      });
+      var table = el("table", {id:"stats-table"});
+      var thead = el("thead");
+      var htr = el("tr");
+      htr.appendChild(el("th", {text:"#"}));
+      STATS_COLS.forEach(function(col){
+        var isSorted = statsSort.col === col.k;
+        var th = el("th", {
+          class: isSorted ? "sorted" : "",
+          onclick: function(){
+            if (statsSort.col === col.k) statsSort.dir *= -1;
+            else { statsSort.col = col.k; statsSort.dir = col.type==="str" ? 1 : -1; }
+            drawTable(search.value);
+          }
+        });
+        th.appendChild(document.createTextNode(col.l));
+        if (isSorted) th.appendChild(el("span",{class:"arrow", text: statsSort.dir===1?"↑":"↓"}));
+        htr.appendChild(th);
+      });
+      thead.appendChild(htr);
+      table.appendChild(thead);
+      var tbody = el("tbody");
+      rows.slice(0, 400).forEach(function(w, idx){
+        var tr = el("tr", {onclick:(function(id){return function(){navigate("/"+div.key+"/wrestlers/"+id);};})(w.id)});
+        tr.appendChild(el("td", {class:"rank", text:idx+1}));
+        STATS_COLS.forEach(function(col){
+          var v = w[col.k];
+          if (col.k === "name"){
+            var td = el("td",{});
+            td.appendChild(wlink(w.id, w.name));
+            var gb = gimmickBadge(w); if (gb) td.appendChild(gb);
+            var odb = otherDivisionBadge(w); if (odb) td.appendChild(odb);
+            tr.appendChild(td);
+            return;
+          }
+          var text;
+          if (col.type==="pct") text = fmtPct(v);
+          else if (col.type==="num1") text = (v===null||v===undefined) ? "—" : v.toFixed(1);
+          else if (col.type==="num") text = fmtNum(v);
+          else text = (v===null||v===undefined||v==="") ? "—" : v;
+          tr.appendChild(el("td", {text:text}));
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      tableWrap.innerHTML = "";
+      tableWrap.appendChild(table);
+      if (!rows.length) tableWrap.appendChild(el("div",{class:"sub", text:"No wrestlers match “"+filter+"”."}));
+    }
+    drawTable("");
+    search.addEventListener("input", function(){ drawTable(search.value); });
+
+    c.appendChild(el("div",{class:"footnote", text:"“Best Single” is the most eliminations by that wrestler in one Rumble match. Ties in the records above are shown explicitly rather than hidden behind a single winner. This stat sheet covers "+div.label+" appearances only."}));
+
+    return c;
+  }
+
+  // ---------------- page: wrestlers index ----------------
+  var WR_STATS_COLS = [
+    {k:"appearances", l:"App"}, {k:"wins", l:"Wins"}, {k:"elims", l:"Elims"}, {k:"bestFinish", l:"Best Finish"}
+  ];
+  function pageWrestlers(div){
+    var c = el("div", {class:"container"});
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:div.label+" · "+div.wrestlers.length+" profiles"}),
+      el("h2", {text:"Wrestlers"}),
+      el("p", {text:"Every wrestler who has entered the "+div.label+" in this database, with a full bio and Rumble-by-Rumble history where it's been researched. Click a name for the full profile. A wrestler who has also competed in the other division is badged “also Men's/Women's” and cross-linked from their profile."})
+    ]));
+    var searchWrap = el("div", {style:"margin-bottom:14px;"});
+    var search = el("input", {class:"search", type:"text", placeholder:"Search wrestlers…"});
+    searchWrap.appendChild(search);
+    c.appendChild(searchWrap);
+
+    var wrap = el("div", {id:"wr-index-wrap"});
+    c.appendChild(wrap);
+
+    function draw(filter){
+      var f = (filter||"").toLowerCase();
+      var rows = div.wrestlers.filter(function(w){ return !f || w.name.toLowerCase().indexOf(f) !== -1; });
+      rows = rows.slice().sort(function(a,b){ return a.name.localeCompare(b.name); });
+      var table = el("table", {class:"wr-index-table"});
+      var htr = el("tr");
+      htr.appendChild(el("th", {text:"Wrestler"}));
+      htr.appendChild(el("th", {text:"Active"}));
+      WR_STATS_COLS.forEach(function(col){ htr.appendChild(el("th", {text:col.l})); });
+      table.appendChild(el("thead",{},[htr]));
+      var tbody = el("tbody");
+      rows.slice(0, 500).forEach(function(w){
+        var tr = el("tr", {onclick:(function(id){return function(){navigate("/"+div.key+"/wrestlers/"+id);};})(w.id)});
+        var nameTd = el("td",{}); nameTd.appendChild(wlink(w.id, w.name));
+        if (w.bio && w.bio.deceasedDate) nameTd.appendChild(el("span",{class:"badge-deceased", text:"d."}));
+        var gb = gimmickBadge(w); if (gb) nameTd.appendChild(gb);
+        var odb = otherDivisionBadge(w); if (odb) nameTd.appendChild(odb);
+        tr.appendChild(nameTd);
+        tr.appendChild(el("td", {text: (w.firstYear||"—")+"–"+(w.lastYear||"—")}));
+        WR_STATS_COLS.forEach(function(col){
+          tr.appendChild(el("td", {class: col.k!=="bestFinish"?"num":"", text: (w[col.k]===null||w[col.k]===undefined||w[col.k]==="")?"—":w[col.k]}));
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      wrap.innerHTML = "";
+      wrap.appendChild(table);
+      if (!rows.length) wrap.appendChild(el("div",{class:"sub", text:"No wrestlers match “"+filter+"”."}));
+      else if (rows.length > 500) wrap.appendChild(el("div",{class:"sub", style:"margin-top:10px;", text:"Showing first 500 of "+rows.length+" matches — narrow your search for more."}));
+    }
+    draw("");
+    search.addEventListener("input", function(){ draw(search.value); });
+    return c;
+  }
+
+  // ---------------- page: entry number statistics ----------------
+  function pageEntryNumbers(div){
+    var c = el("div", {class:"container"});
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:div.label+" · All-time"}),
+      el("h2", {text:"Entry Number Statistics"}),
+      el("p", {text:"How each draw number has actually performed across every "+div.label+" so far — win rate, how long entrants at that number tend to survive, and how often they reach the final four. Sample size is shown deliberately: fewer Rumbles have gone deep enough to have had a #35 or #40 entrant at all, so the highest-number rows rest on far fewer data points and move around more."})
+    ]));
+
+    var stats = (div.entryNumberStats || []).filter(function(s){ return s.entryNumber !== null && s.entryNumber !== undefined; });
+    if (!stats.length){
+      c.appendChild(el("div",{class:"sub", text:"No entry-number data tracked yet for the "+div.label+"."}));
+      return c;
+    }
+
+    var bands = div.entryNumberBands || [];
+    if (bands.length){
+      var bandPanel = el("div", {class:"panel"});
+      bandPanel.appendChild(el("h3", {text:"By value slice"}));
+      bandPanel.appendChild(el("div", {class:"sub", text:"The same data grouped into #1, #2, first-5, last-5 and everything in between, rather than one row per number."}));
+      var bandTableWrap = el("div", {class:"table-scroll", style:"margin-top:12px;"});
+      var bandTable = el("table", {class:"wr-index-table"});
+      var bhtr = el("tr");
+      ["Slice","Range","Sample","Wins","Win %","R-Up","Final 4 %","Avg Elims","Avg Survival"].forEach(function(lbl){
+        bhtr.appendChild(el("th", {text:lbl}));
+      });
+      bandTable.appendChild(el("thead",{},[bhtr]));
+      var bandTbody = el("tbody");
+      bands.forEach(function(b){
+        bandTbody.appendChild(el("tr",{},[
+          el("td",{text:b.band}),
+          el("td",{class:"num", text:"#"+b.bandRange}),
+          el("td",{class:"num", text:fmtNum(b.sampleSize)}),
+          el("td",{class:"num", text:fmtNum(b.wins)}),
+          el("td",{class:"num", text:fmtPct(b.winRate)}),
+          el("td",{class:"num", text:fmtNum(b.runnerUpCount)}),
+          el("td",{class:"num", text:fmtPct(b.finalFourRate)}),
+          el("td",{class:"num", text: (b.avgEliminations===null||b.avgEliminations===undefined) ? "—" : b.avgEliminations.toFixed(2)}),
+          el("td",{class:"num", text:fmtSec(b.avgSurvivalSec)})
+        ]));
+      });
+      bandTable.appendChild(bandTbody);
+      bandTableWrap.appendChild(bandTable);
+      bandPanel.appendChild(bandTableWrap);
+      if (bands[0] && bands[0].notes) bandPanel.appendChild(el("div", {class:"sub", style:"margin-top:8px;", text:bands[0].notes}));
+      c.appendChild(bandPanel);
+    }
+
+    var chartPanel = el("div", {class:"panel section-gap"});
+    chartPanel.appendChild(el("h3", {text:"Win rate by entry number"}));
+    chartPanel.appendChild(el("div", {class:"sub", text:"Share of "+div.label+" matches won by an entrant drawing this number"}));
+    var maxRate = Math.max.apply(null, stats.map(function(s){ return s.winRate || 0; })) || 1;
+    stats.forEach(function(s){
+      var v = s.winRate || 0;
+      var pct = Math.max(v > 0 ? 2 : 0, Math.round((v / maxRate) * 100));
+      chartPanel.appendChild(el("div", {class:"bar-row"}, [
+        el("div", {class:"nm", text:"#"+s.entryNumber}),
+        el("div", {class:"bar-track"}, [ el("div", {class:"bar-fill"+(s.wins>0?" winner":""), style:"width:"+pct+"%;"}) ]),
+        el("div", {class:"bar-val", text: fmtPct(s.winRate)})
+      ]));
+    });
+    c.appendChild(chartPanel);
+
+    c.appendChild(el("div",{class:"cat-heading section-gap", text:"Full breakdown"}));
+    var tableWrap = el("div", {class:"table-scroll"});
+    var table = el("table", {class:"wr-index-table"});
+    var htr = el("tr");
+    ["Entry #","Sample","Wins","Win %","R-Up","Final 4 %","Avg Elims","Avg Survival","Median Survival"].forEach(function(lbl){
+      htr.appendChild(el("th", {text:lbl}));
+    });
+    table.appendChild(el("thead",{},[htr]));
+    var tbody = el("tbody");
+    stats.forEach(function(s){
+      tbody.appendChild(el("tr",{},[
+        el("td",{text:"#"+s.entryNumber}),
+        el("td",{class:"num", text:fmtNum(s.sampleSize)}),
+        el("td",{class:"num", text:fmtNum(s.wins)}),
+        el("td",{class:"num", text:fmtPct(s.winRate)}),
+        el("td",{class:"num", text:fmtNum(s.runnerUpCount)}),
+        el("td",{class:"num", text:fmtPct(s.finalFourRate)}),
+        el("td",{class:"num", text: (s.avgEliminations===null||s.avgEliminations===undefined) ? "—" : s.avgEliminations.toFixed(2)}),
+        el("td",{class:"num", text:fmtSec(s.avgSurvivalSec)}),
+        el("td",{class:"num", text:fmtSec(s.medianSurvivalSec)})
+      ]));
+    });
+    table.appendChild(tbody);
+    tableWrap.appendChild(table);
+    c.appendChild(tableWrap);
+
+    c.appendChild(el("div",{class:"footnote", text:"“Sample” is the number of "+div.label+" events with a recorded entrant at that draw number. Win % / Final 4 % / R-Up are out of that sample, not out of every event in the database — a low-sample row (typically #31 and up) is a smaller, noisier bet than #1–#30."}));
+
+    return c;
+  }
+
+  // ---------------- page: host venues and cities ----------------
+  function pageLocations(div){
+    var c = el("div", {class:"container"});
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:div.label+" · Event geography"}),
+      el("h2", {text:"Host Locations"}),
+      el("p", {text:"Royal Rumble matches grouped by their recorded arena and city. Venue names are kept distinct by city and country; no inferred renaming or geocoding is applied."})
+    ]));
+    var locations = div.locations || {venues:[], cities:[]};
+
+    function locationSection(title, rows, locationText){
+      c.appendChild(el("div", {class:"cat-heading"+(title==="Cities"?" section-gap":""), text:title}));
+      var grid = el("div", {class:"grid records"});
+      rows.forEach(function(row){
+        var card = el("div", {class:"card rec-card"});
+        card.appendChild(el("div", {class:"nm", text:row.name}));
+        card.appendChild(el("div", {class:"val", text:row.eventCount}));
+        card.appendChild(el("div", {class:"holder", text:(row.eventCount===1?"event":"events")+", "+(row.firstYear===row.lastYear?row.firstYear:(row.firstYear+"-"+row.lastYear))}));
+        var detail = locationText(row);
+        if (detail) card.appendChild(el("div", {class:"note", text:detail}));
+        var list = el("div", {class:"member-list", style:"display:block; margin-top:8px;"});
+        row.events.forEach(function(ev){
+          var winnerNames=(ev.winners||[]).map(function(w){return w.name;}).join(" & ");
+          list.appendChild(el("div", {class:"member-row"}, [
+            el("a", {href:"#/"+div.key+"/events/"+ev.id, text:String(ev.year), onclick:function(e){e.preventDefault();navigate("/"+div.key+"/events/"+ev.id);}}),
+            el("span", {class:"d", text:winnerNames?("Winner: "+winnerNames):""})
+          ]));
+        });
+        card.appendChild(list);
+        if (row.knownAttendanceTotal){
+          card.appendChild(el("div", {class:"note", text:"Known attendance total: "+fmtNum(row.knownAttendanceTotal)+" across "+row.attendanceEvents+" of "+row.eventCount+" event"+(row.eventCount!==1?"s":"")+"."}));
+        }
+        grid.appendChild(card);
+      });
+      if (!rows.length) grid.appendChild(el("div", {class:"sub", text:"No recorded "+title.toLowerCase()+" for this division."}));
+      c.appendChild(grid);
+    }
+
+    locationSection("Venues", locations.venues, function(r){ return [r.city,r.country].filter(Boolean).join(", "); });
+    locationSection("Cities", locations.cities, function(r){ return r.country||""; });
+    return c;
+  }
+
+  // ---------------- page: wrestler profile ----------------
+  function pageWrestlerDetail(div, id){
+    var w = div._byWid[id];
+    var c = el("div", {class:"container"});
+    if (!w){
+      c.appendChild(el("div",{class:"backlink", text:"← Back to Wrestlers", onclick:function(){navigate("/"+div.key+"/wrestlers");}}));
+      c.appendChild(el("p", {text:"Wrestler not found in the "+div.label+"."}));
+      return c;
+    }
+    c.appendChild(el("div",{class:"backlink", text:"← Back to Wrestlers", onclick:function(){navigate("/"+div.key+"/wrestlers");}}));
+
+    var bio = w.bio || {};
+    var hero = el("div", {class:"wr-hero"});
+    var nmRow = el("div", {class:"nm"}, [document.createTextNode(w.name)]);
+    if (bio.hallOfFameYear) nmRow.appendChild(el("span",{class:"badge-hof", text:"HOF "+bio.hallOfFameYear}));
+    if (bio.deceasedDate) nmRow.appendChild(el("span",{class:"badge-deceased", text:"Deceased"}));
+    hero.appendChild(nmRow);
+    hero.appendChild(el("div",{class:"aliases", text:div.label+" profile"+(bio.aliases && bio.aliases.length ? "  ·  Also known as: "+bio.aliases.join(", ") : "")}));
+
+    var facts = el("div", {class:"factrow"});
+    function factVal(label, factObj, extra){
+      if (!factObj || !factObj.value) return;
+      var vDiv = el("div",{class:"v"});
+      vDiv.appendChild(document.createTextNode(factObj.value + (extra ? " "+extra : "")));
+      if (factObj.status && factObj.status.toUpperCase() !== "CONFIRMED"){
+        vDiv.appendChild(el("span",{class:"quality-pill "+qualityClass(factObj.status,false), text:qualityLabel(factObj.status,false)}));
+      }
+      facts.appendChild(el("div",{class:"fact"},[el("div",{class:"l",text:label}), vDiv]));
+    }
+    function factPlain(label, v){ if (!v) return; facts.appendChild(el("div",{class:"fact"},[el("div",{class:"l",text:label}), el("div",{class:"v",text:v})])); }
+    var age = ageAt(bio.dob && bio.dob.value, bio.deceasedDate);
+    factVal("Real name", bio.realName);
+    factVal("Born", bio.dob, bio.deceasedDate ? null : (age!==null ? "(age "+age+")" : null));
+    if (bio.deceasedDate) factPlain("Died", fmtDate(bio.deceasedDate) + (age!==null ? " (age "+age+")" : ""));
+    factVal("Birthplace", bio.birthplace);
+    factPlain("Nationality", bio.nationality);
+    factVal("Ethnicity / heritage", bio.ethnicityHeritage);
+    factPlain("WWE debut year", bio.companyDebutYear);
+    factPlain("Wrestling style", bio.wrestlingStyle);
+    hero.appendChild(facts);
+    c.appendChild(hero);
+
+    // Cross-link to this SAME wrestler_id's stat line in the OTHER division
+    // (e.g. Beth Phoenix: this is her Men's 2010 page pointing at her
+    // Women's 2018 page, or vice versa) -- one identity, two fully
+    // independent stat lines, never summed together.
+    if (w.otherDivision && w.otherDivision.length){
+      var otherPanel = el("div", {class:"also-panel"});
+      otherPanel.appendChild(el("div", {class:"also-head", text:"Also competed in"}));
+      var olist = el("div", {class:"also-list"});
+      w.otherDivision.forEach(function(o, idx){
+        if (idx) olist.appendChild(document.createTextNode("  ·  "));
+        olist.appendChild(el("span", {class:"wlink", text:o.divisionLabel, onclick:(function(dk){return function(){ navigate("/"+dk+"/wrestlers/"+id); };})(o.divisionKey)}));
+        var yrs = o.firstYear ? (o.firstYear===o.lastYear ? (""+o.firstYear) : (o.firstYear+"–"+o.lastYear)) : "";
+        olist.appendChild(el("span",{class:"ay", text:" ("+yrs+", "+o.appearances+" app"+(o.appearances!==1?"s":"")+(o.bestFinish?", "+o.bestFinish:"")+")"}));
+      });
+      otherPanel.appendChild(olist);
+      otherPanel.appendChild(el("div",{class:"ay", style:"margin-top:8px;", text:"Same wrestler profile, kept as a fully separate stat line per Royal Rumble Database convention — Men's and Women's totals are never added together."}));
+      c.appendChild(otherPanel);
+    }
+
+    // "Also wrestled as" -- cross-links other gimmick-era wrestler_ids that
+    // are this same real performer (see build_dashboard_data.py for the
+    // real_name + DOB matching this is built from), scoped to THIS division
+    // (a sibling only shows here if they too have a stat line in it). This
+    // database deliberately keeps each gimmick era as its own row rather
+    // than merging them, so this panel is what makes that split
+    // discoverable instead of looking like unrelated wrestlers -- e.g. Big
+    // Boss Man's two eras, or Glenn Jacobs as Isaac Yankem / Fake Diesel / Kane.
+    if (w.samePerformer && w.samePerformer.length){
+      var also = el("div", {class:"also-panel"});
+      also.appendChild(el("div", {class:"also-head", text:"Same performer, other gimmicks ("+div.label+")"}));
+      var list = el("div", {class:"also-list"});
+      w.samePerformer.forEach(function(s, idx){
+        if (idx) list.appendChild(document.createTextNode("  ·  "));
+        list.appendChild(wlink(s.id, s.name));
+        var yrs = s.years && s.years.length ? s.years.join(", ") : "no Rumble entries under this name";
+        list.appendChild(el("span",{class:"ay", text:" ("+yrs+")"}));
+      });
+      also.appendChild(list);
+      if (w.combinedStats){
+        var cs = w.combinedStats;
+        var crow = el("div",{class:"combined-row"});
+        [["appearances","Appearances"],["wins","Wins"],["elims","Career Elims"],["winPct","Win %"],["bestFinish","Best Finish"]].forEach(function(pair){
+          var v = cs[pair[0]];
+          var text = pair[0]==="winPct" ? fmtPct(v) : (pair[0]==="bestFinish" ? (v||"—") : fmtNum(v));
+          crow.appendChild(el("div",{class:"kpi"},[el("div",{class:"v",text:text}), el("div",{class:"l",text:pair[1]})]));
+        });
+        also.appendChild(el("div",{class:"ay",style:"margin-top:10px;",text:"Combined across all gimmicks listed above, within the "+div.label+" only"}));
+        also.appendChild(crow);
+      }
+      c.appendChild(also);
+    }
+
+    var kpi = el("div", {class:"kpi-row"});
+    [["appearances","Appearances"],["wins","Wins"],["runnerUp","Runner-up"],["finalFour","Final Four"],
+     ["elims","Career Elims"],["maxElimsSingle","Best Single"],["avgEntry","Avg Entry #"]].forEach(function(pair){
+      var v = w[pair[0]];
+      var text = pair[0]==="avgEntry" ? (v!==null&&v!==undefined ? v.toFixed(1) : "—") : fmtNum(v);
+      kpi.appendChild(el("div",{class:"kpi"},[el("div",{class:"v",text:text}), el("div",{class:"l",text:pair[1]})]));
+    });
+    kpi.appendChild(el("div",{class:"kpi"},[el("div",{class:"v",text:fmtPct(w.winPct)}), el("div",{class:"l",text:"Win %"})]));
+    c.appendChild(kpi);
+
+    // Rumble-by-Rumble history
+    c.appendChild(el("div",{class:"cat-heading section-gap", text:div.label+" — Rumble-by-Rumble history"}));
+    var histPanel = el("div", {class:"panel"});
+    var histScroll = el("div", {class:"table-scroll"});
+    var histTable = el("table", {class:"hist-table"});
+    histTable.appendChild(el("thead",{},[el("tr",{},[
+      el("th",{text:"Year"}), el("th",{text:"Appearance"}), el("th",{text:"Entry #"}),
+      el("th",{text:"Context"}), el("th",{text:"Result"}), el("th",{text:"Time in ring"})
+    ])]));
+    var histBody = el("tbody");
+    (w.history||[]).forEach(function(h){
+      var contextCell = el("td", {class:"name-cell"});
+      var contextBadges = el("div", {class:"badges"});
+      if (h.isRumbleDebut) contextBadges.appendChild(el("span",{class:"chip",text:"Rumble debut"}));
+      if (h.isCompanyDebut) contextBadges.appendChild(el("span",{class:"chip",text:"WWE debut"}));
+      if (h.isReturning) contextBadges.appendChild(el("span",{class:"chip",text:"Return"}));
+      if (h.championship) contextBadges.appendChild(el("span",{class:"chip",text:"Champion"}));
+      if (h.titleLostSameCard && !h.championship) contextBadges.appendChild(el("span",{class:"chip",text:"Lost title earlier"}));
+      if (contextBadges.children.length) contextCell.appendChild(contextBadges);
+      if (h.championship){
+        var champDetail = h.championship.title;
+        if (h.championship.daysIntoReign!==null && h.championship.daysIntoReign!==undefined) champDetail += " · day "+h.championship.daysIntoReign;
+        if (h.championship.partner) champDetail += " · with "+h.championship.partner;
+        if (h.championship.defendedSameCard) champDetail += " · defended earlier";
+        if (h.championship.lostSameCard) champDetail += " · lost earlier";
+        contextCell.appendChild(el("div",{class:"method-note",text:champDetail}));
+      }
+      if (h.isCompanyDebut && h.companyDebutDate) contextCell.appendChild(el("div",{class:"method-note",text:h.companyDebutDate}));
+      if (h.isReturning) contextCell.appendChild(el("div",{class:"method-note",text:h.absenceLength ? h.absenceLength : "Absence length not established"}));
+      if (!contextCell.children.length) contextCell.appendChild(document.createTextNode("—"));
+      var resultCell = el("td");
+      if (h.neverEntered){
+        resultCell.appendChild(document.createTextNode("Drew a number, never entered"));
+      } else if (h.isWinner){
+        resultCell.appendChild(el("span",{class:"result-win", text:"Won"}));
+      } else if (h.isRunnerUp){
+        resultCell.appendChild(el("span",{class:"result-runnerup", text:"Runner-up"}));
+      } else {
+        var byTxt = h.by && h.by.length ? h.by.map(function(b){return b.name;}).join(" & ") : "unrecorded";
+        resultCell.appendChild(document.createTextNode((h.elimNum?("#"+h.elimNum+" out"):"Eliminated")+(h.isSelf?" (self)":"")+" — by "+byTxt));
+      }
+      if (h.elimsMade) resultCell.appendChild(el("div",{class:"method-note", text:h.elimsMade+" elimination"+(h.elimsMade!==1?"s":"")+" made"}));
+      histBody.appendChild(el("tr", {onclick:(function(eid){return function(){navigate("/"+div.key+"/events/"+eid);};})(h.eventId)}, [
+        el("td",{class:"num", text:h.year}),
+        el("td",{class:"num", text:h.appearanceNo ? ("#"+h.appearanceNo) : "—"}),
+        el("td",{class:"num", text:h.entry!==null&&h.entry!==undefined?h.entry:"—"}),
+        contextCell,
+        resultCell,
+        el("td",{class:"num", text:h.neverEntered?"—":(h.ringTime||"—")})
+      ]));
+    });
+    histTable.appendChild(histBody);
+    histScroll.appendChild(histTable);
+    histPanel.appendChild(histScroll);
+    if (!(w.history||[]).length) histPanel.appendChild(el("div",{class:"sub", text:"No Rumble appearances recorded."}));
+    c.appendChild(histPanel);
+
+    // Championship-at-entry and debut/return detail are already sourced on
+    // each entrant row. These panels expose them without reclassifying or
+    // supplementing any underlying fact.
+    var championshipHistory = (w.history||[]).filter(function(h){ return h.championship || h.titleLostSameCard; });
+    var careerMilestones = (w.history||[]).filter(function(h){ return h.isRumbleDebut || h.isCompanyDebut || h.isReturning; });
+    if (championshipHistory.length || careerMilestones.length){
+      var contextCols = el("div", {class:"ev-cols section-gap"});
+      if (championshipHistory.length){
+        var champPanel = el("div", {class:"panel"});
+        champPanel.appendChild(el("h3", {text:"Championship status at entry"}));
+        champPanel.appendChild(el("div", {class:"sub", text:"Titles held when the Rumble match began, plus titles lost earlier on the same card"}));
+        championshipHistory.forEach(function(h){
+          var ch = h.championship;
+          var title = ch ? ch.title : "Title lost earlier on the card";
+          var detail = [];
+          if (ch && ch.reignNumber) detail.push("reign #"+ch.reignNumber);
+          if (ch && ch.daysIntoReign!==null && ch.daysIntoReign!==undefined) detail.push("day "+ch.daysIntoReign);
+          if (ch && ch.partner) detail.push("partner: "+ch.partner);
+          if (h.titleDefendedSameCard) detail.push("defended earlier on card");
+          if (h.titleLostSameCard) detail.push("lost earlier on card");
+          champPanel.appendChild(el("div",{class:"rec-mini",onclick:(function(eid){return function(){navigate("/"+div.key+"/events/"+eid);};})(h.eventId)},[
+            el("div",{},[el("div",{text:title}),el("div",{class:"cat",text:detail.join(" · ")})]),
+            el("div",{class:"val",style:"font-family:var(--font-d); color:var(--accent);",text:String(h.year)})
+          ]));
+        });
+        contextCols.appendChild(champPanel);
+      }
+      if (careerMilestones.length){
+        var milestonePanel = el("div", {class:"panel"});
+        milestonePanel.appendChild(el("h3", {text:"Debuts and returns"}));
+        milestonePanel.appendChild(el("div", {class:"sub", text:"Rumble debuts, WWE debuts and documented returns"}));
+        careerMilestones.forEach(function(h){
+          var labels=[];
+          if (h.isRumbleDebut) labels.push("Rumble debut");
+          if (h.isCompanyDebut) labels.push("WWE debut"+(h.companyDebutDate?" ("+h.companyDebutDate+")":""));
+          if (h.isReturning) labels.push("Return"+(h.absenceLength?" — "+h.absenceLength:" — absence length not established"));
+          milestonePanel.appendChild(el("div",{class:"rec-mini",onclick:(function(eid){return function(){navigate("/"+div.key+"/events/"+eid);};})(h.eventId)},[
+            el("div",{},[el("div",{text:labels.join(" · ")}),el("div",{class:"cat",text:"Rumble appearance #"+(h.appearanceNo||"?")})]),
+            el("div",{class:"val",style:"font-family:var(--font-d); color:var(--accent);",text:String(h.year)})
+          ]));
+        });
+        contextCols.appendChild(milestonePanel);
+      }
+      c.appendChild(contextCols);
+    }
+
+    // Every value below is appearance-specific. This keeps changing billed
+    // measurements, hometowns and characters attached to the event where
+    // they were used instead of flattening them into a misleading career fact.
+    if ((w.history||[]).length){
+      c.appendChild(el("div",{class:"cat-heading section-gap", text:"Rumble-by-Rumble profile history"}));
+      var profilePanel = el("div", {class:"panel"});
+      profilePanel.appendChild(el("div", {class:"sub", text:"Billed physical profile, alignment, character and affiliations at each appearance. Blank character fields mean no sourced value is currently recorded, not a verified absence."}));
+      var profileScroll = el("div", {class:"table-scroll", style:"margin-top:10px;"});
+      var profileTable = el("table", {class:"hist-table"});
+      profileTable.appendChild(el("thead",{},[el("tr",{},[
+        el("th",{text:"Year"}), el("th",{text:"Age"}), el("th",{text:"Height"}),
+        el("th",{text:"Weight"}), el("th",{text:"Billed from"}), el("th",{text:"Alignment"}),
+        el("th",{text:"Gimmick"}), el("th",{text:"Manager"}), el("th",{text:"Team / faction"})
+      ])]));
+      var profileBody = el("tbody");
+      (w.history||[]).forEach(function(h){
+        var pp = h.physicalProfile || {}, cp = h.characterProfile || {};
+        function statusCell(value, status, suffix){
+          var td=el("td");
+          td.appendChild(document.createTextNode(value ? (value+(suffix||"")) : "—"));
+          if (value && status && status.toUpperCase() !== "CONFIRMED") td.appendChild(el("span",{class:"quality-pill "+qualityClass(status,false),text:qualityLabel(status,false)}));
+          return td;
+        }
+        var affiliation = [cp.tagTeam, cp.faction && cp.faction!==cp.tagTeam ? cp.faction : null].filter(Boolean).join(" · ");
+        profileBody.appendChild(el("tr",{onclick:(function(eid){return function(){navigate("/"+div.key+"/events/"+eid);};})(h.eventId)},[
+          el("td",{class:"num",text:h.year}),
+          statusCell(pp.age, pp.ageStatus, ""),
+          statusCell(pp.heightM, pp.status, pp.heightM?" m":""),
+          statusCell(pp.weightKg, pp.status, pp.weightKg?" kg":""),
+          statusCell(pp.billedFrom, pp.status, ""),
+          statusCell(cp.alignment, cp.alignmentStatus, ""),
+          el("td",{text:cp.gimmick||"—"}),
+          el("td",{text:cp.manager||"—"}),
+          el("td",{text:affiliation||"—"})
+        ]));
+      });
+      profileTable.appendChild(profileBody);
+      profileScroll.appendChild(profileTable);
+      profilePanel.appendChild(profileScroll);
+      c.appendChild(profilePanel);
+    }
+
+    // Records held + Notable moments
+    var hasRecords = w.recordsHeld && w.recordsHeld.length;
+    var hasMoments = w.notableMoments && w.notableMoments.length;
+    if (hasRecords || hasMoments){
+      var cols2 = el("div", {class:"ev-cols section-gap"});
+      if (hasRecords){
+        var recPanel = el("div", {class:"panel"});
+        recPanel.appendChild(el("h3", {text:"Records held"}));
+        recPanel.appendChild(el("div", {class:"sub", text:"All-time "+div.label+" records this wrestler currently holds"}));
+        w.recordsHeld.forEach(function(r){
+          recPanel.appendChild(el("div",{class:"rec-mini"},[
+            el("div",{},[document.createTextNode(r.name), el("div",{class:"cat", text:r.category})]),
+            el("div",{class:"val", style:"font-family:var(--font-d); color:var(--accent);", text:r.value})
+          ]));
+        });
+        cols2.appendChild(recPanel);
+      }
+      if (hasMoments){
+        var momPanel2 = el("div", {class:"panel"});
+        momPanel2.appendChild(el("h3", {text:"Notable moments"}));
+        momPanel2.appendChild(el("div", {class:"sub", text:"Weird, wonderful and behind-the-scenes findings involving this wrestler"}));
+        w.notableMoments.forEach(function(m){
+          var row = el("div", {class:"moment-row"});
+          var head = el("div", {class:"moment-head"}, [el("div", {class:"moment-title", text:m.title || ""})]);
+          if (m.quality && m.quality.toLowerCase() !== "confirmed"){
+            head.appendChild(el("span", {class:"quality-pill "+qualityClass(m.quality,false), text:qualityLabel(m.quality,false)}));
+          }
+          row.appendChild(head);
+          if (m.description) row.appendChild(el("div", {class:"moment-desc", text:m.description}));
+          var evLink = el("div",{class:"method-note", style:"margin-top:6px; cursor:pointer;", text:(byId[m.eventId]?byId[m.eventId].year:m.eventId)+" — view event"});
+          evLink.addEventListener("click", (function(eid){return function(){navigate("/"+div.key+"/events/"+eid);};})(m.eventId));
+          row.appendChild(evLink);
+          momPanel2.appendChild(row);
+        });
+        cols2.appendChild(momPanel2);
+      }
+      c.appendChild(cols2);
+    }
+
+    // Rivalries -- repeat (2+) eliminator/eliminated pairings involving this
+    // wrestler, split by direction. A single past elimination isn't shown
+    // here (it's already in the Rumble-by-Rumble history table above); this
+    // is specifically for opponents this wrestler keeps running into.
+    var riv = w.rivalries || {};
+    var hasRivAsElim = riv.asEliminator && riv.asEliminator.length;
+    var hasRivAsVictim = riv.asVictim && riv.asVictim.length;
+    if (hasRivAsElim || hasRivAsVictim){
+      c.appendChild(el("div",{class:"cat-heading section-gap", text:"Rivalries"}));
+      var rcols = el("div", {class:"ev-cols"});
+      function rivalryPanel(title, sub, list){
+        var p = el("div", {class:"panel"});
+        p.appendChild(el("h3", {text:title}));
+        p.appendChild(el("div", {class:"sub", text:sub}));
+        list.forEach(function(r){
+          var yf = byId[r.firstEventId] ? byId[r.firstEventId].year : "";
+          var yl = byId[r.mostRecentEventId] ? byId[r.mostRecentEventId].year : "";
+          var yrTxt = (yf && yl) ? (yf === yl ? (""+yf) : (yf+"–"+yl)) : "";
+          p.appendChild(el("div",{class:"rec-mini"},[
+            el("div",{},[wlink(r.id, r.name), el("div",{class:"cat", text:yrTxt})]),
+            el("div",{class:"val", style:"font-family:var(--font-d); color:var(--accent);", text:"×"+r.times})
+          ]));
+        });
+        return p;
+      }
+      if (hasRivAsElim) rcols.appendChild(rivalryPanel("Eliminated repeatedly", "Opponents this wrestler has personally eliminated more than once", riv.asEliminator));
+      if (hasRivAsVictim) rcols.appendChild(rivalryPanel("Eliminated by, repeatedly", "Opponents who have personally eliminated this wrestler more than once", riv.asVictim));
+      c.appendChild(rcols);
+    }
+
+    c.appendChild(el("div",{class:"footnote", text:"Bio facts carry the same CONFIRMED / PROBABLE / CONFLICTING status as everything else in this database — an unlabeled fact is CONFIRMED by at least 2 independent sources; a pill next to a fact means it's resting on less than that."}));
+
+    return c;
+  }
+
+  // ---------------- render ----------------
+  function render(){
+    var r = parseHash();
+    renderNav(r);
+    var content = document.getElementById("content");
+    content.innerHTML = "";
+    content.scrollTop = 0;
+    window.scrollTo(0,0);
+
+    if (r.page === "explore"){
+      CUR_DIV = null;
+      content.appendChild(pageExplore(r.arg));
+      return;
+    }
+    if (r.page === "map"){
+      CUR_DIV = null;
+      content.appendChild(pageWorldMap());
+      return;
+    }
+    if (!r.division || r.page === "home"){
+      CUR_DIV = null;
+      content.appendChild(pageHome());
+      return;
+    }
+    var div = getDivision(r.division);
+    if (!div){
+      CUR_DIV = null;
+      content.appendChild(pageHome());
+      return;
+    }
+    CUR_DIV = r.division;
+    if (r.page === "events" && !r.arg) content.appendChild(pageEvents(div));
+    else if (r.page === "events" && r.arg) content.appendChild(pageEventDetail(div, r.arg));
+    else if (r.page === "records") content.appendChild(pageRecords(div));
+    else if (r.page === "wrestlers" && !r.arg) content.appendChild(pageWrestlers(div));
+    else if (r.page === "wrestlers" && r.arg) content.appendChild(pageWrestlerDetail(div, r.arg));
+    else if (r.page === "entry-numbers") content.appendChild(pageEntryNumbers(div));
+    else if (r.page === "locations") content.appendChild(pageLocations(div));
+    else content.appendChild(pageEvents(div));
+  }
+
+  // ---------------- boot ----------------
+  fetch(DATA_URL).then(function(r){ return r.json(); }).then(function(data){
+    DB = data;
+    (DB.divisions||[]).forEach(function(d){
+      d._byWid = {};
+      d.wrestlers.forEach(function(w){ d._byWid[w.id] = w; });
+      d.events.forEach(function(ev){ byId[ev.id] = ev; });
+      // Year range is computed from the data rather than hardcoded, so this
+      // stays correct as new events are added without an HTML edit each time.
+      var years = d.events.map(function(ev){ return parseInt(ev.year, 10); }).filter(function(y){ return !isNaN(y); });
+      d._minYear = years.length ? Math.min.apply(null, years) : null;
+      d._maxYear = years.length ? Math.max.apply(null, years) : null;
+    });
+    render();
+  }).catch(function(err){
+    document.getElementById("content").innerHTML =
+      "<div id='loading'>Couldn’t load the database (" + (err && err.message ? err.message : "unknown error") + ").</div>";
+  });
+})();
+</script>

@@ -1,0 +1,212 @@
+history_id,division,category,record_name,new_holder_wrestler_id,new_value,broke_event_id,previous_holder_wrestler_id,previous_value,logged_date,notes
+H0001,,Physical,Heaviest entrant ever (billed),one-man-gang,204 kg,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0002,,Physical,Lightest entrant ever (billed),sam-houston,101 kg,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0003,,Physical,Tallest entrant ever (billed),one-man-gang,2.06 m,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0004,,Physical,Shortest entrant ever (billed),danny-davis,1.78 m,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0005,,Age,Oldest entrant ever,harley-race,"44 Years, 9 Months",RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0006,,Age,Youngest entrant ever,sam-houston,"24 Years, 3 Months",RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0007,,Time,Longest single Rumble appearance ever,bret-hart,25:42,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0008,,Time,Shortest single Rumble appearance ever,junkyard-dog,2:08,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0009,,Eliminations,Most eliminations in a single Rumble ever,one-man-gang,6,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0010,,Eliminations,Most CAREER eliminations,one-man-gang,6,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0011,,Frequency,Most career appearances,b-brian-blair,1,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0012,,Frequency,Most Rumble wins,jim-duggan,1,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0013,,Field composition,Rumble with most eventual Hall of Famers,,9,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0014,,Field composition,Rumble with most now-deceased entrants,,4,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0015,,Rivalries,Most frequent eliminator/eliminated pairing,don-muraco -> bret-hart,1,RR1988M,,,2026-09-15,initial record (first event processed for this category)
+H0016,,Physical,Heaviest entrant ever (billed),andre-the-giant,240 kg,RR1989M,one-man-gang,204 kg,2026-09-15,
+H0017,,Physical,Tallest entrant ever (billed),andre-the-giant,2.24 m,RR1989M,one-man-gang,2.06 m,2026-09-15,
+H0018,,Physical,Shortest entrant ever (billed),koko-b-ware,1.73 m,RR1989M,danny-davis,1.78 m,2026-09-15,
+H0019,,Age,Oldest entrant ever,bad-news-brown,"45 Years, 2 Months, 24 Days",RR1989M,harley-race,"44 Years, 9 Months",2026-09-15,
+H0020,,Age,Youngest entrant ever,shawn-michaels,"23 Years, 5 Months, 24 Days",RR1989M,sam-houston,"24 Years, 3 Months",2026-09-15,
+H0021,,Time,Longest single Rumble appearance ever,mr-perfect,27:58,RR1989M,bret-hart,25:42,2026-09-15,
+H0022,,Time,Shortest single Rumble appearance ever,the-warlord,00:03,RR1989M,junkyard-dog,2:08,2026-09-15,
+H0023,,Eliminations,Most eliminations in a single Rumble ever,hulk-hogan,9,RR1989M,one-man-gang,6,2026-09-15,
+H0024,,Eliminations,Most CAREER eliminations,hulk-hogan,9,RR1989M,one-man-gang,6,2026-09-15,
+H0025,,Frequency,Most career appearances,jake-roberts,2,RR1989M,b-brian-blair,1,2026-09-15,
+H0026,,Frequency,Most Rumble wins,big-john-studd,1,RR1989M,jim-duggan,1,2026-09-15,
+H0027,,Field composition,Rumble with most eventual Hall of Famers,,15,RR1989M,,9,2026-09-15,
+H0028,,Field composition,Rumble with most now-deceased entrants,,7,RR1989M,,4,2026-09-15,
+H0029,,Age,Oldest entrant ever,bad-news-brown,"46 Years, 2 Months, 30 Days",RR1990M,bad-news-brown,"45 Years, 2 Months, 24 Days",2026-09-15,
+H0030,,Time,Longest single Rumble appearance ever,ted-dibiase,44:47,RR1990M,mr-perfect,27:58,2026-09-15,
+H0031,,Eliminations,Most CAREER eliminations,hulk-hogan,14,RR1990M,hulk-hogan,9,2026-09-15,
+H0032,,Frequency,Most career appearances,jake-roberts,3,RR1990M,jake-roberts,2,2026-09-15,
+H0033,,Field composition,Rumble with most now-deceased entrants,,8,RR1990M,,7,2026-09-15,
+H0034,,Rivalries,Most frequent eliminator/eliminated pairing,hulk-hogan -> mr-perfect,2,RR1990M,don-muraco -> bret-hart,1,2026-09-15,
+H0035,,Time,Longest single Rumble appearance ever,rick-martel,52:30,RR1991M,ted-dibiase,44:47,2026-09-15,
+H0036,,Time,Shortest single Rumble appearance ever,randy-savage,00:00,RR1991M,the-warlord,00:03,2026-09-15,
+H0037,,Eliminations,Most CAREER eliminations,hulk-hogan,17,RR1991M,hulk-hogan,14,2026-09-15,
+H0038,,Frequency,Most career appearances,jake-roberts,4,RR1991M,jake-roberts,3,2026-09-15,
+H0039,,Frequency,Most Rumble wins,hulk-hogan,2,RR1991M,big-john-studd,1,2026-09-15,
+H0040,,Time,Longest single Rumble appearance ever,ric-flair,59:31,RR1992M,rick-martel,52:30,2026-09-15,
+H0041,,Frequency,Most career appearances,jake-roberts,5,RR1992M,jake-roberts,4,2026-09-15,
+H0042,,Time,Longest single Rumble appearance ever,bob-backlund,61:16,RR1993M,ric-flair,59:31,2026-09-15,
+H0043,,Frequency,Most career appearances,tito-santana,6,RR1993M,jake-roberts,5,2026-09-15,
+H0044,,Frequency,Most career appearances,randy-savage,6,RR1994M,tito-santana,6,2026-09-15,
+H0045,,Frequency,Most career appearances,rick-martel,7,RR1995M,randy-savage,6,2026-09-15,
+H0046,,Field composition,Rumble with most eventual Hall of Famers,,17,RR1995M,,15,2026-09-15,
+H0047,,Frequency,Most career appearances,jake-roberts,7,RR1997M,rick-martel,7,2026-09-15,
+H0048,,Rivalries,Most frequent eliminator/eliminated pairing,shawn-michaels -> diesel,3,RR1996M,hulk-hogan -> mr-perfect,2,2026-09-15,
+H0049,,Eliminations,Most eliminations in a single Rumble ever,kane,11,RR2001M,hulk-hogan,9,2026-09-16,
+H0050,,Frequency,Most Rumble wins,steve-austin,3,RR2001M,hulk-hogan,2,2026-09-16,
+H0051,,Eliminations,Most CAREER eliminations,steve-austin,23,RR2002M,hulk-hogan,17,2026-09-16,
+H0052,,Eliminations,Most CAREER eliminations,steve-austin,28,RR2002M,steve-austin,23,2026-09-16,
+H0053,,Frequency,Most career appearances,billy-gunn,7,RR2004M,jake-roberts,7,2026-09-16,
+H0054,,Frequency,Most career appearances,shawn-michaels,8,RR2005M,billy-gunn,7,2026-09-16,
+H0055,,Frequency,Most career appearances,shawn-michaels,9,RR2006M,shawn-michaels,8,2026-09-16,
+H0056,,Frequency,Most career appearances,shawn-michaels,10,RR2007M,shawn-michaels,9,2026-09-16,
+H0057,,Time,Longest single Rumble appearance ever,rey-mysterio,62:14,RR2006M,bob-backlund,61:16,2026-09-16,
+H0058,,Eliminations,Most CAREER eliminations,kane,29,RR2008M,steve-austin,28,2026-09-16,
+H0059,,Frequency,Most career appearances,shawn-michaels,11,RR2008M,shawn-michaels,10,2026-09-16,
+H0060,,Frequency,Most career appearances,kane,11,RR2009M,shawn-michaels,11,2026-09-16,
+H0061,,Frequency,Most career appearances,kane,12,RR2011M,kane,11,2026-09-16,
+H0062,,Eliminations,Most CAREER eliminations,kane,30,RR2012M,kane,29,2026-09-16,
+H0063,,Frequency,Most career appearances,kane,13,RR2012M,kane,12,2026-09-16,
+H0064,,Eliminations,Most CAREER eliminations,kane,35,RR2012M,kane,30,2026-09-17,
+H0065,,Eliminations,Most CAREER eliminations,kane,36,RR2014M,kane,35,2026-09-17,
+H0066,,Frequency,Most career appearances,kane,15,RR2014M,kane,13,2026-09-17,
+H0067,,Frequency,Most career appearances,kane,16,RR2015M,kane,15,2026-09-17,
+H0068,,Frequency,Most career appearances,kane,17,RR2016M,kane,16,2026-09-17,
+H0069,,Eliminations,Most eliminations in a single Rumble ever,roman-reigns,12,RR2014M,kane,11,2026-09-17,
+H0070,,Eliminations,Most CAREER eliminations,kane,41,RR2016M,kane,36,2026-09-17,
+H0071,,Time,Shortest single Rumble appearance ever,santino-marella,0:02,RR2009M,randy-savage,00:00,2026-09-17,
+H0072,,Eliminations,Most CAREER eliminations,kane,40,RR2016M,kane,41,2026-09-17,
+H0073,,Eliminations,Most wrestlers required to eliminate a single entrant,muhammad-hassan,8,RR2005M,,,2026-09-17,initial record (first event processed for this category)
+H0074,,Eliminations,Most consecutive solo eliminations in a single Rumble,hulk-hogan,7,RR1989M,,,2026-09-17,initial record (first event processed for this category)
+H0075,,Rivalries,Most frequent eliminator/eliminated pairing,hulk-hogan -> the-warlord,3,RR1992M,shawn-michaels -> diesel,3,2026-09-18,
+H0076,,Field composition,Rumble with most eventual Hall of Famers,,15,RR1989M,,17,2026-09-18,
+H0077,,Field composition,Rumble with most now-deceased entrants,,9,RR1990M,,8,2026-09-18,
+H0078,,Field composition,Rumble with most eventual Hall of Famers,,16,RR1991M,,15,2026-09-18,
+H0079,,Field composition,Rumble with most now-deceased entrants,,14,RR1990M,,9,2026-09-18,
+H0080,,Field composition,Rumble with most eventual Hall of Famers,,17,RR1991M,,16,2026-09-19,
+H0081,Men's,Physical,Heaviest entrant ever (billed),andre-the-giant,240 kg,RR1989M,,,2026-09-20,initial record (first event processed for this division/category)
+H0082,Men's,Physical,Lightest entrant ever (billed),sam-houston,101 kg,RR1988M,,,2026-09-20,initial record (first event processed for this division/category)
+H0083,Men's,Physical,Tallest entrant ever (billed),andre-the-giant,2.24 m,RR1989M,,,2026-09-20,initial record (first event processed for this division/category)
+H0084,Men's,Physical,Shortest entrant ever (billed),koko-b-ware,1.73 m,RR1989M,,,2026-09-20,initial record (first event processed for this division/category)
+H0085,Men's,Age,Oldest entrant ever,bad-news-brown,"46 Years, 2 Months, 30 Days",RR1990M,,,2026-09-20,initial record (first event processed for this division/category)
+H0086,Men's,Age,Youngest entrant ever,shawn-michaels,"23 Years, 5 Months, 24 Days",RR1989M,,,2026-09-20,initial record (first event processed for this division/category)
+H0087,Men's,Time,Longest single Rumble appearance ever,rey-mysterio,62:14,RR2006M,,,2026-09-20,initial record (first event processed for this division/category)
+H0088,Men's,Time,Shortest single Rumble appearance ever,santino-marella,0:02,RR2009M,,,2026-09-20,initial record (first event processed for this division/category)
+H0089,Men's,Eliminations,Most eliminations in a single Rumble ever,roman-reigns,12,RR2014M,,,2026-09-20,initial record (first event processed for this division/category)
+H0090,Men's,Eliminations,Most CAREER eliminations,kane,40,RR2018M,,,2026-09-20,initial record (first event processed for this division/category)
+H0091,Men's,Frequency,Most career appearances,kane,17,RR2018M,,,2026-09-20,initial record (first event processed for this division/category)
+H0092,Men's,Frequency,Most Rumble wins,steve-austin,3,RR2018M,,,2026-09-20,initial record (first event processed for this division/category)
+H0093,Men's,Field composition,Rumble with most eventual Hall of Famers,,17,RR1991M,,,2026-09-20,initial record (first event processed for this division/category)
+H0094,Men's,Field composition,Rumble with most now-deceased entrants,,14,RR1990M,,,2026-09-20,initial record (first event processed for this division/category)
+H0095,Men's,Rivalries,Most frequent eliminator/eliminated pairing,hulk-hogan -> the-warlord,3,RR1992M,,,2026-09-20,initial record (first event processed for this division/category)
+H0096,Men's,Eliminations,Most wrestlers required to eliminate a single entrant,muhammad-hassan,8,RR2005M,,,2026-09-20,initial record (first event processed for this division/category)
+H0097,Men's,Eliminations,Most consecutive solo eliminations in a single Rumble,hulk-hogan,7,RR1989M,,,2026-09-20,initial record (first event processed for this division/category)
+H0098,Women's,Time,Longest single Rumble appearance ever,sasha-banks,54:46,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0099,Women's,Time,Shortest single Rumble appearance ever,vickie-guerrero,0:57,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0100,Women's,Eliminations,Most eliminations in a single Rumble ever,michelle-mccool,5,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0101,Women's,Eliminations,Most CAREER eliminations,michelle-mccool,5,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0102,Women's,Frequency,Most career appearances,asuka,1,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0103,Women's,Frequency,Most Rumble wins,asuka,1,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0104,Women's,Field composition,Rumble with most eventual Hall of Famers,,9,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0105,Women's,Field composition,Rumble with most now-deceased entrants,,0,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0106,Women's,Rivalries,Most frequent eliminator/eliminated pairing,brie-bella -> sasha-banks,1,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0107,Women's,Eliminations,Most wrestlers required to eliminate a single entrant,nia-jax,6,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0108,Women's,Eliminations,Most consecutive solo eliminations in a single Rumble,michelle-mccool,4,RR2018W,,,2026-09-20,initial record (first event processed for this division/category)
+H0109,Women's,Time,Longest single Rumble appearance ever,natalya,56:01,RR2019W,sasha-banks,54:46,2026-09-21,
+H0110,Women's,Time,Shortest single Rumble appearance ever,liv-morgan,0:08,RR2019W,vickie-guerrero,0:57,2026-09-21,
+H0111,Women's,Eliminations,Most CAREER eliminations,nia-jax,7,RR2019W,michelle-mccool,5,2026-09-21,
+H0112,Women's,Frequency,Most career appearances,bayley,2,RR2019W,asuka,1,2026-09-21,
+H0113,Men's,Eliminations,Most eliminations in a single Rumble ever,brock-lesnar,13,RR2020M,roman-reigns,12,2026-09-21,
+H0114,Men's,Eliminations,Most consecutive solo eliminations in a single Rumble,brock-lesnar,13,RR2020M,hulk-hogan,7,2026-09-21,
+H0115,Women's,Eliminations,Most eliminations in a single Rumble ever,bianca-belair,8,RR2020W,michelle-mccool,5,2026-09-21,
+H0116,Women's,Eliminations,Most CAREER eliminations,charlotte-flair,9,RR2020W,nia-jax,7,2026-09-21,
+H0117,Women's,Frequency,Most career appearances,carmella,3,RR2020W,bayley,2,2026-09-21,
+H0118,Women's,Eliminations,Most consecutive solo eliminations in a single Rumble,shayna-baszler,7,RR2020W,michelle-mccool,4,2026-09-21,
+H0119,Men's,Time,Longest single Rumble appearance ever,gunther,1:11:40,RR2023M,rey-mysterio,62:14,2026-09-22,
+H0120,Men's,Eliminations,Most CAREER eliminations,kane,42,RR2024M,kane,40,2026-09-22,
+H0121,Men's,Frequency,Most career appearances,kane,18,RR2024M,kane,17,2026-09-22,
+H0122,Women's,Time,Longest single Rumble appearance ever,rhea-ripley,1:01:08,RR2023W,natalya,56:01,2026-09-22,
+H0123,Women's,Time,Shortest single Rumble appearance ever,chelsea-green,00:05,RR2023W,liv-morgan,0:08,2026-09-22,
+H0124,Women's,Eliminations,Most CAREER eliminations,rhea-ripley,20,RR2023W,charlotte-flair,9,2026-09-22,
+H0125,Women's,Frequency,Most career appearances,dana-brooke,6,RR2023W,carmella,3,2026-09-22,
+H0126,Women's,Rivalries,Most frequent eliminator/eliminated pairing,nia-jax -> naomi,2,RR2021W,brie-bella -> sasha-banks,1,2026-09-22,
+H0127,Women's,Eliminations,Most wrestlers required to eliminate a single entrant,nia-jax,11,RR2023W,nia-jax,6,2026-09-22,
+H0128,Women's,Time,Longest single Rumble appearance ever,bayley,1:03:03,RR2024W,rhea-ripley,1:01:08,2026-09-22,
+H0129,Women's,Frequency,Most career appearances,liv-morgan,7,RR2024W,dana-brooke,6,2026-09-22,
+H0130,Women's,Time,Longest single Rumble appearance ever,roxanne-perez,1:07:47,RR2025W,bayley,1:03:03,2026-09-22,
+H0131,Women's,Eliminations,Most eliminations in a single Rumble ever,nia-jax,9,RR2025W,bianca-belair,8,2026-09-22,
+H0132,Women's,Eliminations,Most CAREER eliminations,nia-jax,28,RR2025W,rhea-ripley,20,2026-09-22,
+H0133,Women's,Frequency,Most career appearances,liv-morgan,8,RR2025W,liv-morgan,7,2026-09-22,
+H0134,Women's,Frequency,Most Rumble wins,charlotte-flair,2,RR2025W,asuka,1,2026-09-22,
+H0135,Women's,Rivalries,Most frequent eliminator/eliminated pairing,nia-jax -> naomi,3,RR2025W,nia-jax -> naomi,2,2026-09-22,
+H0136,Men's,Rivalries,Most frequent eliminator/eliminated pairing,roman-reigns -> the-miz,4,RR2026M,hulk-hogan -> the-warlord,3,2026-09-22,
+H0137,Women's,Frequency,Most career appearances,liv-morgan,9,RR2026W,liv-morgan,8,2026-09-22,
+H0138,Men's,Eliminations,Most career eliminations without ever winning,kane,42,RR2026M,,,2026-09-23,initial record (first event processed for this division/category)
+H0139,Men's,Frequency,Most career appearances without ever winning,kane,18,RR2026M,,,2026-09-23,initial record (first event processed for this division/category)
+H0140,Men's,Eliminations,Most eliminations in a single Rumble without winning it,brock-lesnar,13,RR2020M,,,2026-09-23,initial record (first event processed for this division/category)
+H0141,Men's,Durability,Longest gap between Rumble appearances (career),jeff-jarrett,22 years,RR2026M,,,2026-09-23,initial record (first event processed for this division/category)
+H0142,Men's,Durability,Longest consecutive-year appearance streak,dolph-ziggler,14 years,RR2026M,,,2026-09-23,initial record (first event processed for this division/category)
+H0143,Men's,Rivalries,Most distinct wrestlers eliminated across a career,kane,38,RR2026M,,,2026-09-23,initial record (first event processed for this division/category)
+H0144,Men's,Rivalries,Eliminated by the most different opponents across a career,kane,18,RR2026M,,,2026-09-23,initial record (first event processed for this division/category)
+H0145,Women's,Eliminations,Most career eliminations without ever winning,nia-jax,28,RR2026W,,,2026-09-23,initial record (first event processed for this division/category)
+H0146,Women's,Frequency,Most career appearances without ever winning,natalya,9,RR2026W,,,2026-09-23,initial record (first event processed for this division/category)
+H0147,Women's,Eliminations,Most eliminations in a single Rumble without winning it,nia-jax,9,RR2025W,,,2026-09-23,initial record (first event processed for this division/category)
+H0148,Women's,Durability,Longest gap between Rumble appearances (career),brie-bella,6 years,RR2026W,,,2026-09-23,initial record (first event processed for this division/category)
+H0149,Women's,Durability,Longest consecutive-year appearance streak,liv-morgan,9 years,RR2026W,,,2026-09-23,initial record (first event processed for this division/category)
+H0150,Women's,Rivalries,Most distinct wrestlers eliminated across a career,nia-jax,24,RR2026W,,,2026-09-23,initial record (first event processed for this division/category)
+H0151,Women's,Rivalries,Eliminated by the most different opponents across a career,nia-jax,20,RR2026W,,,2026-09-23,initial record (first event processed for this division/category)
+H0152,Men's,Field composition,Rumble with most Hall of Famers already inducted at the time,,1,RR2021M,,,2026-09-23,initial record (first event processed for this division/category)
+H0153,Women's,Field composition,Rumble with most Hall of Famers already inducted at the time,,4,RR2018W,,,2026-09-23,initial record (first event processed for this division/category)
+H0154,Men's,Match dynamics,Most wrestlers simultaneously in the ring,,15,RR2009M,,,2026-09-23,initial record (first event processed for this division/category)
+H0155,Men's,Physical,Lightest entrant ever (billed),skinner,98 kg,RR1992M,sam-houston,101 kg,2026-09-23,
+H0156,Men's,Age,Oldest entrant ever,col-mustafa,"49 Years, 10 Months, 4 Days",RR1992M,bad-news-brown,"46 Years, 2 Months, 30 Days",2026-09-23,
+H0157,Men's,Rivalries,Eliminated by the most different opponents across a career,mabel,24,RR2026M,kane,18,2026-09-23,
+H0158,Men's,Physical,Lightest entrant ever (billed),el-torito,45 kg,RR2014M,skinner,98 kg,2026-09-24,
+H0159,Men's,Physical,Shortest entrant ever (billed),hornswoggle,1.35 m,RR2008M,koko-b-ware,1.73 m,2026-09-24,
+H0160,Women's,Physical,Heaviest entrant ever (billed),nia-jax,123 kg,RR2018W,,,2026-09-24,initial record (first event processed for this division/category)
+H0161,Women's,Physical,Lightest entrant ever (billed),kacy-catanzaro,43 kg,RR2019W,,,2026-09-24,initial record (first event processed for this division/category)
+H0162,Women's,Physical,Tallest entrant ever (billed),nia-jax,1.83 m,RR2018W,,,2026-09-24,initial record (first event processed for this division/category)
+H0163,Women's,Physical,Shortest entrant ever (billed),kacy-catanzaro,1.52 m,RR2019W,,,2026-09-24,initial record (first event processed for this division/category)
+H0164,Men's,Age,Oldest entrant ever,booker-t,"57 Years, 10 Months, 27 Days",RR2023M,col-mustafa,"49 Years, 10 Months, 4 Days",2026-09-24,
+H0165,Men's,Age,Youngest entrant ever,ishowspeed,"20 Years, 0 Months, 11 Days",RR2025M,shawn-michaels,"23 Years, 5 Months, 24 Days",2026-09-24,
+H0166,Women's,Age,Oldest entrant ever,ivory,"60 Years, 2 Months, 3 Days",RR2022W,,,2026-09-24,initial record (first event processed for this division/category)
+H0167,Women's,Age,Youngest entrant ever,roxanne-perez,"21 Years, 2 Months, 23 Days",RR2023W,,,2026-09-24,initial record (first event processed for this division/category)
+H0168,Men's,Age,Oldest entrant ever,jimmy-snuka,"64 Years, 8 Months, 9 Days",RR2008M,booker-t,"57 Years, 10 Months, 27 Days",2026-09-24,
+H0169,Men's,Entrance timing,Longest entrance (buzzer to physical ring entry),hornswoggle,25:45,RR2008M,,,2026-09-25,initial record (first event processed for this division/category)
+H0170,Men's,Entrance timing,Shortest entrance (buzzer to physical ring entry),rick-rude,0:00,RR1990M,,,2026-09-25,initial record (first event processed for this division/category)
+H0171,Men's,Entrance timing,Latest physical ring entry in a Rumble,kane,61:52,RR2011M,,,2026-09-25,initial record (first event processed for this division/category)
+H0172,Men's,Entrance timing,Biggest variance from advertised entry interval,dolph-ziggler,91 sec late,RR2016M,,,2026-09-25,initial record (first event processed for this division/category)
+H0173,Men's,Entrance timing,Rumble with longest median entrance,,0:39,RR2023M,,,2026-09-25,initial record (first event processed for this division/category)
+H0174,Men's,Entrance timing,Rumble with shortest median entrance,,0:07,RR1991M,,,2026-09-25,initial record (first event processed for this division/category)
+H0175,Women's,Entrance timing,Longest entrance (buzzer to physical ring entry),billie-kay,7:25,RR2021W,,,2026-09-25,initial record (first event processed for this division/category)
+H0176,Women's,Entrance timing,Shortest entrance (buzzer to physical ring entry),brie-bella,0:11,RR2018W,,,2026-09-25,initial record (first event processed for this division/category)
+H0177,Women's,Entrance timing,Latest physical ring entry in a Rumble,becky-lynch,58:02,RR2019W,,,2026-09-25,initial record (first event processed for this division/category)
+H0178,Women's,Entrance timing,Biggest variance from advertised entry interval,natalya,117 sec late,RR2021W,,,2026-09-25,initial record (first event processed for this division/category)
+H0179,Women's,Entrance timing,Rumble with longest median entrance,,0:33.5,RR2023W,,,2026-09-25,initial record (first event processed for this division/category)
+H0180,Women's,Entrance timing,Rumble with shortest median entrance,,0:21.5,RR2018W,,,2026-09-25,initial record (first event processed for this division/category)
+H0181,Men's,Championship context,Rumble with most reigning champions in the field,,6,RR2006M,,,2026-09-25,initial record (first event processed for this division/category)
+H0182,Men's,Championship context,Longest title reign entering a Rumble,pete-dunne,617 days,RR2019M,,,2026-09-25,initial record (first event processed for this division/category)
+H0183,Men's,Championship context,Most Rumble appearances as reigning champion,shinsuke-nakamura,4,RR2025M,,,2026-09-25,initial record (first event processed for this division/category)
+H0184,Men's,Return context,Rumble with most returning wrestlers,,4,RR2015M,,,2026-09-25,initial record (first event processed for this division/category)
+H0185,Men's,Return context,Most Rumble appearances classified as a return,edge,2,RR2020M,,,2026-09-25,initial record (first event processed for this division/category)
+H0186,Women's,Championship context,Rumble with most reigning champions in the field,,6,RR2025W,,,2026-09-25,initial record (first event processed for this division/category)
+H0187,Women's,Championship context,Longest title reign entering a Rumble,bianca-belair,154 days,RR2025W,,,2026-09-25,initial record (first event processed for this division/category)
+H0188,Women's,Championship context,Most Rumble appearances as reigning champion,chelsea-green,2,RR2026W,,,2026-09-25,initial record (first event processed for this division/category)
+H0189,Women's,Return context,Rumble with most returning wrestlers,,11,RR2018W,,,2026-09-25,initial record (first event processed for this division/category)
+H0190,Women's,Return context,Most Rumble appearances classified as a return,molly-holly,3,RR2022W,,,2026-09-25,initial record (first event processed for this division/category)
+H0191,Men's,Match dynamics,Highest combined billed weight simultaneously in the ring,,"1,792.0 kg",RR2009M,,,2026-09-25,initial record (first event processed for this division/category)
+H0192,Men's,Match dynamics,Greatest combined billed height simultaneously in the ring,,28.89 m,RR2009M,,,2026-09-25,initial record (first event processed for this division/category)
+H0193,Men's,Field composition,Heaviest combined billed Rumble field,,"4,590.0 kg",RR2011M,,,2026-09-25,initial record (first event processed for this division/category)
+H0194,Men's,Field composition,Highest average billed weight in a Rumble field,,130.0 kg,RR1996M,,,2026-09-25,initial record (first event processed for this division/category)
+H0195,Men's,Field composition,Greatest combined billed height in a Rumble field,,75.84 m,RR2011M,,,2026-09-25,initial record (first event processed for this division/category)
+H0196,Men's,Field composition,Highest average billed height in a Rumble field,,1.921 m,RR1999M,,,2026-09-25,initial record (first event processed for this division/category)
+H0197,Women's,Field composition,Heaviest combined billed Rumble field,,"1,835.0 kg",RR2021W,,,2026-09-25,initial record (first event processed for this division/category)
+H0198,Women's,Field composition,Highest average billed weight in a Rumble field,,61.2 kg,RR2021W,,,2026-09-25,initial record (first event processed for this division/category)
+H0199,Women's,Field composition,Greatest combined billed height in a Rumble field,,50.35 m,RR2021W,,,2026-09-25,initial record (first event processed for this division/category)
+H0200,Women's,Field composition,Highest average billed height in a Rumble field,,1.678 m,RR2021W,,,2026-09-25,initial record (first event processed for this division/category)
+H0201,Men's,Durability,Longest iron-man streak (most consecutive editions with the longest ring time),chris-benoit,2 consecutive editions,RR2005M,,,2026-09-25,initial record (first event processed for this division/category)
+H0202,Men's,Durability,Best bounce-back (earliest elimination immediately followed by a win the next edition),hulk-hogan,"Eliminated #21 of 30 at RR1989M, won RR1990M",RR1990M,,,2026-09-25,initial record (first event processed for this division/category)
+H0203,Women's,Durability,Longest iron-man streak (most consecutive editions with the longest ring time),bianca-belair,3 consecutive editions,RR2022W,,,2026-09-25,initial record (first event processed for this division/category)
+H0204,Women's,Durability,Best bounce-back (earliest elimination immediately followed by a win the next edition),bayley,"Eliminated #13 of 30 at RR2023W, won RR2024W",RR2024W,,,2026-09-25,initial record (first event processed for this division/category)
+H0205,Women's,Match dynamics,Most wrestlers simultaneously in the ring,,12,RR2021W,,,2026-09-25,initial record (first event processed for this division/category)
+H0206,Women's,Match dynamics,Highest combined billed weight simultaneously in the ring,,725.0 kg,RR2021W,,,2026-09-25,initial record (first event processed for this division/category)
+H0207,Women's,Match dynamics,Greatest combined billed height simultaneously in the ring,,20.46 m,RR2023W,,,2026-09-25,initial record (first event processed for this division/category)
+H0208,Men's,Field composition,Rumble with most eventual Hall of Famers,,19,RR1992M,,17,2026-09-26,
+H0209,Women's,Field composition,Heaviest combined billed Rumble field,,"1,902.0 kg",RR2023W,,"1,835.0 kg",2026-09-26,
+H0210,Women's,Field composition,Highest average billed weight in a Rumble field,,63.4 kg,RR2023W,,61.2 kg,2026-09-26,
+H0211,Women's,Match dynamics,Highest combined billed weight simultaneously in the ring,,839.0 kg,RR2023W,,725.0 kg,2026-09-26,

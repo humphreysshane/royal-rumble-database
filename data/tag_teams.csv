@@ -1,0 +1,17 @@
+event_id,team_name,member_wrestler_ids,faction_stable,manager,official_team,entered_consecutively,cooperated_in_match,eliminated_together_count,fought_each_other,were_allies,were_tag_champions_at_time,combined_eliminations,data_quality_status,source_ids
+RR1988M,The Hart Foundation,bret-hart;jim-neidhart,,,TRUE,TRUE,TRUE,1,FALSE,TRUE,TRUE,1,PROBABLE,S004
+RR1988M,Dino Bravo and One Man Gang,dino-bravo;one-man-gang,,,FALSE,TRUE,TRUE,2,FALSE,TRUE,FALSE,2,PROBABLE,S004
+RR1988M,Jake Roberts and Jim Brunzell,jake-roberts;jim-brunzell,,,FALSE,TRUE,TRUE,1,FALSE,TRUE,FALSE,1,PROBABLE,S004
+RR1988M,The Bolsheviks,nikolai-volkoff;boris-zhukov,,,TRUE,TRUE,UNKNOWN,0,UNKNOWN,TRUE,TRUE,0,PROBABLE,S004
+RR1989M,Demolition,ax;smash,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,0,PROBABLE,S015;S012;S014
+RR1989M,Rhythm and Blues,greg-valentine;the-honky-tonk-man,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,0,PROBABLE,S015
+RR1989M,The Rockers,shawn-michaels;marty-jannetty,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,1,PROBABLE,S015
+RR1989M,The Bushwackers,butch-miller;luke-williams,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,1,PROBABLE,S015
+RR1989M,Strike Force,tito-santana;rick-martel,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,2,PROBABLE,S015
+RR1989M,Mega Powers,randy-savage;hulk-hogan,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,12,PROBABLE,S015;S012;S014
+RR1989M,Brain Busters,arn-anderson;tully-blanchard,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,3,PROBABLE,S015;S012;S014
+RR1989M,Powers of Pain,the-warlord;the-barbarian,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,2,PROBABLE,S015
+RR1989M,The Twin Towers,big-bossman;one-man-gang,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,10,PROBABLE,S015
+RR1990M,Demolition,ax;smash,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,1,PROBABLE,S017
+RR1991M,Legion of Doom,hawk;animal,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,,PROBABLE,S018;S019
+RR1991M,The Bushwackers,butch-miller;luke-williams,,,TRUE,TRUE,TRUE,,FALSE,TRUE,FALSE,,PROBABLE,S018;S019

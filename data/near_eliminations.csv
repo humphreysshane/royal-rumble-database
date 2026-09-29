@@ -1,0 +1,2 @@
+event_id,wrestler_id,timestamp,attempted_by_id,how_survived,apron_duration_seconds,feet_touched_floor,hands_touched_floor,rope_grab,pulled_back_in_by_id,video_source,reviewer,confidence,human_verified
+RR1992M,randy-savage,39:32,,"Intentionally jumped over the top rope in pursuit of Jake Roberts (just eliminated); announcers initially called it a self-elimination blunder, then ruled he was not eliminated since no opponent propelled him over the ropes -- see flags.csv F030.",,TRUE,UNKNOWN,UNKNOWN,,,,,FALSE

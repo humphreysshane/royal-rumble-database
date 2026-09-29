@@ -1,0 +1,101 @@
+event_id,person_id,person_name,role,wrestlers_managed,alignment,title_involved,notes,data_quality_status,source_ids
+RR1988M,ricky-steamboat,Ricky Steamboat,Wrestler (undercard),,Face,,"Def. Rick Rude by DQ, singles match",PROBABLE,S004
+RR1988M,rick-rude,Rick Rude,Wrestler (undercard),,Heel,,Lost to Steamboat by DQ,PROBABLE,S004
+RR1988M,noriyo-tateno,Noriyo Tateno,Wrestler (undercard),,Face,WWF Women's Tag Team Championship,Jumping Bomb Angels won the titles 2-1,PROBABLE,S004
+RR1988M,itsuki-yamazaki,Itsuki Yamazaki,Wrestler (undercard),,Face,WWF Women's Tag Team Championship,Jumping Bomb Angels won the titles 2-1,PROBABLE,S004
+RR1988M,leilani-kai,Leilani Kai,Wrestler (undercard),,Heel,WWF Women's Tag Team Championship,Glamour Girls lost the titles,PROBABLE,S004
+RR1988M,judy-martin,Judy Martin,Wrestler (undercard),,Heel,WWF Women's Tag Team Championship,Glamour Girls lost the titles,PROBABLE,S004
+RR1988M,jimmy-hart,Jimmy Hart,Manager,"Leilani Kai, Judy Martin, Bret Hart, Jim Neidhart, Danny Davis",Heel,,,PROBABLE,S004
+RR1988M,haku,Haku,Wrestler (undercard),,Heel,,Islanders (w/ Tama) def. Young Stallions,PROBABLE,S004
+RR1988M,tama,Tama,Wrestler (undercard),,Heel,,Islanders (w/ Haku) def. Young Stallions,PROBABLE,S004
+RR1988M,jim-powers,Jim Powers,Wrestler (undercard),,Face,,Young Stallions lost to Islanders,PROBABLE,S004
+RR1988M,paul-roma,Paul Roma,Wrestler (undercard),,Face,,Young Stallions lost to Islanders,PROBABLE,S004
+RR1988M,bobby-heenan,Bobby Heenan,Manager,Andre the Giant,Heel,,,PROBABLE,S004
+RR1988M,dino-bravo,Dino Bravo,Wrestler (strength exhibition),,Heel,,Also competed in the Rumble match itself -- see entrants.csv,PROBABLE,S004
+RR1988M,frenchy-martin,Frenchy Martin,Manager,Dino Bravo,Heel,,,PROBABLE,S004
+RR1988M,jack-tunney,Jack Tunney,Authority figure,,Face,,On-screen WWF President,PROBABLE,S004
+RR1988M,hulk-hogan,Hulk Hogan,"Wrestler (champion, not in Rumble)",,Face,WWF World Heavyweight Championship,Champion at the time; did not compete in the Rumble match,PROBABLE,S004
+RR1988M,andre-the-giant,Andre the Giant,Wrestler (undercard),,Heel,,,PROBABLE,S004
+RR1988M,ted-dibiase,Ted DiBiase,Wrestler (undercard),,Heel,,,PROBABLE,S004
+RR1988M,virgil,Virgil,Bodyguard/valet,,Heel,,Accompanied Ted DiBiase,PROBABLE,S004
+RR1988M,vince-mcmahon,Vince McMahon,Commentator,,Face,,,PROBABLE,S004
+RR1988M,jesse-ventura,Jesse Ventura,Commentator,,Heel,,,PROBABLE,S004
+RR1988M,gene-okerlund,Gene Okerlund,Interviewer,,Face,,,PROBABLE,S004
+RR1988M,craig-degeorge,Craig DeGeorge,Interviewer,,Face,,,PROBABLE,S004
+RR1988M,howard-finkel,Howard Finkel,Ring announcer,,Face,,,PROBABLE,S004
+RR1989M,jim-duggan,Jim Duggan,Wrestler (undercard),,Face,,Opener 2/3-falls tag; also announced entry #30 pool before trading out -- see other_matches.csv,PROBABLE,S013;S014;S015
+RR1989M,bret-hart,Bret Hart,Wrestler (undercard),,Face,,Opener 2/3-falls tag; pinned Dino Bravo for the deciding fall,PROBABLE,S013;S014;S015
+RR1989M,jim-neidhart,Jim Neidhart,Wrestler (undercard),,Face,,Opener 2/3-falls tag,PROBABLE,S013;S014;S015
+RR1989M,dino-bravo,Dino Bravo,Wrestler (undercard),,Heel,,Opener 2/3-falls tag; pinned by Bret Hart for the deciding fall,PROBABLE,S013;S014;S015
+RR1989M,jacques-rougeau,Jacques Rougeau,Wrestler (undercard),,Heel,,Opener 2/3-falls tag,PROBABLE,S013;S014;S015
+RR1989M,raymond-rougeau,Raymond Rougeau,Wrestler (undercard),,Heel,,Opener 2/3-falls tag,PROBABLE,S013;S014;S015
+RR1989M,frenchy-martin,Frenchy Martin,Manager,Dino Bravo,Heel,,,PROBABLE,S013;S014;S015
+RR1989M,jimmy-hart,Jimmy Hart,Manager,"Jacques Rougeau, Raymond Rougeau",Heel,,,PROBABLE,S013;S014;S015
+RR1989M,rockin-robin,Rockin' Robin,Wrestler (undercard),,Face,WWF World Women's Championship,Retained title vs. Judy Martin,PROBABLE,S013;S014;S015
+RR1989M,judy-martin,Judy Martin,Wrestler (undercard),,Heel,WWF World Women's Championship,Lost title challenge,PROBABLE,S013;S014;S015
+RR1989M,haku,King Haku,Wrestler (undercard),,Heel,,"Crown match def. Harley Race, retained the crown",PROBABLE,S013;S014;S015
+RR1989M,harley-race,Harley Race,Wrestler (undercard),,Heel,,Final WWF appearance; lost Crown match to Haku,PROBABLE,S013;S014;S015
+RR1989M,bobby-heenan,Bobby Heenan,Manager,"Andre the Giant, Arn Anderson, Tully Blanchard, Harley Race, King Haku",Heel,,,PROBABLE,S013;S014;S015
+RR1989M,virgil,Virgil,Bodyguard/valet,Ted DiBiase,Heel,,,PROBABLE,S013;S014;S015
+RR1989M,slick,Slick,Manager,"Big Bossman, Akeem",Heel,,,PROBABLE,S013;S014;S015
+RR1989M,the-ultimate-warrior,The Ultimate Warrior,Wrestler (posedown),,Face,,"'Ultimate Posedown' vs. Rick Rude -- angle setting up WrestleMania V, no formal decision",PROBABLE,S013;S014;S015
+RR1989M,rick-rude,Rick Rude,Wrestler (posedown),,Heel,,'Ultimate Posedown' vs. The Ultimate Warrior -- attacked Warrior after the poses,PROBABLE,S013;S014;S015
+RR1989M,sean-mooney,Sean Mooney,Interviewer,,Face,,,PROBABLE,S013;S014;S015
+RR1989M,gene-okerlund,Gene Okerlund,Interviewer,,Face,,,PROBABLE,S013;S014;S015
+RR1989M,mr-fuji,Mr. Fuji,Manager,"The Warlord, The Barbarian",Heel,,,PROBABLE,S013;S014;S015
+RR1989M,miss-elizabeth,Miss Elizabeth,Manager,"Randy Savage, Hulk Hogan",Face,,Also made a brief 1m23s in-ring cameo during the Rumble match per S012,PROBABLE,S013;S014;S015
+RR1989M,sensational-sherri,Sensational Sherri,Guest commentator,,Heel,,,PROBABLE,S013;S014;S015
+RR1989M,jesse-ventura,Jesse Ventura,Commentator,,Heel,,,PROBABLE,S013;S014;S015
+RR1989M,gorilla-monsoon,Gorilla Monsoon,Commentator,,Face,,,PROBABLE,S013;S014;S015
+RR1989M,howard-finkel,Howard Finkel,Ring announcer,,Face,,,PROBABLE,S013;S014;S015
+RR1990M,butch-miller,Butch Miller,Wrestler (undercard),,Face,,Opener; pinned Jacques Rougeau,PROBABLE,S016;S017
+RR1990M,luke-williams,Luke Williams,Wrestler (undercard),,Face,,Opener,PROBABLE,S016;S017
+RR1990M,jacques-rougeau,Jacques Rougeau,Wrestler (undercard),,Heel,,Opener; pinned by Butch Miller,PROBABLE,S016;S017
+RR1990M,raymond-rougeau,Raymond Rougeau,Wrestler (undercard),,Heel,,Opener,PROBABLE,S016;S017
+RR1990M,jimmy-hart,Jimmy Hart,Manager,"Jacques Rougeau, Raymond Rougeau, Earthquake, Dino Bravo, Honkytonk Man, Greg Valentine",Heel,,,PROBABLE,S016;S017
+RR1990M,brutus-beefcake,Brutus Beefcake,Wrestler (undercard),,Face,,Double DQ vs. The Genius (Lanny Poffo),PROBABLE,S016;S017
+RR1990M,the-genius,The Genius,Wrestler (undercard),,Heel,,Double DQ vs. Brutus Beefcake,PROBABLE,S016;S017
+RR1990M,ronnie-garvin,Ron Garvin,Wrestler (undercard),,Face,,"'I Quit' match, defeated Greg Valentine",PROBABLE,S016;S017
+RR1990M,greg-valentine,Greg Valentine,Wrestler (undercard),,Heel,,"'I Quit' match, lost to Ronnie Garvin",PROBABLE,S016;S017
+RR1990M,jim-duggan,Jim Duggan,Wrestler (appeared on card),,Face,,Match/role not detailed in sources consulted this pass,PROBABLE,S016;S017
+RR1990M,big-bossman,Big Bossman,Wrestler (appeared on card),,Heel,,Match/role not detailed in sources consulted this pass; not a Rumble-match entrant this year,PROBABLE,S016;S017
+RR1990M,slick,Slick,Manager,"Big Bossman, Akeem",Heel,,,PROBABLE,S016;S017
+RR1990M,bobby-heenan,Bobby Heenan,Manager,"Andre the Giant, Rick Rude, Haku",Heel,,,PROBABLE,S016;S017
+RR1990M,virgil,Virgil,Bodyguard/valet,Ted DiBiase,Heel,,,PROBABLE,S016;S017
+RR1990M,sean-mooney,Sean Mooney,Interviewer,,Face,,,PROBABLE,S016;S017
+RR1990M,gene-okerlund,Gene Okerlund,Interviewer,,Face,,,PROBABLE,S016;S017
+RR1990M,mr-fuji,Mr. Fuji,Manager,"The Warlord, The Barbarian",Heel,,,PROBABLE,S016;S017
+RR1990M,sensational-sherri,Sensational Sherri,Manager,Randy Savage,Heel,,,PROBABLE,S016;S017
+RR1990M,jesse-ventura,Jesse Ventura,Commentator,,Heel,,,PROBABLE,S016;S017
+RR1990M,howard-finkel,Howard Finkel,Ring announcer,,Face,,,PROBABLE,S016;S017
+RR1990M,tony-schiavone,Tony Schiavone,Commentator,,Face,,,PROBABLE,S016;S017
+RR1990M,brother-love,Brother Love,Interview segment host,,Heel,,,PROBABLE,S016;S017
+RR1990M,sapphire,Sapphire,Manager,Dusty Rhodes,Face,,,PROBABLE,S016;S017
+RR1991M,shawn-michaels,Shawn Michaels,Wrestler (undercard),,Face,,"Opener; The Rockers def. Orient Express, Jannetty pinned Tanaka",PROBABLE,S019
+RR1991M,marty-jannetty,Marty Jannetty,Wrestler (undercard),,Face,,Opener; pinned Tanaka for the win,PROBABLE,S019
+RR1991M,the-great-tanaka,The Great Tanaka,Wrestler (undercard),,Heel,,Opener; pinned by Jannetty,PROBABLE,S019
+RR1991M,kato,Kato,Wrestler (undercard),,Heel,,Opener,PROBABLE,S019
+RR1991M,big-bossman,Big Bossman,Wrestler (undercard),,Face,,Pinned The Barbarian (14:15),PROBABLE,S019
+RR1991M,the-barbarian,The Barbarian,Wrestler (undercard),,Heel,,Lost to Big Bossman (14:15),PROBABLE,S019
+RR1991M,jacques-rougeau,The Mountie,Wrestler (undercard),,Heel,,"Pinned Koko B. Ware (9:12). 'The Mountie' is Jacques Rougeau (of 1988/1989's Fabulous Rougeaus), performing solo under a new gimmick from 1991 -- confirmed via the fact-check pass (F0xx), reusing wrestler_id jacques-rougeau rather than creating a duplicate.",PROBABLE,S019
+RR1991M,koko-b-ware,Koko B. Ware,Wrestler (undercard),,Face,,Lost to The Mountie (9:12),PROBABLE,S019
+RR1991M,ted-dibiase,Ted DiBiase,Wrestler (undercard),,Heel,,"w/ Virgil defeated Dusty & Dustin Rhodes (9:57), pinned Dusty. Per S019, Virgil turned on DiBiase after this match.",PROBABLE,S019
+RR1991M,virgil,Virgil,Wrestler (undercard),Ted DiBiase,Heel,,Turned on Ted DiBiase after this match per S019 -- his signature babyface turn.,PROBABLE,S019
+RR1991M,dusty-rhodes,Dusty Rhodes,Wrestler (undercard),,Face,,"w/ son Dustin Rhodes, lost to DiBiase & Virgil (9:57); pinned by DiBiase",PROBABLE,S019
+RR1991M,dustin-rhodes,Dustin Rhodes,Wrestler (undercard),,Face,,First time teaming with father Dusty Rhodes per S019,PROBABLE,S019
+RR1991M,sgt-slaughter,Sgt. Slaughter,Wrestler (undercard),,Heel,WWF Championship,"Pinned Ultimate Warrior (12:47) to win the WWF Title -- first time the world title was defended at a Royal Rumble event, per S019",PROBABLE,S019
+RR1991M,the-ultimate-warrior,Ultimate Warrior,Wrestler (undercard),,Face,WWF Championship,Lost the WWF Title to Sgt. Slaughter (12:47); did not compete in the Rumble match itself,PROBABLE,S019
+RR1992M,owen-hart,Owen Hart,Wrestler (undercard),,Face,,w/ Jim Neidhart def. The Orient Express (Tanaka & Kato) (17:18); Hart pinned Tanaka,PROBABLE,S021
+RR1992M,jim-neidhart,Jim Neidhart,Wrestler (undercard),,Face,,w/ Owen Hart def. The Orient Express (17:18),PROBABLE,S021
+RR1992M,the-great-tanaka,The Great Tanaka,Wrestler (undercard),,Heel,,w/ Kato lost to Hart & Neidhart (17:18); pinned by Hart,PROBABLE,S021
+RR1992M,kato,Kato,Wrestler (undercard),,Heel,,w/ Tanaka lost to Hart & Neidhart (17:18),PROBABLE,S021
+RR1992M,jacques-rougeau,The Mountie,Wrestler (undercard),Intercontinental Championship,Heel,Intercontinental Championship,Lost the IC Title to Roddy Piper (5:22) via sleeper hold,PROBABLE,S021
+RR1992M,beau-beverly,Beau Beverly,Wrestler (undercard),,Heel,,w/ Blake def. The Bushwhackers (14:56); Blake pinned Butch,PROBABLE,S021
+RR1992M,blake-beverly,Blake Beverly,Wrestler (undercard),,Heel,,w/ Beau def. The Bushwhackers (14:56); pinned Butch,PROBABLE,S021
+RR1992M,luke-williams,Bushwhacker Luke,Wrestler (undercard),,Face,,w/ Butch lost to The Beverly Brothers (14:56),PROBABLE,S021
+RR1992M,butch-miller,Bushwhacker Butch,Wrestler (undercard),,Face,,w/ Luke lost to The Beverly Brothers (14:56); pinned by Blake,PROBABLE,S021
+RR1992M,earthquake,Earthquake,Wrestler (undercard),World Tag Team Championship,Heel,World Tag Team Championship,w/ Typhoon def. Legion of Doom (9:24) by count-out to retain the WWF Tag Team Titles -- did NOT compete in this year's Rumble match,PROBABLE,S021
+RR1992M,tugboat,Typhoon,Wrestler (undercard),World Tag Team Championship,Heel,World Tag Team Championship,"w/ Earthquake def. Legion of Doom (9:24) by count-out, retained the titles. 'Typhoon' is Fred Ottman (this database's 'Tugboat' from 1990), turned heel and renamed -- confirmed via the fact-check pass (F0xx), reusing wrestler_id tugboat rather than creating a duplicate.",PROBABLE,S021
+RR1992M,hawk,Hawk,Wrestler (undercard),,Face,,w/ Animal lost to The Natural Disasters (9:24) by count-out -- did NOT compete in this year's Rumble match,PROBABLE,S021
+RR1992M,animal,Animal,Wrestler (undercard),,Face,,w/ Hawk lost to The Natural Disasters (9:24) by count-out,PROBABLE,S021
+RR1998M,hunter-hearst-helmsley,Triple H,outside interferer,,,,External interference against Owen Hart. Migrated from extra unnumbered entrant row; see F113 and F500,CONFIRMED,S433;S043
