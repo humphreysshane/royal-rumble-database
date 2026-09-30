@@ -632,7 +632,11 @@ for eid, ev in sorted(events.items(), key=lambda kv: kv[1].get("event_date") or 
             next_t = times[idx + 1]
             if next_t <= t:
                 continue
-            combined = sum(values[wid] for wid in active)
+            # Iterate in a fixed order (not raw set order, which is
+            # PYTHONHASHSEED-dependent) so floating-point summation order --
+            # and therefore which of several near-tied windows wins -- is
+            # reproducible from run to run, not a coin flip per process.
+            combined = sum(values[wid] for wid in sorted(active))
             if combined > peak_value:
                 peak_value = combined
                 metric_start, metric_end = t, next_t
@@ -936,6 +940,23 @@ for division in DIVISIONS:
         add(division, "Eliminations", "Most CAREER eliminations", most_career_elims["wrestler_id"], most_career_elims["total_eliminations_made"], div_latest_event_id)
         add(division, "Frequency", "Most career appearances", most_appearances["wrestler_id"], most_appearances["total_appearances"], div_latest_event_id)
         add(division, "Frequency", "Most Rumble wins", most_wins["wrestler_id"], most_wins["wins"], div_latest_event_id)
+
+        # "Most runner-up finishes (career)" -- zero-new-research, derived
+        # purely from career_stats.csv's existing runner_up_finishes column
+        # (IDEAS.md Phase A wishlist, 2026-09-29: surface the repeat-runner-up
+        # pattern -- e.g. Roman Reigns' four Men's runner-up finishes --
+        # rather than leaving it buried in each wrestler's own profile page).
+        most_ru = [r for r in div_career_rows if r["runner_up_finishes"] > 0]
+        if most_ru:
+            max_ru_count = max(r["runner_up_finishes"] for r in most_ru)
+            tied_ru = sorted((r for r in most_ru if r["runner_up_finishes"] == max_ru_count),
+                              key=lambda r: r["wrestler_id"])
+            top_ru = tied_ru[0]
+            ru_note = ""
+            if len(tied_ru) > 1:
+                others = ", ".join(r["wrestler_id"] for r in tied_ru[1:])
+                ru_note = f"Tied with: {others} (all at {max_ru_count})."
+            add(division, "Frequency", "Most runner-up finishes (career)", top_ru["wrestler_id"], max_ru_count, div_latest_event_id, ru_note)
 
     if div_dyn_rows:
         most_hof = max(div_dyn_rows, key=lambda r: r["hof_members_eventually_count"])
@@ -1413,6 +1434,153 @@ with open(baseline_path, "w", newline="", encoding="utf-8") as f:
     writer = csv.DictWriter(f, fieldnames=DERIVED_TABLES["records.csv"])
     writer.writeheader()
     writer.writerows(records)
+
+# ---------------------------------------------------------------------------
+# Full-card stats (2026-09-30): commentators, other/undercard matches, and
+# how they cross-reference with the Royal Rumble match itself. Per Shane's
+# request to also track "the other matches on the card" and surface things
+# like dual-duty entrants (wrestled earlier AND entered the Rumble),
+# non-Rumble card regulars (on the card repeatedly but never in the Rumble
+# match itself), commentator appearance counts, and the most frequent match
+# types / titles featured on the card. Only events with actual other_matches
+# / show_appearances rows contribute here -- an event missing from these
+# tables simply has no full-card research done yet, not a zero.
+# ---------------------------------------------------------------------------
+other_matches = load("other_matches.csv")
+show_appearances = load("show_appearances.csv")
+
+entrants_by_event_wid = {(e["event_id"], e["wrestler_id"]): e for e in entrants}
+
+# --- card_dual_duty.csv: other_matches rows for a wrestler who ALSO entered
+# that same event's Royal Rumble match (i.e. has an entrants.csv row there).
+dual_duty_rows = []
+for r in other_matches:
+    if r["time_before_rumble"] != "TRUE":
+        continue
+    ent = entrants_by_event_wid.get((r["event_id"], r["wrestler_id"]))
+    if not ent:
+        continue  # wrestled earlier on the card, but didn't also enter the Rumble
+    rumble_result = (
+        "Winner" if ent["is_winner"] == "TRUE" else
+        "Runner-up" if ent["is_runner_up"] == "TRUE" else
+        (f"Eliminated (#{ent['elim_number']})" if ent.get("elim_number") else "Eliminated")
+    )
+    dual_duty_rows.append({
+        "event_id": r["event_id"],
+        "division": division_of(r["event_id"]),
+        "wrestler_id": r["wrestler_id"],
+        "other_match_number": r["match_number_on_card"],
+        "other_match_type": r["match_type"],
+        "other_match_result": r["result"],
+        "entry_number": ent.get("entry_number", ""),
+        "rumble_result": rumble_result,
+        "notes": "",
+    })
+dual_duty_rows.sort(key=lambda r: (r["event_id"], r["wrestler_id"]))
+write("card_dual_duty.csv", DERIVED_TABLES["card_dual_duty.csv"], dual_duty_rows)
+
+# --- card_non_rumble_regulars.csv: wrestlers who show up in other_matches.csv
+# at 2+ distinct events but never have an entrants.csv row at all (i.e. never
+# entered ANY Royal Rumble match, in either division).
+entrant_wids_all = set(e["wrestler_id"] for e in entrants)
+events_by_wid = defaultdict(set)
+for r in other_matches:
+    events_by_wid[r["wrestler_id"]].add(r["event_id"])
+
+regulars_rows = []
+for wid, evset in events_by_wid.items():
+    if wid in entrant_wids_all:
+        continue
+    if len(evset) < 2:
+        continue
+    ev_sorted = sorted(
+        evset,
+        key=lambda eid: (events[eid]["event_date"] if eid in events else eid, eid),
+    )
+    regulars_rows.append({
+        "wrestler_id": wid,
+        "card_appearances_count": len(evset),
+        "events_with_card_appearance": ";".join(ev_sorted),
+        "first_event_id": ev_sorted[0],
+        "most_recent_event_id": ev_sorted[-1],
+        "notes": "Appeared on the card multiple times but has never entered a Royal Rumble match (in either division) among the events with full-card research done so far.",
+    })
+regulars_rows.sort(key=lambda r: (-r["card_appearances_count"], r["wrestler_id"]))
+write("card_non_rumble_regulars.csv", DERIVED_TABLES["card_non_rumble_regulars.csv"], regulars_rows)
+
+# --- commentator_stats.csv: appearance counts per person/role from
+# show_appearances.csv (Commentator, Ring Announcer, Referee roles).
+by_person_role = defaultdict(list)
+for r in show_appearances:
+    if r["role"] not in ("Commentator", "Ring Announcer", "Referee"):
+        continue
+    by_person_role[(r["person_id"], r["role"])].append(r)
+
+commentator_rows = []
+for (pid, role), apps in by_person_role.items():
+    evset = sorted(
+        set(a["event_id"] for a in apps),
+        key=lambda eid: (events[eid]["event_date"] if eid in events else eid, eid),
+    )
+    name = apps[0]["person_name"]
+    commentator_rows.append({
+        "person_id": pid,
+        "person_name": name,
+        "role": role,
+        "events_count": len(evset),
+        "first_event_id": evset[0],
+        "most_recent_event_id": evset[-1],
+        "events_list": ";".join(evset),
+    })
+commentator_rows.sort(key=lambda r: (r["role"], -r["events_count"], r["person_id"]))
+write("commentator_stats.csv", DERIVED_TABLES["commentator_stats.csv"], commentator_rows)
+
+# --- card_match_type_frequency.csv / card_title_frequency.csv: dedupe
+# other_matches.csv rows down to one row per actual MATCH (not per
+# participant) before counting.
+matches_seen = {}
+for r in other_matches:
+    key = (r["event_id"], r["match_number_on_card"])
+    if key not in matches_seen:
+        matches_seen[key] = r
+
+type_counter = Counter()
+type_events = defaultdict(set)
+for (eid, mnum), r in matches_seen.items():
+    mtype = r["match_type"].strip()
+    if not mtype:
+        continue
+    type_counter[mtype] += 1
+    type_events[mtype].add(eid)
+
+type_rows = [{
+    "match_type": mtype, "occurrences": n, "events_count": len(type_events[mtype]), "notes": "",
+} for mtype, n in type_counter.most_common()]
+write("card_match_type_frequency.csv", DERIVED_TABLES["card_match_type_frequency.csv"], type_rows)
+
+title_counter = Counter()
+title_events = defaultdict(set)
+title_champions = defaultdict(set)
+for (eid, mnum), r in matches_seen.items():
+    title = r["title_involved"].strip()
+    if not title:
+        continue
+    title_counter[title] += 1
+    title_events[title].add(eid)
+for r in other_matches:
+    title = r["title_involved"].strip()
+    if title and r["was_champion_entering"] == "TRUE":
+        title_champions[title].add(r["wrestler_id"])
+
+title_rows = [{
+    "title_involved": title, "occurrences": n, "events_count": len(title_events[title]),
+    "distinct_champions_count": len(title_champions.get(title, set())), "notes": "",
+} for title, n in title_counter.most_common()]
+write("card_title_frequency.csv", DERIVED_TABLES["card_title_frequency.csv"], title_rows)
+
+print(f"Full-card stats: {len(dual_duty_rows)} dual-duty entrant rows, {len(regulars_rows)} non-Rumble card "
+      f"regulars, {len(commentator_rows)} person/role appearance-count rows, {len(type_rows)} match types, "
+      f"{len(title_rows)} titles featured on the card.")
 
 print(f"Derived tables rebuilt from {len(events)} event(s) across {len(DIVISIONS)} division(s) ({', '.join(DIVISIONS)}): "
       f"{len(career_rows)} wrestler career rows, {len(entry_rows)} entry-number rows, "

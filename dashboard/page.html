@@ -205,6 +205,12 @@
   .country-roster .cr-sep{color:var(--ink-3); margin:0 3px;}
   @media (max-width:820px){ .country-roster{margin-left:0;} }
 
+  .layer-toggle{display:inline-flex; gap:2px; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius); padding:2px; margin-bottom:16px;}
+  .layer-toggle button{padding:7px 16px; border:0; background:transparent; border-radius:2px; font-family:var(--font-d); font-size:13px; letter-spacing:0.02em; color:var(--ink-2); cursor:pointer;}
+  .layer-toggle button:hover{color:var(--ink);}
+  .layer-toggle button.active{background:var(--accent-wash); color:var(--accent-ink); font-weight:600;}
+  .worldmap-marker.city-marker{stroke-width:1;}
+
   /* elimination timeline table */
   .elim-table{font-size:13px;}
   .elim-table th{
@@ -395,6 +401,14 @@
     var div = (DB.divisions || []).find(function(d){ return d._byWid && d._byWid[id]; });
     return wlink(id, name, div ? div.key : null);
   }
+  // Same cross-division lookup as anyDivWlink, but returns the wrestler
+  // record itself (for pulling their canonical display name) rather than a
+  // clickable element -- used by the Title Histories page, which links
+  // wrestler_ids that were never scoped to a single division to begin with.
+  function findWrestlerAnyDiv(id){
+    var div = (DB.divisions || []).find(function(d){ return d._byWid && d._byWid[id]; });
+    return div ? div._byWid[id] : null;
+  }
   // Small badge marking a name as one of several ring identities for the same
   // real performer (e.g. Kane / Isaac Yankem / Fake Diesel), with the sibling
   // names in a hover title so a table row doesn't need extra columns. Scoped
@@ -415,6 +429,35 @@
     return el("span", {class:"badge-gimmick", text:"also "+labels, title:"Also wrestled in the "+labels+" Royal Rumble"});
   }
   function fmtDate(d){ return d || "—"; }
+  // Records whose single-holder notes text names other tied co-holders
+  // (e.g. "TIED with: Viscera (RR2007M, 8)." or "Tied with: Goldust, Rey
+  // Mysterio, Honky Tonk Man, The Hurricane.") don't have structured
+  // `members` data -- this pulls a clickable list out of that free text
+  // instead, for the record card's own expand-on-click treatment. Splits on
+  // commas that aren't inside parentheses, so a single entry like
+  // "Viscera (RR2007M, 8)" survives as one item rather than being cut by
+  // its own internal comma. Each item resolves to either an event id
+  // (RRyyyy[M/W/G]) or a wrestler name looked up by exact match (case-
+  // insensitive) within the given division; either can fail to resolve, in
+  // which case it's still shown, just as plain unlinked text.
+  function parseTiedFromNotes(notes, div){
+    if (!notes) return null;
+    var m = /tied with:?\s*(.+?)(?:\.\s*$|\.\s|$)/i.exec(notes);
+    if (!m || !m[1]) return null;
+    var parts = m[1].match(/[^,()]+(?:\([^)]*\))?/g) || [];
+    var items = parts.map(function(p){ return p.trim(); }).filter(Boolean);
+    if (!items.length) return null;
+    return items.map(function(item){
+      var dm = /^(.*?)\s*\(([^)]*)\)\s*$/.exec(item);
+      var main = (dm ? dm[1] : item).trim();
+      var detail = dm ? dm[2].trim() : "";
+      if (/^RR\d{4}[A-Za-z]+$/.test(main)){
+        return {isEvent:true, id:main, name:main, detail:detail};
+      }
+      var w = (div && div.wrestlers || []).find(function(x){ return x.name.toLowerCase() === main.toLowerCase(); });
+      return {isEvent:false, id: w ? w.id : null, name: main, detail: detail};
+    });
+  }
   function ageAt(dobStr, atDateStr){
     if (!dobStr) return null;
     var d = new Date(dobStr), ref = atDateStr ? new Date(atDateStr) : new Date();
@@ -437,6 +480,8 @@
     if (!parts.length || parts[0] === "home") return {division:null, page:"home", arg:null};
     if (parts[0] === "explore") return {division:null, page:"explore", arg: parts[1] ? decodeURIComponent(parts[1]) : null};
     if (parts[0] === "map") return {division:null, page:"map", arg:null};
+    if (parts[0] === "titles") return {division:null, page:"titles", arg: parts[1] ? decodeURIComponent(parts[1]) : null};
+    if (parts[0] === "fullcard") return {division:null, page:"fullcard", arg:null};
     return {division: parts[0], page: parts[1] || "events", arg: parts[2] || null};
   }
   window.addEventListener("hashchange", render);
@@ -453,7 +498,7 @@
       return el("div", {class:"navlink"+(isActive?" active":""), text:label, onclick:function(){ navigate(path); }});
     }
 
-    var homeActive = route.page === "home" || (!route.division && route.page !== "explore" && route.page !== "map");
+    var homeActive = route.page === "home" || (!route.division && route.page !== "explore" && route.page !== "map" && route.page !== "titles" && route.page !== "fullcard");
     navlinks.appendChild(mk("Home", "/home", homeActive));
     tabs.appendChild(mk("Home", "/home", homeActive));
 
@@ -464,6 +509,14 @@
     var mapActive = route.page === "map";
     navlinks.appendChild(mk("World Map", "/map", mapActive));
     tabs.appendChild(mk("World Map", "/map", mapActive));
+
+    var titlesActive = route.page === "titles";
+    navlinks.appendChild(mk("Title Histories", "/titles", titlesActive));
+    tabs.appendChild(mk("Title Histories", "/titles", titlesActive));
+
+    var fullcardActive = route.page === "fullcard";
+    navlinks.appendChild(mk("Full Card", "/fullcard", fullcardActive));
+    tabs.appendChild(mk("Full Card", "/fullcard", fullcardActive));
 
     (DB && DB.divisions || []).forEach(function(d){
       navlinks.appendChild(el("div", {class:"navsection", text:d.label}));
@@ -694,33 +747,39 @@
 
   function slugifyCountry(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,""); }
 
+  function citySlug(city, country){ return slugifyCountry(city+"-"+country); }
+
+  // Both World Map pin layers (Countries / Cities) draw into the identical
+  // 960x480 SVG viewBox using the same marker/tooltip/roster interaction
+  // pattern -- only the row data, the id each row is keyed by, the marker
+  // radius range (cities are ~10x more numerous with much smaller per-row
+  // counts, so they need a smaller max radius or they'd swamp the map) and
+  // a few labels differ. Rather than duplicate that whole block twice, one
+  // config object per layer feeds a single draw routine.
   function pageWorldMap(){
     var c = el("div", {class:"container"});
-    var wm = (DB && DB.worldMap) || {countries:[], totalWrestlers:0, totalWithNationality:0, coveragePct:0, unmapped:[], mapWidth:960, mapHeight:480};
+    var wm = (DB && DB.worldMap) || {countries:[], cities:[], totalWrestlers:0, totalWithNationality:0, coveragePct:0, unmapped:[], unmappedBirthplaces:[], mapWidth:960, mapHeight:480, totalWithBirthplace:0, totalCitiesPlotted:0, birthplaceCoveragePct:0};
+
+    var headP = el("p", {text:""});
     c.appendChild(el("div", {class:"page-head"}, [
       el("div", {class:"eyebrow", text:"Cross-division · every wrestler in the database"}),
       el("h2", {text:"World Map"}),
-      el("p", {text:"Every wrestler's recorded nationality, plotted by country. This spans both divisions — a wrestler counts once here even if they've competed in both Rumbles. Marker size is proportional to wrestler count; click a marker or a row below for the full roster. Placement uses an approximate country centroid, not a real birthplace, and a compound nationality (e.g. \"Mexican-American\") is plotted at whichever country is named first in that string."})
+      headP
     ]));
 
-    var kpi = el("div", {class:"kpi-row"});
-    [[fmtNum(wm.totalWithNationality)+" / "+fmtNum(wm.totalWrestlers), "Wrestlers with a known nationality"],
-     [wm.coveragePct+"%", "Coverage of the full roster"],
-     [String(wm.countries.length), "Countries represented"]].forEach(function(pair){
-      kpi.appendChild(el("div",{class:"kpi"},[
-        el("div",{class:"v",text:pair[0]}),
-        el("div",{class:"l",text:pair[1]})
-      ]));
-    });
-    c.appendChild(kpi);
+    var toggleWrap = el("div", {class:"layer-toggle"});
+    var btnCountries = el("button", {type:"button", text:"Countries"});
+    var btnCities = el("button", {type:"button", text:"Cities"});
+    toggleWrap.appendChild(btnCountries);
+    toggleWrap.appendChild(btnCities);
+    c.appendChild(toggleWrap);
 
-    // ---- shared roster-row registry, built before the map so a marker
-    // click can open + scroll to the matching table row below it ----
-    var rowRefs = {}; // country -> {rowEl, barEl, listEl, open:bool}
+    var dynamicArea = el("div");
+    c.appendChild(dynamicArea);
 
-    function rosterContent(r){
+    function countryRoster(r){
       var wrap = el("div", {class:"country-roster"});
-      if (r.nationalities.length > 1){
+      if (r.nationalities && r.nationalities.length > 1){
         r.nationalities.forEach(function(n){
           wrap.appendChild(el("div", {class:"cr-nat", text:n.label+" ("+n.count+")"}));
           var namesWrap = el("div", {class:"cr-names"});
@@ -740,213 +799,695 @@
       }
       return wrap;
     }
-
-    function setOpen(country, open){
-      var ref = rowRefs[country];
-      if (!ref) return;
-      ref.open = open;
-      ref.rowEl.classList.toggle("open", open);
-      if (open && !ref.filled){
-        ref.listEl.appendChild(rosterContent(ref.data));
-        ref.filled = true;
-      }
-    }
-
-    var maxCount = wm.countries.length ? Math.max.apply(null, wm.countries.map(function(r){return r.count;})) : 1;
-
-    var tablePanel = el("div", {class:"panel section-gap worldmap-table"});
-    tablePanel.appendChild(el("h3", {text:"By country"}));
-    tablePanel.appendChild(el("div", {class:"sub", text:"Same data as the map above. Click a country to see its full roster."}));
-    wm.countries.forEach(function(r){
-      var rowEl = el("div", {class:"country-row", id:"country-"+slugifyCountry(r.country)});
-      var bar = barRow(r.country, r.count, maxCount, false, function(v){ return v+(v===1?" wrestler":" wrestlers"); });
-      var listEl = el("div", {});
-      bar.addEventListener("click", function(){ setOpen(r.country, !rowRefs[r.country].open); });
-      rowEl.appendChild(bar);
-      rowEl.appendChild(listEl);
-      tablePanel.appendChild(rowEl);
-      rowRefs[r.country] = {rowEl:rowEl, listEl:listEl, open:false, filled:false, data:r};
-    });
-
-    // ---- map ----
-    var panel = el("div", {class:"worldmap-panel"});
-    var svgns = "http://www.w3.org/2000/svg";
-    var svg = document.createElementNS(svgns, "svg");
-    svg.setAttribute("viewBox", "0 0 "+wm.mapWidth+" "+wm.mapHeight);
-    svg.setAttribute("class", "worldmap-svg");
-    svg.setAttribute("role", "img");
-    svg.setAttribute("aria-label", "World map of wrestler nationalities");
-
-    // graticule (subtle lat/long grid, every 30 degrees) for map-like depth
-    var gratG = document.createElementNS(svgns, "g");
-    for (var lon=-150; lon<180; lon+=30){
-      var gx = (lon+180) * (wm.mapWidth/360);
-      var vline = document.createElementNS(svgns, "line");
-      vline.setAttribute("x1", gx); vline.setAttribute("x2", gx);
-      vline.setAttribute("y1", 0); vline.setAttribute("y2", wm.mapHeight);
-      vline.setAttribute("class", "worldmap-grat");
-      gratG.appendChild(vline);
-    }
-    for (var lat=-60; lat<=60; lat+=30){
-      var gy = (90-lat) * (wm.mapHeight/180);
-      var hline = document.createElementNS(svgns, "line");
-      hline.setAttribute("x1", 0); hline.setAttribute("x2", wm.mapWidth);
-      hline.setAttribute("y1", gy); hline.setAttribute("y2", gy);
-      hline.setAttribute("class", "worldmap-grat");
-      gratG.appendChild(hline);
-    }
-    svg.appendChild(gratG);
-
-    var landG = document.createElementNS(svgns, "g");
-    WORLD_LAND.forEach(function(land){
-      var p = document.createElementNS(svgns, "path");
-      p.setAttribute("d", land.d);
-      p.setAttribute("class", "worldmap-land");
-      landG.appendChild(p);
-    });
-    svg.appendChild(landG);
-
-    var tooltip = el("div", {class:"worldmap-tooltip"});
-    panel.appendChild(tooltip);
-
-    var minR = 5, maxR = 27;
-    function radiusFor(count){
-      if (maxCount <= 1) return minR;
-      return minR + (maxR - minR) * Math.sqrt(count / maxCount);
-    }
-
-    var markersG = document.createElementNS(svgns, "g");
-    var markerEls = {}; // country -> circle element, for selected-state styling
-    wm.countries.forEach(function(r){
-      var rad = radiusFor(r.count);
-      var g = document.createElementNS(svgns, "g");
-
-      var circle = document.createElementNS(svgns, "circle");
-      circle.setAttribute("cx", r.x);
-      circle.setAttribute("cy", r.y);
-      circle.setAttribute("r", rad);
-      circle.setAttribute("class", "worldmap-marker");
-      circle.setAttribute("tabindex", "0");
-      circle.setAttribute("role", "button");
-      circle.setAttribute("aria-label", r.country+", "+r.count+" wrestlers");
-      markerEls[r.country] = circle;
-
-      var sheen = document.createElementNS(svgns, "circle");
-      sheen.setAttribute("cx", r.x - rad*0.32);
-      sheen.setAttribute("cy", r.y - rad*0.32);
-      sheen.setAttribute("r", Math.max(rad*0.34, 1.5));
-      sheen.setAttribute("class", "worldmap-marker-sheen");
-
-      function showTip(){
-        var names = r.wrestlers.slice(0,8).map(function(w){return w.name;});
-        var extra = r.count > 8 ? " +"+(r.count-8)+" more" : "";
-        var natLine = r.nationalities.length > 1 ? r.nationalities.map(function(n){return n.label+" ("+n.count+")";}).join(", ") : null;
-        tooltip.innerHTML = "";
-        tooltip.appendChild(el("div", {class:"t-name", text:r.country+" — "+r.count+(r.count===1?" wrestler":" wrestlers")}));
-        if (natLine) tooltip.appendChild(el("div", {class:"t-sub", text:natLine}));
-        tooltip.appendChild(el("div", {class:"t-sub", style:"margin-top:4px; color:var(--ink-2);", text:names.join(", ")+extra}));
-        tooltip.appendChild(el("div", {class:"t-hint", text:"Click for the full roster ↓"}));
-        tooltip.style.display = "block";
-        var panelRect = panel.getBoundingClientRect();
-        var px = (r.x / wm.mapWidth) * panelRect.width;
-        var py = (r.y / wm.mapHeight) * (panelRect.width * wm.mapHeight / wm.mapWidth);
-        var left = Math.min(Math.max(px + 14, 4), panelRect.width - 246);
-        tooltip.style.left = left + "px";
-        tooltip.style.top = Math.max(py - 10, 4) + "px";
-      }
-      function hideTip(){ tooltip.style.display = "none"; }
-      function activate(){
-        Object.keys(rowRefs).forEach(function(k){ if (k!==r.country) setOpen(k, false); });
-        Object.keys(markerEls).forEach(function(k){ markerEls[k].classList.toggle("selected", k===r.country); });
-        setOpen(r.country, true);
-        var rowEl = rowRefs[r.country].rowEl;
-        rowEl.scrollIntoView({behavior:"smooth", block:"center"});
-      }
-      circle.addEventListener("mouseenter", showTip);
-      circle.addEventListener("mousemove", showTip);
-      circle.addEventListener("mouseleave", hideTip);
-      circle.addEventListener("focus", showTip);
-      circle.addEventListener("blur", hideTip);
-      circle.addEventListener("click", activate);
-      circle.addEventListener("keydown", function(ev){ if (ev.key==="Enter" || ev.key===" "){ ev.preventDefault(); activate(); } });
-
-      g.appendChild(circle);
-      g.appendChild(sheen);
-      markersG.appendChild(g);
-    });
-    svg.appendChild(markersG);
-
-    // direct labels for the top handful of markers, spread across
-    // continents rather than the crowded Europe cluster -- readable at a
-    // glance without needing to hover every dot
-    var labelG = document.createElementNS(svgns, "g");
-    var labeled = {};
-    wm.countries.slice(0, 12).forEach(function(r){
-      if (Object.keys(labeled).length >= 6) return;
-      // skip if too close to an already-labeled marker (avoids the tight
-      // Western-Europe cluster turning into overlapping text)
-      var tooClose = Object.keys(labeled).some(function(k){
-        var o = labeled[k];
-        return Math.hypot(o.x-r.x, o.y-r.y) < 70;
+    function cityRoster(r){
+      var wrap = el("div", {class:"country-roster"});
+      var namesWrap = el("div", {class:"cr-names"});
+      r.wrestlers.forEach(function(w, wi){
+        if (wi) namesWrap.appendChild(el("span",{class:"cr-sep", text:"·"}));
+        namesWrap.appendChild(anyDivWlink(w.id, w.name));
       });
-      if (tooClose) return;
-      labeled[r.country] = r;
-      var rad = radiusFor(r.count);
-      var onRightEdge = r.x > wm.mapWidth - 90;
-      var label = document.createElementNS(svgns, "text");
-      label.setAttribute("x", onRightEdge ? r.x - rad - 6 : r.x + rad + 6);
-      label.setAttribute("y", r.y + 4);
-      label.setAttribute("text-anchor", onRightEdge ? "end" : "start");
-      label.setAttribute("class", "worldmap-label");
-      label.textContent = r.country;
-      labelG.appendChild(label);
-    });
-    svg.appendChild(labelG);
-
-    // size legend, bottom-left
-    var legendG = document.createElementNS(svgns, "g");
-    var legendVals = [Math.max(1, Math.round(maxCount*0.15)), Math.max(2, Math.round(maxCount*0.5)), maxCount];
-    var legendX = 14, legendBaseY = wm.mapHeight - 16;
-    legendG.appendChild((function(){
-      var t = document.createElementNS(svgns, "text");
-      t.setAttribute("x", legendX); t.setAttribute("y", legendBaseY - maxR*2 - 8);
-      t.setAttribute("class", "worldmap-legend-text");
-      t.textContent = "Wrestlers";
-      return t;
-    })());
-    var cursorX = legendX + 6;
-    legendVals.forEach(function(v, i){
-      var r = radiusFor(v);
-      var cy = legendBaseY - r;
-      var dot = document.createElementNS(svgns, "circle");
-      dot.setAttribute("cx", cursorX + r); dot.setAttribute("cy", cy); dot.setAttribute("r", r);
-      dot.setAttribute("class", "worldmap-legend-dot");
-      legendG.appendChild(dot);
-      var lbl = document.createElementNS(svgns, "text");
-      lbl.setAttribute("x", cursorX + r); lbl.setAttribute("y", legendBaseY + 12);
-      lbl.setAttribute("text-anchor", "middle");
-      lbl.setAttribute("class", "worldmap-legend-text");
-      lbl.textContent = String(v);
-      legendG.appendChild(lbl);
-      cursorX += r*2 + 14;
-    });
-    svg.appendChild(legendG);
-
-    panel.appendChild(svg);
-    c.appendChild(panel);
-    c.appendChild(tablePanel);
-
-    if (wm.unmapped && wm.unmapped.length){
-      var unmappedPanel = el("div", {class:"panel section-gap"});
-      unmappedPanel.appendChild(el("h3", {text:"Not yet plotted"}));
-      unmappedPanel.appendChild(el("div", {class:"sub", text:"These recorded nationality strings don't have a country mapping yet, so they're counted in the coverage total above but don't appear on the map."}));
-      var chipWrap = el("div", {class:"badges", style:"margin-top:8px;"});
-      wm.unmapped.forEach(function(u){
-        chipWrap.appendChild(el("span", {class:"chip", text:u.nationality+" ("+u.count+")"}));
-      });
-      unmappedPanel.appendChild(chipWrap);
-      c.appendChild(unmappedPanel);
+      wrap.appendChild(namesWrap);
+      return wrap;
     }
+
+    var LAYERS = {
+      countries: {
+        desc:"Every wrestler's recorded nationality, plotted by country. This spans both divisions — a wrestler counts once here even if they've competed in both Rumbles. Marker size is proportional to wrestler count; click a marker or a row below for the full roster. Placement uses an approximate country centroid, not a real birthplace, and a compound nationality (e.g. \"Mexican-American\") is plotted at whichever country is named first in that string.",
+        rows: wm.countries,
+        rowKey: function(r, idx){ return r.country; },
+        rowTitle: function(r){ return r.country; },
+        rowAria: function(r){ return r.country+", "+r.count+" wrestlers"; },
+        minR:5, maxR:27,
+        ariaLabel:"World map of wrestler nationalities",
+        kpis: [
+          [fmtNum(wm.totalWithNationality)+" / "+fmtNum(wm.totalWrestlers), "Wrestlers with a known nationality"],
+          [wm.coveragePct+"%", "Coverage of the full roster"],
+          [String(wm.countries.length), "Countries represented"]
+        ],
+        showLabels: true,
+        tableTitle:"By country",
+        tableSub:"Same data as the map above. Click a country to see its full roster.",
+        tooltipTitle: function(r){ return r.country+" — "+r.count+(r.count===1?" wrestler":" wrestlers"); },
+        tooltipSub: function(r){ return r.nationalities && r.nationalities.length>1 ? r.nationalities.map(function(n){return n.label+" ("+n.count+")";}).join(", ") : null; },
+        roster: countryRoster,
+        unmapped: wm.unmapped || [],
+        unmappedLabel: function(u){ return u.nationality+" ("+u.count+")"; },
+        unmappedNote:"These recorded nationality strings don't have a country mapping yet, so they're counted in the coverage total above but don't appear on the map."
+      },
+      cities: {
+        desc:"Every wrestler's recorded birthplace city, plotted individually by its real-world coordinates rather than grouped into one country pin. Cities are far more numerous than countries and several sit close together at this scale (the US and UK especially) — hover to pick one out, or use the search box in the list below. A wrestler with no recorded birthplace, or one that couldn't be matched to a city, isn't plotted here even if their nationality is known and mapped on the Countries layer.",
+        rows: wm.cities,
+        // The index is folded into the key because the source data has a
+        // handful of genuine (city, country) duplicates -- two distinct
+        // entries for the same city name/country (e.g. two "Atlanta, United
+        // States" rows at slightly different coordinates) -- and a
+        // name-only key would collide, silently dropping one row's roster
+        // registry entry.
+        rowKey: function(r, idx){ return citySlug(r.city, r.country)+"-"+idx; },
+        rowTitle: function(r){ return r.city+", "+r.country; },
+        rowAria: function(r){ return r.city+", "+r.country+", "+r.count+" wrestlers"; },
+        minR:2.5, maxR:13,
+        ariaLabel:"World map of wrestler birthplace cities",
+        kpis: [
+          [fmtNum(wm.totalWithBirthplace)+" / "+fmtNum(wm.totalWrestlers), "Wrestlers with a recorded birthplace"],
+          [wm.birthplaceCoveragePct+"%", "Coverage of the full roster"],
+          [fmtNum(wm.totalCitiesPlotted), "Cities plotted"]
+        ],
+        showLabels: false,
+        tableTitle:"By city",
+        tableSub:"Same data as the map above. Click a city to see its full roster.",
+        tooltipTitle: function(r){ return r.city+", "+r.country+" — "+r.count+(r.count===1?" wrestler":" wrestlers"); },
+        tooltipSub: function(){ return null; },
+        roster: cityRoster,
+        unmapped: wm.unmappedBirthplaces || [],
+        unmappedLabel: function(u){ return (u.birthplace||u.city||"")+" ("+u.count+")"; },
+        unmappedNote:"These recorded birthplace strings don't have a city mapping yet, so they're counted in the coverage total above but don't appear on the map."
+      }
+    };
+
+    function drawLayer(kind){
+      var cfg = LAYERS[kind];
+      btnCountries.classList.toggle("active", kind==="countries");
+      btnCities.classList.toggle("active", kind==="cities");
+      headP.textContent = cfg.desc;
+      dynamicArea.innerHTML = "";
+
+      var kpi = el("div", {class:"kpi-row"});
+      cfg.kpis.forEach(function(pair){
+        kpi.appendChild(el("div",{class:"kpi"},[
+          el("div",{class:"v",text:pair[0]}),
+          el("div",{class:"l",text:pair[1]})
+        ]));
+      });
+      dynamicArea.appendChild(kpi);
+
+      var rows = cfg.rows || [];
+      // ---- shared roster-row registry, built before the map so a marker
+      // click can open + scroll to the matching table row below it ----
+      var rowRefs = {}; // row key -> {rowEl, listEl, open:bool, filled:bool, data}
+
+      function setOpen(key, open){
+        var ref = rowRefs[key];
+        if (!ref) return;
+        ref.open = open;
+        ref.rowEl.classList.toggle("open", open);
+        if (open && !ref.filled){
+          ref.listEl.appendChild(cfg.roster(ref.data));
+          ref.filled = true;
+        }
+      }
+
+      var maxCount = rows.length ? Math.max.apply(null, rows.map(function(r){return r.count;})) : 1;
+
+      var tablePanel = el("div", {class:"panel section-gap worldmap-table"});
+      tablePanel.appendChild(el("h3", {text:cfg.tableTitle}));
+      tablePanel.appendChild(el("div", {class:"sub", text:cfg.tableSub}));
+      var rowsWrap = el("div");
+      if (kind === "cities"){
+        var tableSearch = el("input", {class:"search", type:"text", style:"margin:12px 0 4px;", placeholder:"Filter "+rows.length+" cities by name or country…"});
+        tablePanel.appendChild(tableSearch);
+        tableSearch.addEventListener("input", function(){
+          var f = tableSearch.value.trim().toLowerCase();
+          rows.forEach(function(r, idx){
+            var ref = rowRefs[cfg.rowKey(r, idx)];
+            if (!ref) return;
+            ref.rowEl.style.display = (!f || cfg.rowTitle(r).toLowerCase().indexOf(f) !== -1) ? "" : "none";
+          });
+        });
+      }
+      tablePanel.appendChild(rowsWrap);
+      rows.forEach(function(r, idx){
+        var key = cfg.rowKey(r, idx);
+        var rowEl = el("div", {class:"country-row", id:"loc-"+key});
+        var bar = barRow(cfg.rowTitle(r), r.count, maxCount, false, function(v){ return v+(v===1?" wrestler":" wrestlers"); });
+        var listEl = el("div", {});
+        bar.addEventListener("click", function(){ activate(key); });
+        rowEl.appendChild(bar);
+        rowEl.appendChild(listEl);
+        rowsWrap.appendChild(rowEl);
+        rowRefs[key] = {rowEl:rowEl, listEl:listEl, open:false, filled:false, data:r};
+      });
+
+      // ---- map ----
+      var panel = el("div", {class:"worldmap-panel"});
+      var svgns = "http://www.w3.org/2000/svg";
+      var svg = document.createElementNS(svgns, "svg");
+      svg.setAttribute("viewBox", "0 0 "+wm.mapWidth+" "+wm.mapHeight);
+      svg.setAttribute("class", "worldmap-svg");
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-label", cfg.ariaLabel);
+
+      // graticule (subtle lat/long grid, every 30 degrees) for map-like depth
+      var gratG = document.createElementNS(svgns, "g");
+      for (var lon=-150; lon<180; lon+=30){
+        var gx = (lon+180) * (wm.mapWidth/360);
+        var vline = document.createElementNS(svgns, "line");
+        vline.setAttribute("x1", gx); vline.setAttribute("x2", gx);
+        vline.setAttribute("y1", 0); vline.setAttribute("y2", wm.mapHeight);
+        vline.setAttribute("class", "worldmap-grat");
+        gratG.appendChild(vline);
+      }
+      for (var lat=-60; lat<=60; lat+=30){
+        var gy = (90-lat) * (wm.mapHeight/180);
+        var hline = document.createElementNS(svgns, "line");
+        hline.setAttribute("x1", 0); hline.setAttribute("x2", wm.mapWidth);
+        hline.setAttribute("y1", gy); hline.setAttribute("y2", gy);
+        hline.setAttribute("class", "worldmap-grat");
+        gratG.appendChild(hline);
+      }
+      svg.appendChild(gratG);
+
+      var landG = document.createElementNS(svgns, "g");
+      WORLD_LAND.forEach(function(land){
+        var p = document.createElementNS(svgns, "path");
+        p.setAttribute("d", land.d);
+        p.setAttribute("class", "worldmap-land");
+        landG.appendChild(p);
+      });
+      svg.appendChild(landG);
+
+      var tooltip = el("div", {class:"worldmap-tooltip"});
+      panel.appendChild(tooltip);
+
+      var minR = cfg.minR, maxR = cfg.maxR;
+      function radiusFor(count){
+        if (maxCount <= 1) return minR;
+        return minR + (maxR - minR) * Math.sqrt(count / maxCount);
+      }
+
+      function activate(key){
+        Object.keys(rowRefs).forEach(function(k){ if (k!==key) setOpen(k, false); });
+        Object.keys(markerEls).forEach(function(k){ markerEls[k].classList.toggle("selected", k===key); });
+        setOpen(key, true);
+        var ref = rowRefs[key];
+        if (ref) ref.rowEl.scrollIntoView({behavior:"smooth", block:"center"});
+      }
+
+      var markersG = document.createElementNS(svgns, "g");
+      var markerEls = {}; // row key -> circle element, for selected-state styling
+      rows.forEach(function(r, idx){
+        var key = cfg.rowKey(r, idx);
+        var rad = radiusFor(r.count);
+        var g = document.createElementNS(svgns, "g");
+
+        var circle = document.createElementNS(svgns, "circle");
+        circle.setAttribute("cx", r.x);
+        circle.setAttribute("cy", r.y);
+        circle.setAttribute("r", rad);
+        circle.setAttribute("class", "worldmap-marker"+(kind==="cities"?" city-marker":""));
+        circle.setAttribute("tabindex", "0");
+        circle.setAttribute("role", "button");
+        circle.setAttribute("aria-label", cfg.rowAria(r));
+        markerEls[key] = circle;
+
+        var sheen = document.createElementNS(svgns, "circle");
+        sheen.setAttribute("cx", r.x - rad*0.32);
+        sheen.setAttribute("cy", r.y - rad*0.32);
+        sheen.setAttribute("r", Math.max(rad*0.34, 1));
+        sheen.setAttribute("class", "worldmap-marker-sheen");
+
+        function showTip(){
+          var names = r.wrestlers.slice(0,8).map(function(w){return w.name;});
+          var extra = r.count > 8 ? " +"+(r.count-8)+" more" : "";
+          var subLine = cfg.tooltipSub(r);
+          tooltip.innerHTML = "";
+          tooltip.appendChild(el("div", {class:"t-name", text:cfg.tooltipTitle(r)}));
+          if (subLine) tooltip.appendChild(el("div", {class:"t-sub", text:subLine}));
+          tooltip.appendChild(el("div", {class:"t-sub", style:"margin-top:4px; color:var(--ink-2);", text:names.join(", ")+extra}));
+          tooltip.appendChild(el("div", {class:"t-hint", text:"Click for the full roster ↓"}));
+          tooltip.style.display = "block";
+          var panelRect = panel.getBoundingClientRect();
+          var px = (r.x / wm.mapWidth) * panelRect.width;
+          var py = (r.y / wm.mapHeight) * (panelRect.width * wm.mapHeight / wm.mapWidth);
+          var left = Math.min(Math.max(px + 14, 4), panelRect.width - 246);
+          tooltip.style.left = left + "px";
+          tooltip.style.top = Math.max(py - 10, 4) + "px";
+        }
+        function hideTip(){ tooltip.style.display = "none"; }
+        // Overlapping/adjacent markers (common on the dense Cities layer)
+        // still need to be individually clickable -- re-appending the
+        // hovered marker's <g> moves it to the end of markersG, i.e. to the
+        // front of SVG paint order, so it's the one that catches the
+        // pointer even where several small circles sit on top of each other.
+        function bringToFront(){ if (g.parentNode) g.parentNode.appendChild(g); }
+        circle.addEventListener("mouseenter", function(){ bringToFront(); showTip(); });
+        circle.addEventListener("mousemove", showTip);
+        circle.addEventListener("mouseleave", hideTip);
+        circle.addEventListener("focus", showTip);
+        circle.addEventListener("blur", hideTip);
+        circle.addEventListener("click", function(){ activate(key); });
+        circle.addEventListener("keydown", function(ev){ if (ev.key==="Enter" || ev.key===" "){ ev.preventDefault(); activate(key); } });
+
+        g.appendChild(circle);
+        g.appendChild(sheen);
+        markersG.appendChild(g);
+      });
+      svg.appendChild(markersG);
+
+      // direct labels for the top handful of markers, spread across
+      // continents rather than the crowded Europe cluster -- readable at a
+      // glance without needing to hover every dot. Skipped on the Cities
+      // layer, where 331 closely-packed pins would just turn into overlapping text.
+      if (cfg.showLabels){
+        var labelG = document.createElementNS(svgns, "g");
+        var labeled = {};
+        rows.slice(0, 12).forEach(function(r, idx){
+          if (Object.keys(labeled).length >= 6) return;
+          var tooClose = Object.keys(labeled).some(function(k){
+            var o = labeled[k];
+            return Math.hypot(o.x-r.x, o.y-r.y) < 70;
+          });
+          if (tooClose) return;
+          labeled[cfg.rowKey(r, idx)] = r;
+          var rad = radiusFor(r.count);
+          var onRightEdge = r.x > wm.mapWidth - 90;
+          var label = document.createElementNS(svgns, "text");
+          label.setAttribute("x", onRightEdge ? r.x - rad - 6 : r.x + rad + 6);
+          label.setAttribute("y", r.y + 4);
+          label.setAttribute("text-anchor", onRightEdge ? "end" : "start");
+          label.setAttribute("class", "worldmap-label");
+          label.textContent = cfg.rowTitle(r);
+          labelG.appendChild(label);
+        });
+        svg.appendChild(labelG);
+      }
+
+      // size legend, bottom-left
+      var legendG = document.createElementNS(svgns, "g");
+      var legendVals = [Math.max(1, Math.round(maxCount*0.15)), Math.max(2, Math.round(maxCount*0.5)), maxCount];
+      var legendX = 14, legendBaseY = wm.mapHeight - 16;
+      legendG.appendChild((function(){
+        var t = document.createElementNS(svgns, "text");
+        t.setAttribute("x", legendX); t.setAttribute("y", legendBaseY - maxR*2 - 8);
+        t.setAttribute("class", "worldmap-legend-text");
+        t.textContent = "Wrestlers";
+        return t;
+      })());
+      var cursorX = legendX + 6;
+      legendVals.forEach(function(v){
+        var r = radiusFor(v);
+        var cy = legendBaseY - r;
+        var dot = document.createElementNS(svgns, "circle");
+        dot.setAttribute("cx", cursorX + r); dot.setAttribute("cy", cy); dot.setAttribute("r", r);
+        dot.setAttribute("class", "worldmap-legend-dot");
+        legendG.appendChild(dot);
+        var lbl = document.createElementNS(svgns, "text");
+        lbl.setAttribute("x", cursorX + r); lbl.setAttribute("y", legendBaseY + 12);
+        lbl.setAttribute("text-anchor", "middle");
+        lbl.setAttribute("class", "worldmap-legend-text");
+        lbl.textContent = String(v);
+        legendG.appendChild(lbl);
+        cursorX += r*2 + 14;
+      });
+      svg.appendChild(legendG);
+
+      panel.appendChild(svg);
+      dynamicArea.appendChild(panel);
+      dynamicArea.appendChild(tablePanel);
+
+      if (cfg.unmapped && cfg.unmapped.length){
+        var unmappedPanel = el("div", {class:"panel section-gap"});
+        unmappedPanel.appendChild(el("h3", {text:"Not yet plotted"}));
+        unmappedPanel.appendChild(el("div", {class:"sub", text:cfg.unmappedNote}));
+        var chipWrap = el("div", {class:"badges", style:"margin-top:8px;"});
+        cfg.unmapped.forEach(function(u){
+          chipWrap.appendChild(el("span", {class:"chip", text:cfg.unmappedLabel(u)}));
+        });
+        unmappedPanel.appendChild(chipWrap);
+        dynamicArea.appendChild(unmappedPanel);
+      }
+    }
+
+    btnCountries.addEventListener("click", function(){ drawLayer("countries"); });
+    btnCities.addEventListener("click", function(){ drawLayer("cities"); });
+    drawLayer("countries");
+
+    return c;
+  }
+
+  // ---------------- page: title histories ----------------
+  // Browses DB.championshipHistory -- a promotion/championship/reign tree
+  // built independently of the Rumble match data above (its own asOf/scope
+  // snapshot, not a live dependency). Nothing else in the dashboard renders
+  // this as a standalone view; the per-wrestler "Championship status at
+  // entry" panel on a wrestler profile page is a different, narrower source
+  // (what a wrestler held walking into a specific Rumble) and is untouched
+  // by this page. wrestlerIds here are canonical ids that may belong to
+  // either division (or neither, for a champion never in a Royal Rumble),
+  // so every link uses anyDivWlink/findWrestlerAnyDiv rather than a wlink()
+  // scoped to CUR_DIV -- there is no single division on this page.
+  function pageTitles(initialArg){
+    var c = el("div", {class:"container"});
+    var ch = (DB && DB.championshipHistory) || {asOf:null, scope:null, promotions:[], championships:[], wrestlerSummary:{}};
+    var promoById = {};
+    ch.promotions.forEach(function(p){ promoById[p.id] = p; });
+
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:ch.promotions.length+" promotions · "+ch.championships.length+" championships"}),
+      el("h2", {text:"Title Histories"}),
+      el("p", {text:"Every championship lineage tracked in this database, grouped by promotion, with its full reign-by-reign history. "+(ch.scope||"")+(ch.asOf?(" Snapshot as of "+ch.asOf+" — sourced independently of the Rumble match data elsewhere in this dashboard, and not kept live against it.") : "")})
+    ]));
+
+    var controls = el("div", {style:"display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;"});
+    var search = el("input", {class:"search", type:"text", style:"max-width:320px;", placeholder:"Search by champion, title or promotion…"});
+    var promoSelect = el("select", {class:"search", style:"max-width:260px;"});
+    promoSelect.appendChild(el("option", {value:"", text:"All promotions"}));
+    ch.promotions.slice().sort(function(a,b){ return a.name.localeCompare(b.name); }).forEach(function(p){
+      promoSelect.appendChild(el("option", {value:p.id, text:p.name+" ("+p.abbreviation+")"}));
+    });
+    controls.appendChild(search);
+    controls.appendChild(promoSelect);
+    c.appendChild(controls);
+
+    var listArea = el("div");
+    c.appendChild(listArea);
+    var detailArea = el("div", {class:"section-gap"});
+    c.appendChild(detailArea);
+
+    function championshipMatches(champ, q, promoId){
+      if (promoId && champ.promotionId !== promoId) return false;
+      if (!q) return true;
+      var promo = promoById[champ.promotionId];
+      var hay = (champ.name+" "+(promo?promo.name+" "+promo.abbreviation:"")).toLowerCase();
+      if (hay.indexOf(q) !== -1) return true;
+      return champ.reigns.some(function(r){ return (r.champion||"").toLowerCase().indexOf(q) !== -1; });
+    }
+
+    function extLink(url, label){
+      return url ? el("a", {class:"wlink", href:url, target:"_blank", rel:"noopener noreferrer", text:label}) : null;
+    }
+
+    function reignTimeline(champ){
+      var wrap = el("div", {class:"panel"});
+      var promo = promoById[champ.promotionId];
+      var backlink = el("div", {class:"backlink", text:"← Close", onclick:function(){ detailArea.innerHTML = ""; }});
+      wrap.appendChild(backlink);
+      wrap.appendChild(el("h3", {text:champ.name}));
+      wrap.appendChild(el("div", {class:"sub", text:(promo?promo.name+" ("+promo.abbreviation+")":champ.promotionId)+" · "+champ.level+(champ.division && champ.division!=="Open" ? " · "+champ.division : "")+" · "+(champ.activeFrom||"?")+"–"+(champ.activeTo||"present")+" · "+champ.reigns.length+" reign"+(champ.reigns.length!==1?"s":"")+" tracked"}));
+      var links = el("div", {style:"margin-top:8px; display:flex; gap:16px; font-size:12px;"});
+      var l1 = extLink(champ.officialHistoryUrl, "Official history ↗"); if (l1) links.appendChild(l1);
+      var l2 = extLink(champ.wikipediaHistoryUrl, "Wikipedia ↗"); if (l2) links.appendChild(l2);
+      if (links.children.length) wrap.appendChild(links);
+
+      var scroll = el("div", {class:"table-scroll", style:"margin-top:14px;"});
+      var table = el("table", {class:"hist-table"});
+      table.appendChild(el("thead",{},[el("tr",{},[
+        el("th",{text:"#"}), el("th",{text:"Champion"}), el("th",{text:"Won"}), el("th",{text:"Lost"}),
+        el("th",{text:"Days"}), el("th",{text:"Event / Location"})
+      ])]));
+      var tbody = el("tbody");
+      champ.reigns.forEach(function(r){
+        var champCell = el("td", {class:"name-cell"});
+        var nameB = el("b", {text: r.champion || "—"});
+        champCell.appendChild(nameB);
+        if (r.type !== "reign"){
+          champCell.appendChild(el("span",{class:"chip", style:"margin-left:5px;", text: r.type==="vacancy" ? "Vacant" : "Disputed lineage"}));
+        }
+        if (r.wrestlerIds && r.wrestlerIds.length){
+          var chips = el("div", {class:"badges"});
+          r.wrestlerIds.forEach(function(wid){
+            var w = findWrestlerAnyDiv(wid);
+            var chip = el("span",{class:"chip"});
+            chip.appendChild(anyDivWlink(wid, w ? w.name : wid));
+            chips.appendChild(chip);
+          });
+          champCell.appendChild(chips);
+        }
+        if (r.notes) champCell.appendChild(el("div",{class:"method-note", style:"max-width:44ch;", text:r.notes}));
+        tbody.appendChild(el("tr",{},[
+          el("td",{class:"num", text: r.reignNumber!==null && r.reignNumber!==undefined ? r.reignNumber : "—"}),
+          champCell,
+          el("td",{class:"num", text:r.wonDate||"—"}),
+          el("td",{class:"num", text: r.current ? "Current" : (r.lostDate||"—")}),
+          el("td",{class:"num", text:r.daysReported||"—"}),
+          el("td",{text:[r.event,r.location].filter(Boolean).join(" · ") || "—"})
+        ]));
+      });
+      table.appendChild(tbody);
+      scroll.appendChild(table);
+      wrap.appendChild(scroll);
+      return wrap;
+    }
+
+    function showChampionship(champId){
+      var champ = ch.championships.find(function(x){ return x.id === champId; });
+      detailArea.innerHTML = "";
+      if (!champ) return;
+      detailArea.appendChild(reignTimeline(champ));
+      detailArea.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    function draw(){
+      var q = search.value.trim().toLowerCase();
+      var promoId = promoSelect.value;
+      listArea.innerHTML = "";
+      var byPromo = {};
+      ch.championships.forEach(function(champ){
+        if (!championshipMatches(champ, q, promoId)) return;
+        (byPromo[champ.promotionId] = byPromo[champ.promotionId] || []).push(champ);
+      });
+      var promoIds = Object.keys(byPromo).sort(function(a,b){
+        var pa = promoById[a], pb = promoById[b];
+        return (pa?pa.name:a).localeCompare(pb?pb.name:b);
+      });
+      if (!promoIds.length){
+        listArea.appendChild(el("div",{class:"sub", text:"No championships match your filters."}));
+        return;
+      }
+      promoIds.forEach(function(pid){
+        var promo = promoById[pid];
+        var champs = byPromo[pid];
+        listArea.appendChild(el("div",{class:"cat-heading", text:(promo?promo.name+" ("+promo.abbreviation+")":pid)+" — "+champs.length+" title"+(champs.length!==1?"s":"")}));
+        var grid = el("div", {class:"grid records"});
+        champs.slice().sort(function(a,b){ return a.name.localeCompare(b.name); }).forEach(function(champ){
+          var lastReign = champ.reigns.filter(function(r){ return r.type==="reign"; }).slice(-1)[0];
+          var card = el("div", {class:"card rec-card", style:"cursor:pointer;", onclick:(function(id){return function(){ showChampionship(id); };})(champ.id)});
+          card.appendChild(el("div",{class:"cat", text:champ.level+(champ.division && champ.division!=="Open" ? " · "+champ.division : "")}));
+          card.appendChild(el("div",{class:"nm", text:champ.name}));
+          card.appendChild(el("div",{class:"val", text:champ.reigns.length+" reign"+(champ.reigns.length!==1?"s":"")}));
+          if (lastReign){
+            card.appendChild(el("div",{class:"holder", text:(lastReign.current?"Current: ":"Last: ")+lastReign.champion}));
+          }
+          card.appendChild(el("div",{class:"note", text:"Click for the full reign timeline"}));
+          grid.appendChild(card);
+        });
+        listArea.appendChild(grid);
+      });
+    }
+
+    search.addEventListener("input", draw);
+    promoSelect.addEventListener("change", draw);
+    draw();
+    if (initialArg) showChampionship(initialArg);
+
+    return c;
+  }
+
+  // ---------------- page: full card ----------------
+  // Surfaces DB.fullCard -- everything on the card besides the Royal Rumble
+  // match itself (every other match, every commentator/announcer/referee),
+  // built from scripts/build_dashboard_data.py's "Full-card stats" section.
+  // Division-independent like Title Histories above: a dual-duty entrant,
+  // card regular, or commentator can belong to either division (or, for
+  // commentators, neither), so this page uses its own eventId -> division
+  // lookup rather than a single CUR_DIV-scoped wlink/byId.
+  function pageFullCard(){
+    var c = el("div", {class:"container"});
+    var fc = (DB && DB.fullCard) || {coveredEvents:[], dualDutyEntrants:[], nonRumbleCardRegulars:[], commentators:[], matchTypeFrequency:[], titleFrequency:[]};
+
+    var eventDivKey = {};
+    (DB.divisions || []).forEach(function(d){
+      (d.events || []).forEach(function(ev){ eventDivKey[ev.id] = d.key; });
+    });
+    function eventLink(evBrief){
+      if (!evBrief || !evBrief.id) return document.createTextNode("—");
+      var label = (evBrief.year || "") + (evBrief.name && evBrief.name !== evBrief.id ? " — " + evBrief.name : "");
+      label = label || evBrief.id;
+      var dk = eventDivKey[evBrief.id];
+      if (!dk) return document.createTextNode(label);
+      return el("span", {class:"wlink", text: label, onclick:function(ev){ ev.stopPropagation(); navigate("/"+dk+"/events/"+evBrief.id); }});
+    }
+
+    var coveredSorted = fc.coveredEvents.slice().sort(function(a,b){ return (a.year||"").localeCompare(b.year||"") || a.id.localeCompare(b.id); });
+
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text: coveredSorted.length+" event"+(coveredSorted.length!==1?"s":"")+" with full-card research"}),
+      el("h2", {text:"Full Card"}),
+      el("p", {text:"Beyond the Royal Rumble match itself: every other match on the card, plus commentary teams, ring announcers and referees, researched and cross-checked from Wikipedia and a second source for the events listed below. This surfaces wrestlers who worked the Rumble match AND another match the same night, non-Rumble regulars who kept getting booked on the card without ever entering the Rumble, commentator/announcer/referee appearance counts, and the most common match types and titles defended on the card."})
+    ]));
+
+    var coveredWrap = el("div", {class:"panel", style:"margin-bottom:22px;"});
+    coveredWrap.appendChild(el("h3", {text:"Events covered"}));
+    var coveredChips = el("div", {class:"badges"});
+    coveredSorted.forEach(function(ev){
+      var chip = el("span", {class:"chip"});
+      chip.appendChild(eventLink(ev));
+      coveredChips.appendChild(chip);
+    });
+    coveredWrap.appendChild(coveredChips);
+    c.appendChild(coveredWrap);
+
+    // --- Dual-duty entrants ---------------------------------------------
+    c.appendChild(el("div", {class:"cat-heading", text:"Wrestled Earlier That Night ("+fc.dualDutyEntrants.length+")"}));
+    c.appendChild(el("p", {class:"sub", style:"margin:-6px 0 12px;", text:"Entrants in the Royal Rumble match who also worked another match on the same card."}));
+    var ddScroll = el("div", {class:"table-scroll"});
+    var ddTable = el("table", {class:"hist-table"});
+    ddTable.appendChild(el("thead", {}, [el("tr", {}, [
+      el("th", {text:"Event"}), el("th", {text:"Wrestler"}), el("th", {text:"Entry #"}),
+      el("th", {text:"Rumble result"}), el("th", {text:"Other match"}), el("th", {text:"Type"}), el("th", {text:"Result"})
+    ])]));
+    var ddBody = el("tbody");
+    fc.dualDutyEntrants.slice().sort(function(a,b){
+      return (b.event.year||"").localeCompare(a.event.year||"") || (a.entryNumber||0)-(b.entryNumber||0);
+    }).forEach(function(r){
+      ddBody.appendChild(el("tr", {}, [
+        el("td", {}, [eventLink(r.event)]),
+        el("td", {class:"name-cell"}, [anyDivWlink(r.wrestlerId, r.wrestlerName)]),
+        el("td", {class:"num", text: r.entryNumber!==null && r.entryNumber!==undefined ? String(r.entryNumber) : "—"}),
+        el("td", {text: r.rumbleResult || "—"}),
+        el("td", {class:"num", text: r.otherMatchNumber!==null && r.otherMatchNumber!==undefined ? "#"+r.otherMatchNumber : "—"}),
+        el("td", {text: r.otherMatchType || "—"}),
+        el("td", {text: r.otherMatchResult || "—"})
+      ]));
+    });
+    ddTable.appendChild(ddBody);
+    ddScroll.appendChild(ddTable);
+    c.appendChild(ddScroll);
+
+    // --- Non-Rumble card regulars ----------------------------------------
+    c.appendChild(el("div", {class:"cat-heading", style:"margin-top:26px;", text:"Card Regulars Who've Never Entered the Rumble ("+fc.nonRumbleCardRegulars.length+")"}));
+    c.appendChild(el("p", {class:"sub", style:"margin:-6px 0 12px;", text:"Wrestlers booked on the card at least twice among the covered events, but never as a Royal Rumble match entrant (in either division)."}));
+    var regGrid = el("div", {class:"grid records"});
+    fc.nonRumbleCardRegulars.slice().sort(function(a,b){ return b.cardAppearancesCount - a.cardAppearancesCount; }).forEach(function(r){
+      var card = el("div", {class:"card rec-card"});
+      card.appendChild(el("div", {class:"nm"}, [anyDivWlink(r.wrestlerId, r.wrestlerName)]));
+      card.appendChild(el("div", {class:"val", text: r.cardAppearancesCount+" card appearance"+(r.cardAppearancesCount!==1?"s":"")}));
+      var holderDiv = el("div", {class:"holder"});
+      holderDiv.appendChild(document.createTextNode("First: "));
+      holderDiv.appendChild(eventLink(r.firstEvent));
+      if (r.mostRecentEvent && r.mostRecentEvent.id !== r.firstEvent.id){
+        holderDiv.appendChild(document.createTextNode(" · Most recent: "));
+        holderDiv.appendChild(eventLink(r.mostRecentEvent));
+      }
+      card.appendChild(holderDiv);
+      if (r.events && r.events.length > 2){
+        var list = el("div", {class:"member-list"});
+        r.events.forEach(function(ev){
+          list.appendChild(el("div", {class:"member-row"}, [eventLink(ev)]));
+        });
+        var open = false;
+        var toggle = el("div", {class:"backlink", style:"margin-top:6px;", text:"Show all "+r.events.length+" ▾"});
+        toggle.addEventListener("click", function(){
+          open = !open;
+          list.style.display = open ? "block" : "none";
+          toggle.textContent = open ? "Hide ▴" : "Show all "+r.events.length+" ▾";
+        });
+        list.style.display = "none";
+        card.appendChild(toggle);
+        card.appendChild(list);
+      }
+      regGrid.appendChild(card);
+    });
+    c.appendChild(regGrid);
+
+    // --- Commentators / announcers / referees ----------------------------
+    c.appendChild(el("div", {class:"cat-heading", style:"margin-top:26px;", text:"Commentary Teams, Ring Announcers & Referees ("+fc.commentators.length+")"}));
+    c.appendChild(el("p", {class:"sub", style:"margin:-6px 0 12px;", text:"Every person credited on the broadcast or officiating a match across the covered events, ranked by how many of those events they appear on."}));
+    var ctrlRow = el("div", {style:"display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;"});
+    var ctSearch = el("input", {class:"search", type:"text", style:"max-width:280px;", placeholder:"Search by name…"});
+    var roleSelect = el("select", {class:"search", style:"max-width:200px;"});
+    var roles = Array.from(new Set(fc.commentators.map(function(r){ return r.role; }))).sort();
+    roleSelect.appendChild(el("option", {value:"", text:"All roles"}));
+    roles.forEach(function(role){ roleSelect.appendChild(el("option", {value:role, text:role})); });
+    ctrlRow.appendChild(ctSearch);
+    ctrlRow.appendChild(roleSelect);
+    c.appendChild(ctrlRow);
+    var ctGrid = el("div", {class:"grid records"});
+    c.appendChild(ctGrid);
+
+    function drawCommentators(){
+      var q = ctSearch.value.trim().toLowerCase();
+      var role = roleSelect.value;
+      ctGrid.innerHTML = "";
+      var rows = fc.commentators.filter(function(r){
+        if (role && r.role !== role) return false;
+        if (q && r.personName.toLowerCase().indexOf(q) === -1) return false;
+        return true;
+      }).sort(function(a,b){ return b.eventsCount - a.eventsCount || a.personName.localeCompare(b.personName); });
+      if (!rows.length){
+        ctGrid.appendChild(el("div", {class:"sub", text:"No one matches your filters."}));
+        return;
+      }
+      rows.forEach(function(r){
+        var card = el("div", {class:"card rec-card"});
+        card.appendChild(el("div", {class:"cat", text:r.role}));
+        card.appendChild(el("div", {class:"nm"}, [anyDivWlink(r.personId, r.personName)]));
+        card.appendChild(el("div", {class:"val", text: r.eventsCount+" event"+(r.eventsCount!==1?"s":"")}));
+        var holderDiv = el("div", {class:"holder"});
+        holderDiv.appendChild(document.createTextNode("First: "));
+        holderDiv.appendChild(eventLink(r.firstEvent));
+        if (r.mostRecentEvent && r.mostRecentEvent.id !== r.firstEvent.id){
+          holderDiv.appendChild(document.createTextNode(" · Most recent: "));
+          holderDiv.appendChild(eventLink(r.mostRecentEvent));
+        }
+        card.appendChild(holderDiv);
+        if (r.events && r.events.length > 2){
+          var list = el("div", {class:"member-list"});
+          r.events.forEach(function(ev){
+            list.appendChild(el("div", {class:"member-row"}, [eventLink(ev)]));
+          });
+          var open = false;
+          var toggle = el("div", {class:"backlink", style:"margin-top:6px;", text:"Show all "+r.events.length+" ▾"});
+          toggle.addEventListener("click", function(){
+            open = !open;
+            list.style.display = open ? "block" : "none";
+            toggle.textContent = open ? "Hide ▴" : "Show all "+r.events.length+" ▾";
+          });
+          list.style.display = "none";
+          card.appendChild(toggle);
+          card.appendChild(list);
+        }
+        ctGrid.appendChild(card);
+      });
+    }
+    ctSearch.addEventListener("input", drawCommentators);
+    roleSelect.addEventListener("change", drawCommentators);
+    drawCommentators();
+
+    // --- Match type frequency --------------------------------------------
+    c.appendChild(el("div", {class:"cat-heading", style:"margin-top:26px;", text:"Most Frequent Match Types on the Card ("+fc.matchTypeFrequency.length+")"}));
+    var mtScroll = el("div", {class:"table-scroll"});
+    var mtTable = el("table", {class:"hist-table"});
+    mtTable.appendChild(el("thead", {}, [el("tr", {}, [el("th", {text:"Match type"}), el("th", {text:"Occurrences"}), el("th", {text:"Events"})])]));
+    var mtBody = el("tbody");
+    fc.matchTypeFrequency.slice().sort(function(a,b){ return b.occurrences - a.occurrences || a.matchType.localeCompare(b.matchType); }).forEach(function(r){
+      mtBody.appendChild(el("tr", {}, [
+        el("td", {text: r.matchType || "—"}),
+        el("td", {class:"num", text: String(r.occurrences)}),
+        el("td", {class:"num", text: String(r.eventsCount)})
+      ]));
+    });
+    mtTable.appendChild(mtBody);
+    mtScroll.appendChild(mtTable);
+    c.appendChild(mtScroll);
+
+    // --- Title frequency ---------------------------------------------------
+    c.appendChild(el("div", {class:"cat-heading", style:"margin-top:26px;", text:"Titles Featured on the Card ("+fc.titleFrequency.length+")"}));
+    var tfScroll = el("div", {class:"table-scroll"});
+    var tfTable = el("table", {class:"hist-table"});
+    tfTable.appendChild(el("thead", {}, [el("tr", {}, [el("th", {text:"Title"}), el("th", {text:"Times defended/contested"}), el("th", {text:"Events"}), el("th", {text:"Distinct champions"})])]));
+    var tfBody = el("tbody");
+    fc.titleFrequency.slice().sort(function(a,b){ return b.occurrences - a.occurrences || a.title.localeCompare(b.title); }).forEach(function(r){
+      tfBody.appendChild(el("tr", {}, [
+        el("td", {text: r.title || "—"}),
+        el("td", {class:"num", text: String(r.occurrences)}),
+        el("td", {class:"num", text: String(r.eventsCount)}),
+        el("td", {class:"num", text: String(r.distinctChampionsCount)})
+      ]));
+    });
+    tfTable.appendChild(tfBody);
+    tfScroll.appendChild(tfTable);
+    c.appendChild(tfScroll);
 
     return c;
   }
@@ -1303,21 +1844,41 @@
           card.appendChild(el("div",{class:"holder", text:r.eventId}));
         }
         if (r.notes) card.appendChild(el("div",{class:"note", text:r.notes}));
-        if (r.members && r.members.length){
+        // `members` is the record's own structured full-list data when the
+        // build already provides one (e.g. every HOFer in a single field).
+        // Failing that, a "Tied with: ..." clause inside `notes` is parsed
+        // into the same shape so ties get the identical expand-on-click
+        // treatment rather than sitting as static text -- see
+        // parseTiedFromNotes above.
+        var members = r.members;
+        var tiedFromNotes = false;
+        if (!members || !members.length){
+          var tied = parseTiedFromNotes(r.notes, div);
+          if (tied && tied.length){
+            members = tied;
+            tiedFromNotes = true;
+          }
+        }
+        if (members && members.length){
           var open = false;
           var list = el("div", {class:"member-list"});
-          r.members.forEach(function(m){
+          members.forEach(function(m){
+            var nameNode = m.isEvent
+              ? el("span", {class:"wlink", text:m.name, onclick:(function(eid){return function(ev){ ev.stopPropagation(); navigate("/"+div.key+"/events/"+eid); };})(m.id)})
+              : wlink(m.id, m.name);
             list.appendChild(el("div", {class:"member-row"}, [
-              wlink(m.id, m.name),
+              nameNode,
               el("span", {class:"d", text:m.detail||""})
             ]));
           });
-          var toggle = el("div", {class:"note member-toggle", text:"Show all "+r.members.length+" ▾"});
+          var shownLabel = tiedFromNotes ? "Show tied holders ("+members.length+") ▾" : "Show all "+members.length+" ▾";
+          var hiddenLabel = tiedFromNotes ? "Hide tied holders ▴" : "Hide list ▴";
+          var toggle = el("div", {class:"note member-toggle", text:shownLabel});
           toggle.addEventListener("click", function(ev){
             ev.stopPropagation();
             open = !open;
             list.style.display = open ? "block" : "none";
-            toggle.textContent = open ? "Hide list ▴" : ("Show all "+r.members.length+" ▾");
+            toggle.textContent = open ? hiddenLabel : shownLabel;
           });
           card.appendChild(toggle);
           card.appendChild(list);
@@ -1937,6 +2498,16 @@
     if (r.page === "map"){
       CUR_DIV = null;
       content.appendChild(pageWorldMap());
+      return;
+    }
+    if (r.page === "titles"){
+      CUR_DIV = null;
+      content.appendChild(pageTitles(r.arg));
+      return;
+    }
+    if (r.page === "fullcard"){
+      CUR_DIV = null;
+      content.appendChild(pageFullCard());
       return;
     }
     if (!r.division || r.page === "home"){
