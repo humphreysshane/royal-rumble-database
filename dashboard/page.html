@@ -783,9 +783,15 @@
     ]));
 
     var toggleWrap = el("div", {class:"layer-toggle"});
+    toggleWrap.appendChild(el("span", {class:"method-note", text:"Data:"}));
     var btnBilled = el("button", {type:"button", text:"Billed From"});
-    var btnCities = el("button", {type:"button", text:"Birthplace"});
+    var btnBirthplace = el("button", {type:"button", text:"Birthplace"});
     toggleWrap.appendChild(btnBilled);
+    toggleWrap.appendChild(btnBirthplace);
+    toggleWrap.appendChild(el("span", {class:"method-note", style:"margin-left:10px;", text:"View:"}));
+    var btnCountries = el("button", {type:"button", text:"Countries"});
+    var btnCities = el("button", {type:"button", text:"Cities"});
+    toggleWrap.appendChild(btnCountries);
     toggleWrap.appendChild(btnCities);
     c.appendChild(toggleWrap);
 
@@ -826,7 +832,7 @@
     }
 
     var LAYERS = {
-      billed: {
+      "billed-cities": {
         desc:"Where Royal Rumble entrants were announced as being from at the time of each appearance. This is deliberately separate from birthplace: billed locations are part of the on-screen character and can change between events. Exact researched strings are grouped without guessing coordinates for unmatched or fictional places.",
         rows: wm.billedLocations || [],
         rowKey: function(r, idx){ return citySlug(r.location, r.country)+"-"+idx; },
@@ -849,7 +855,7 @@
         unmappedLabel: function(u){ return u.location+" ("+u.count+")"; },
         unmappedNote:"These exact billed-from strings do not yet have a sourced coordinate. They remain listed here rather than being plotted at a guessed location."
       },
-      cities: {
+      "birthplace-cities": {
         desc:"Every wrestler's recorded birthplace city, plotted individually by its real-world coordinates. Cities are numerous and several sit close together at this scale (the US and UK especially), so zoom or drag the map to separate them. A wrestler with no recorded birthplace, or one that could not be matched to a sourced coordinate, is not plotted here.",
         rows: wm.cities,
         // The index is folded into the key because the source data has a
@@ -877,13 +883,42 @@
         unmapped: wm.unmappedBirthplaces || [],
         unmappedLabel: function(u){ return (u.birthplace||u.city||"")+" ("+u.count+")"; },
         unmappedNote:"These recorded birthplace strings don't have a city mapping yet, so they're counted in the coverage total above but don't appear on the map."
+      },
+      "billed-countries": {
+        desc:"Countries represented by entrants' billed-from locations at the time of each appearance. Switch to Cities for the exact announced locations, or to Birthplace for biographical place data.",
+        rows: wm.billedCountries || [],
+        rowKey:function(r,idx){return slugifyCountry(r.country)+"-"+idx;},
+        rowTitle:function(r){return r.country;},
+        rowAria:function(r){return r.country+", "+r.count+" wrestlers across "+r.appearanceCount+" appearances";},
+        minR:4,maxR:25,ariaLabel:"World map of countries represented by Royal Rumble billed-from locations",
+        kpis:[[fmtNum(wm.totalBilledAppearances),"Appearances with a billed-from location"],[fmtNum((wm.billedCountries||[]).reduce(function(n,r){return n+r.count;},0)),"Wrestler-country combinations plotted"],[fmtNum((wm.billedCountries||[]).length),"Countries plotted"]],
+        showLabels:true,tableTitle:"By billed-from country",tableSub:"Click a country to open its complete wrestler roster.",
+        tooltipTitle:function(r){return r.country+" — "+r.count+(r.count===1?" wrestler":" wrestlers");},
+        tooltipSub:function(r){return r.appearanceCount+" appearances from "+r.locationCount+" mapped location"+(r.locationCount!==1?"s":"");},
+        roster:cityRoster,unmapped:[],unmappedLabel:function(){return "";},unmappedNote:""
+      },
+      "birthplace-countries": {
+        desc:"Countries represented by wrestlers' recorded birthplaces. Switch to Cities for the precise birthplace pins, or to Billed From for the locations used by their on-screen characters.",
+        rows: wm.birthplaceCountries || [],
+        rowKey:function(r,idx){return slugifyCountry(r.country)+"-"+idx;},
+        rowTitle:function(r){return r.country;},
+        rowAria:function(r){return r.country+", "+r.count+" wrestlers";},
+        minR:4,maxR:25,ariaLabel:"World map of wrestler birthplace countries",
+        kpis:[[fmtNum(wm.totalWithBirthplace)+" / "+fmtNum(wm.totalWrestlers),"Wrestlers with a recorded birthplace"],[wm.birthplaceCoveragePct+"%","Coverage of the full roster"],[fmtNum((wm.birthplaceCountries||[]).length),"Countries plotted"]],
+        showLabels:true,tableTitle:"By birthplace country",tableSub:"Click a country to open its complete wrestler roster.",
+        tooltipTitle:function(r){return r.country+" — "+r.count+(r.count===1?" wrestler":" wrestlers");},
+        tooltipSub:function(r){return r.locationCount+" mapped birthplace cit"+(r.locationCount===1?"y":"ies");},
+        roster:cityRoster,unmapped:[],unmappedLabel:function(){return "";},unmappedNote:""
       }
     };
 
+    var sourceKind="billed", levelKind="countries";
     function drawLayer(kind){
       var cfg = LAYERS[kind];
-      btnBilled.classList.toggle("active", kind==="billed");
-      btnCities.classList.toggle("active", kind==="cities");
+      btnBilled.classList.toggle("active", sourceKind==="billed");
+      btnBirthplace.classList.toggle("active", sourceKind==="birthplace");
+      btnCountries.classList.toggle("active", levelKind==="countries");
+      btnCities.classList.toggle("active", levelKind==="cities");
       headP.textContent = cfg.desc;
       dynamicArea.innerHTML = "";
 
@@ -918,7 +953,7 @@
       tablePanel.appendChild(el("h3", {text:cfg.tableTitle}));
       tablePanel.appendChild(el("div", {class:"sub", text:cfg.tableSub}));
       var rowsWrap = el("div");
-      if (kind === "cities" || kind === "billed"){
+      if (levelKind === "cities"){
         var tableSearch = el("input", {class:"search", type:"text", style:"margin:12px 0 4px;", placeholder:"Filter "+rows.length+" locations by name or country…"});
         tablePanel.appendChild(tableSearch);
         tableSearch.addEventListener("input", function(){
@@ -1020,7 +1055,7 @@
         circle.setAttribute("cx", r.x);
         circle.setAttribute("cy", r.y);
         circle.setAttribute("r", rad);
-        circle.setAttribute("class", "worldmap-marker"+(kind!=="countries"?" city-marker":""));
+        circle.setAttribute("class", "worldmap-marker"+(levelKind!=="countries"?" city-marker":""));
         circle.setAttribute("tabindex", "0");
         circle.setAttribute("role", "button");
         circle.setAttribute("aria-label", cfg.rowAria(r));
@@ -1165,9 +1200,12 @@
       }
     }
 
-    btnBilled.addEventListener("click", function(){ drawLayer("billed"); });
-    btnCities.addEventListener("click", function(){ drawLayer("cities"); });
-    drawLayer("billed");
+    function redraw(){ drawLayer(sourceKind+"-"+levelKind); }
+    btnBilled.addEventListener("click", function(){ sourceKind="billed"; redraw(); });
+    btnBirthplace.addEventListener("click", function(){ sourceKind="birthplace"; redraw(); });
+    btnCountries.addEventListener("click", function(){ levelKind="countries"; redraw(); });
+    btnCities.addEventListener("click", function(){ levelKind="cities"; redraw(); });
+    redraw();
 
     return c;
   }
@@ -1295,21 +1333,43 @@
       var champs=ch.championships.filter(function(x){return x.promotionId===pid&&championshipMatches(x,q,pid);});
       if(!champs.length)return;
       listArea.appendChild(el("div",{class:"cat-heading section-gap",text:promo.name+" ("+promo.abbreviation+")"}));
-      [["Active Titles",true],["Defunct Titles",false]].forEach(function(group){
-        var rows=champs.filter(function(x){return (x.status||"").toLowerCase()==="active"?group[1]:!group[1];});
-        if(!rows.length)return;
-        listArea.appendChild(el("h3",{style:"margin:16px 0 10px;",text:group[0]}));
+      function brandOf(champ){
+        if(pid!=="wwe")return promo.abbreviation||promo.name;
+        if(/^NXT\b/i.test(champ.name))return "NXT";
+        if(/^WWE Evolve\b/i.test(champ.name))return "WWE Evolve";
+        if(/^WWE ID\b/i.test(champ.name))return "WWE ID";
+        return "WWE main roster";
+      }
+      function formatOf(champ){return champ.level==="Tag team"||champ.level==="Trios"?"Tag Team & Trios":"Singles";}
+      function renderTitleCards(rows){
         var grid=el("div",{class:"grid records"});
         rows.sort(function(a,b){return prestige(a)-prestige(b)||a.name.localeCompare(b.name);}).forEach(function(champ){
           var lastReign=champ.reigns.filter(function(r){return r.type==="reign";}).slice(-1)[0];
           var card=el("div",{class:"card rec-card actionable",onclick:function(){showChampionship(champ.id);}});
-          card.appendChild(el("div",{class:"cat",text:champ.level+(champ.division&&champ.division!=="Open"?" · "+champ.division:"")}));
+          card.appendChild(el("div",{class:"cat",text:champ.level}));
           card.appendChild(el("div",{class:"nm",text:champ.name}));
           card.appendChild(el("div",{class:"val",text:champ.reigns.length+" reign"+(champ.reigns.length!==1?"s":"")}));
           if(lastReign)card.appendChild(el("div",{class:"holder",text:(lastReign.current?"Current: ":"Last: ")+lastReign.champion}));
           card.appendChild(el("div",{class:"note",text:"Open full reign timeline"})); grid.appendChild(card);
         });
         listArea.appendChild(grid);
+      }
+      [["Active Titles",true],["Defunct Titles",false]].forEach(function(group){
+        var rows=champs.filter(function(x){return (x.status||"").toLowerCase()==="active"?group[1]:!group[1];});
+        if(!rows.length)return;
+        listArea.appendChild(el("h3",{style:"margin:16px 0 10px;",text:group[0]}));
+        var brands=[]; rows.forEach(function(x){var b=brandOf(x);if(brands.indexOf(b)<0)brands.push(b);});
+        brands.forEach(function(brand){
+          if(brands.length>1)listArea.appendChild(el("div",{class:"cat-heading",style:"margin-top:14px;",text:brand}));
+          ["Men's","Women's","Open"].forEach(function(gender){
+            ["Singles","Tag Team & Trios"].forEach(function(format){
+              var subset=rows.filter(function(x){return brandOf(x)===brand&&(x.division||"Open")===gender&&formatOf(x)===format;});
+              if(!subset.length)return;
+              listArea.appendChild(el("div",{class:"method-note",style:"margin:12px 0 7px; font-weight:800;",text:(gender==="Open"?"Open division":gender)+" · "+format}));
+              renderTitleCards(subset);
+            });
+          });
+        });
       });
     }
     function draw(){
@@ -1598,6 +1658,23 @@
     searchWrap.appendChild(search);
     c.appendChild(searchWrap);
 
+    var fc=(DB&&DB.fullCard)||{matchTypeFrequency:[],titleFrequency:[]};
+    var leaders=el("div",{class:"grid records",style:"margin-bottom:22px;"});
+    function frequencyPanel(title,subtitle,rows,labelFn){
+      var panel=el("div",{class:"panel"});
+      panel.appendChild(el("h3",{text:title}));
+      panel.appendChild(el("div",{class:"sub",text:subtitle}));
+      var max=rows.length?rows[0].occurrences:1;
+      rows.slice(0,10).forEach(function(r){panel.appendChild(barRow(labelFn(r),r.occurrences,max,false,function(v){return v+" card"+(v!==1?"s":"");}));});
+      if(!rows.length)panel.appendChild(el("div",{class:"method-note",text:"No researched card data available yet."}));
+      return panel;
+    }
+    var matchLeaders=(fc.matchTypeFrequency||[]).slice().sort(function(a,b){return b.occurrences-a.occurrences||a.matchType.localeCompare(b.matchType);});
+    var titleLeaders=(fc.titleFrequency||[]).slice().sort(function(a,b){return b.occurrences-a.occurrences||a.title.localeCompare(b.title);});
+    leaders.appendChild(frequencyPanel("Most frequent match types","Across the researched Royal Rumble event cards; shared by the Men's and Women's event views.",matchLeaders,function(r){return r.matchType;}));
+    leaders.appendChild(frequencyPanel("Most frequently contested titles","Championship matches elsewhere on researched Royal Rumble cards.",titleLeaders,function(r){return r.title;}));
+    c.appendChild(leaders);
+
     var grid = el("div", {class:"grid events"});
     c.appendChild(grid);
 
@@ -1698,9 +1775,14 @@
           if(idx)people.appendChild(document.createTextNode(" · "));
           people.appendChild(anyDivWlink(p.id,p.name||p.id));
           if(p.result)people.appendChild(el("span",{class:"method-note",style:"display:inline; margin-left:4px;",text:"("+p.result+")"}));
+          if(p.wonTitle)people.appendChild(el("span",{class:"chip",style:"margin-left:5px; background:var(--accent-wash); color:var(--accent-ink);",text:"Won title"}));
+          if(p.lostTitle)people.appendChild(el("span",{class:"chip",style:"margin-left:5px;",text:"Lost title"}));
+          if(p.wasChampionEntering&&!p.lostTitle)people.appendChild(el("span",{class:"chip",style:"margin-left:5px;",text:"Entered as champion"}));
         });
+        var matchLabel=el("div",{class:"match-no",text:m.number!==null&&m.number!==undefined?"#"+m.number:""});
+        if(m.isPreShow)matchLabel.appendChild(el("span",{class:"chip",style:"display:block; margin-top:5px;",text:"PRE-SHOW"}));
         cardPanel.appendChild(el("div",{class:"card-match"},[
-          el("div",{class:"match-no",text:"#"+m.number}),
+          matchLabel,
           el("div",{},[el("b",{text:m.type||"Match"}),m.championship?el("div",{class:"method-note",text:m.championship}):null]),
           people,
           el("div",{class:"num",text:m.duration||m.position||"—"})
