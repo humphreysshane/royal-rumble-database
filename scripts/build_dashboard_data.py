@@ -293,11 +293,16 @@ history_by_wrestler_div = {}  # (wid, division) -> [ {eventId, year, ...entrant 
 full_card_matches_by_event = defaultdict(dict)
 for r in other_matches:
     match_no = i(r.get("match_number_on_card"))
-    if match_no is None:
+    position = r.get("position_on_card") or None
+    is_pre_show = any(token in (position or "").lower()
+                      for token in ("kickoff", "pre-show", "preshow", "pre-broadcast", "dark match"))
+    # Kickoff/dark matches commonly have no main-card match number. Retain
+    # them and group on their researched position/type/title instead.
+    if match_no is None and not is_pre_show:
         continue
-    key = (match_no, r.get("match_type") or "Match")
+    key = (match_no, position, r.get("match_type") or "Match", r.get("title_involved") or "")
     match = full_card_matches_by_event[r["event_id"]].setdefault(key, {
-        "number": match_no, "position": r.get("position_on_card") or None,
+        "number": match_no, "position": position, "isPreShow": is_pre_show,
         "type": r.get("match_type") or None,
         "championship": r.get("title_involved") or None,
         "duration": r.get("match_duration") or None,
@@ -307,11 +312,17 @@ for r in other_matches:
         "id": r.get("wrestler_id") or None,
         "name": name(r.get("wrestler_id")) if r.get("wrestler_id") else None,
         "result": r.get("result") or None,
+        "wasChampionEntering": r.get("was_champion_entering") == "TRUE",
+        "wonTitle": r.get("won_title") == "TRUE",
+        "lostTitle": r.get("lost_title") == "TRUE",
         "partners": r.get("partners") or None,
         "opponents": r.get("opponents") or None,
     })
 full_card_matches_by_event = {
-    eid: sorted(matches.values(), key=lambda m: (m["number"], m.get("type") or ""))
+    eid: sorted(matches.values(), key=lambda m: (
+        0 if m.get("isPreShow") else 1,
+        m["number"] if m["number"] is not None else 999,
+        m.get("position") or "", m.get("type") or ""))
     for eid, matches in full_card_matches_by_event.items()
 }
 
@@ -1811,6 +1822,39 @@ world_map["totalBilledLocationsPlotted"] = len(world_map_billed)
 world_map["unmappedBilledLocations"] = [
     {"location": k, "count": v} for k, v in _unmapped_billed.most_common()
 ]
+
+# Country-level counterparts for both selectable place sources. These are
+# aggregated only from already plotted city/location rows, so the dashboard
+# never guesses a country for an unmatched source string.
+def _aggregate_map_countries(rows):
+    grouped = defaultdict(lambda: {"wrestlers": {}, "appearances": 0, "locations": 0})
+    for row in rows:
+        country = row.get("country")
+        if not country or country not in COUNTRY_COORDS:
+            continue
+        group = grouped[country]
+        group["locations"] += 1
+        group["appearances"] += row.get("appearanceCount", row.get("count", 0))
+        for wrestler in row.get("wrestlers", []):
+            group["wrestlers"][wrestler["id"]] = wrestler["name"]
+    output = []
+    for country, group in grouped.items():
+        lat, lon = COUNTRY_COORDS[country]
+        x, y = _project(lat, lon)
+        output.append({
+            "country": country, "x": x, "y": y,
+            "count": len(group["wrestlers"]),
+            "appearanceCount": group["appearances"],
+            "locationCount": group["locations"],
+            "wrestlers": [
+                {"id": wid, "name": nm}
+                for wid, nm in sorted(group["wrestlers"].items(), key=lambda pair: pair[1])
+            ],
+        })
+    return sorted(output, key=lambda row: (-row["count"], row["country"]))
+
+world_map["billedCountries"] = _aggregate_map_countries(world_map_billed)
+world_map["birthplaceCountries"] = _aggregate_map_countries(world_map_cities)
 
 # ---------------------------------------------------------------------------
 # Cross-promotion championship-history browser data
