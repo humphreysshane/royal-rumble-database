@@ -119,6 +119,8 @@
   .ev-card .wn b{color:var(--ink); font-weight:600;}
 
   .rec-card{cursor:default;}
+  .rec-card.actionable{cursor:pointer;}
+  .rec-card.actionable:hover{border-color:var(--accent);}
   .rec-card .cat{font-family:var(--font-d); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-3);}
   .rec-card .nm{font-size:13.5px; margin-top:4px; font-weight:600; min-height:2.6em;}
   .rec-card .val{font-family:var(--font-d); font-size:24px; color:var(--accent); margin-top:8px;}
@@ -171,9 +173,10 @@
   .bar-val{flex:0 0 48px; font-size:11.5px; color:var(--ink-3); font-variant-numeric:tabular-nums;}
 
   /* ---------- world map ---------- */
-  .worldmap-panel{border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); padding:18px 20px; position:relative;}
-  .worldmap-svg{width:100%; height:auto; display:block; border-radius:2px; background:var(--surface-2);}
-  .worldmap-land{fill:var(--surface-3); stroke:var(--border-strong); stroke-width:1;}
+  .worldmap-panel{border:1px solid var(--border); border-radius:var(--radius); background:linear-gradient(145deg,var(--surface),var(--surface-2)); padding:18px 20px; position:relative; overflow:hidden;}
+  .worldmap-svg{width:100%; height:auto; display:block; border-radius:4px; background:linear-gradient(180deg,#dbeaf1 0%,#eff6f8 62%,#d9e8ee 100%); cursor:grab; touch-action:none;}
+  .worldmap-svg.dragging{cursor:grabbing;}
+  .worldmap-land{fill:#d6d8cd; stroke:#a9afa2; stroke-width:1; filter:drop-shadow(0 2px 2px rgba(31,45,38,.12));}
   .worldmap-grat{stroke:var(--border); stroke-width:0.7; fill:none;}
   .worldmap-marker{fill:var(--accent); stroke:var(--surface); stroke-width:1.5; cursor:pointer;
     transition:transform .15s ease, fill .12s ease; transform-box:fill-box; transform-origin:center;}
@@ -210,6 +213,23 @@
   .layer-toggle button:hover{color:var(--ink);}
   .layer-toggle button.active{background:var(--accent-wash); color:var(--accent-ink); font-weight:600;}
   .worldmap-marker.city-marker{stroke-width:1;}
+  .worldmap-controls{position:absolute; top:28px; right:30px; z-index:12; display:flex; flex-direction:column; gap:4px;}
+  .worldmap-controls button{width:34px; height:34px; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink); border-radius:4px; cursor:pointer; font:600 16px var(--font-d); box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .worldmap-controls button:last-child{font-size:10px; width:auto; padding:0 8px;}
+  .map-help{font-size:11px; color:var(--ink-3); margin:0 0 8px;}
+  .map-roster-drawer{margin-top:12px; border:1px solid var(--accent); background:var(--surface); border-radius:var(--radius); padding:14px 16px; display:none;}
+  .map-roster-drawer.open{display:block;}
+  .map-roster-head{display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:8px;}
+  .map-roster-head h3{margin:0;}
+  .promotion-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px;}
+  .promotion-card{border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); padding:14px; cursor:pointer;}
+  .promotion-card:hover,.promotion-card.selected{border-color:var(--accent); background:var(--accent-wash);}
+  .promotion-card .abbr{font-family:var(--font-d); font-size:22px; color:var(--accent);}
+  .promotion-card .pname{font-size:12px; color:var(--ink-2); margin-top:2px;}
+  .card-match{display:grid; grid-template-columns:48px minmax(150px,1fr) 2fr auto; gap:12px; align-items:start; padding:10px 0; border-bottom:1px solid var(--border); font-size:13px;}
+  .card-match:last-child{border-bottom:0;}
+  .card-match .match-no{font-family:var(--font-d); color:var(--accent);}
+  @media (max-width:700px){.card-match{grid-template-columns:58px 1fr;}.card-match>:nth-child(3),.card-match>:nth-child(4){grid-column:2;}}
 
   /* elimination timeline table */
   .elim-table{font-size:13px;}
@@ -481,7 +501,6 @@
     if (parts[0] === "explore") return {division:null, page:"explore", arg: parts[1] ? decodeURIComponent(parts[1]) : null};
     if (parts[0] === "map") return {division:null, page:"map", arg:null};
     if (parts[0] === "titles") return {division:null, page:"titles", arg: parts[1] ? decodeURIComponent(parts[1]) : null};
-    if (parts[0] === "fullcard") return {division:null, page:"fullcard", arg:null};
     return {division: parts[0], page: parts[1] || "events", arg: parts[2] || null};
   }
   window.addEventListener("hashchange", render);
@@ -498,7 +517,7 @@
       return el("div", {class:"navlink"+(isActive?" active":""), text:label, onclick:function(){ navigate(path); }});
     }
 
-    var homeActive = route.page === "home" || (!route.division && route.page !== "explore" && route.page !== "map" && route.page !== "titles" && route.page !== "fullcard");
+    var homeActive = route.page === "home" || (!route.division && route.page !== "explore" && route.page !== "map" && route.page !== "titles");
     navlinks.appendChild(mk("Home", "/home", homeActive));
     tabs.appendChild(mk("Home", "/home", homeActive));
 
@@ -514,13 +533,9 @@
     navlinks.appendChild(mk("Title Histories", "/titles", titlesActive));
     tabs.appendChild(mk("Title Histories", "/titles", titlesActive));
 
-    var fullcardActive = route.page === "fullcard";
-    navlinks.appendChild(mk("Full Card", "/fullcard", fullcardActive));
-    tabs.appendChild(mk("Full Card", "/fullcard", fullcardActive));
-
     (DB && DB.divisions || []).forEach(function(d){
       navlinks.appendChild(el("div", {class:"navsection", text:d.label}));
-      [["events","Events"],["records","Records & Leaderboards"],["wrestlers","Wrestlers"],["entry-numbers","Entry Number Stats"],["locations","Host Locations"]].forEach(function(pair){
+      [["events","Events"],["records","Records & Leaderboards"],["wrestlers","Wrestlers"],["entry-numbers","Entry Number Stats"],["locations","Host Locations"],["commentators","Commentators"]].forEach(function(pair){
         var isActive = route.division === d.key && route.page === pair[0];
         var path = "/"+d.key+"/"+pair[0];
         navlinks.appendChild(mk(pair[1], path, isActive));
@@ -758,7 +773,7 @@
   // config object per layer feeds a single draw routine.
   function pageWorldMap(){
     var c = el("div", {class:"container"});
-    var wm = (DB && DB.worldMap) || {countries:[], cities:[], totalWrestlers:0, totalWithNationality:0, coveragePct:0, unmapped:[], unmappedBirthplaces:[], mapWidth:960, mapHeight:480, totalWithBirthplace:0, totalCitiesPlotted:0, birthplaceCoveragePct:0};
+    var wm = (DB && DB.worldMap) || {billedLocations:[], cities:[], totalWrestlers:0, unmappedBilledLocations:[], unmappedBirthplaces:[], mapWidth:960, mapHeight:480, totalWithBirthplace:0, totalCitiesPlotted:0, birthplaceCoveragePct:0};
 
     var headP = el("p", {text:""});
     c.appendChild(el("div", {class:"page-head"}, [
@@ -768,9 +783,9 @@
     ]));
 
     var toggleWrap = el("div", {class:"layer-toggle"});
-    var btnCountries = el("button", {type:"button", text:"Countries"});
-    var btnCities = el("button", {type:"button", text:"Cities"});
-    toggleWrap.appendChild(btnCountries);
+    var btnBilled = el("button", {type:"button", text:"Billed From"});
+    var btnCities = el("button", {type:"button", text:"Birthplace"});
+    toggleWrap.appendChild(btnBilled);
     toggleWrap.appendChild(btnCities);
     c.appendChild(toggleWrap);
 
@@ -811,31 +826,31 @@
     }
 
     var LAYERS = {
-      countries: {
-        desc:"Every wrestler's recorded nationality, plotted by country. This spans both divisions — a wrestler counts once here even if they've competed in both Rumbles. Marker size is proportional to wrestler count; click a marker or a row below for the full roster. Placement uses an approximate country centroid, not a real birthplace, and a compound nationality (e.g. \"Mexican-American\") is plotted at whichever country is named first in that string.",
-        rows: wm.countries,
-        rowKey: function(r, idx){ return r.country; },
-        rowTitle: function(r){ return r.country; },
-        rowAria: function(r){ return r.country+", "+r.count+" wrestlers"; },
-        minR:5, maxR:27,
-        ariaLabel:"World map of wrestler nationalities",
+      billed: {
+        desc:"Where Royal Rumble entrants were announced as being from at the time of each appearance. This is deliberately separate from birthplace: billed locations are part of the on-screen character and can change between events. Exact researched strings are grouped without guessing coordinates for unmatched or fictional places.",
+        rows: wm.billedLocations || [],
+        rowKey: function(r, idx){ return citySlug(r.location, r.country)+"-"+idx; },
+        rowTitle: function(r){ return r.location; },
+        rowAria: function(r){ return r.location+", "+r.count+" wrestlers across "+r.appearanceCount+" appearances"; },
+        minR:3, maxR:16,
+        ariaLabel:"World map of Royal Rumble billed-from locations",
         kpis: [
-          [fmtNum(wm.totalWithNationality)+" / "+fmtNum(wm.totalWrestlers), "Wrestlers with a known nationality"],
-          [wm.coveragePct+"%", "Coverage of the full roster"],
-          [String(wm.countries.length), "Countries represented"]
+          [fmtNum(wm.totalBilledAppearances), "Appearances with a billed-from location"],
+          [fmtNum((wm.billedLocations||[]).reduce(function(n,r){return n+r.count;},0)), "Wrestler-location combinations plotted"],
+          [fmtNum(wm.totalBilledLocationsPlotted), "Locations plotted"]
         ],
-        showLabels: true,
-        tableTitle:"By country",
-        tableSub:"Same data as the map above. Click a country to see its full roster.",
-        tooltipTitle: function(r){ return r.country+" — "+r.count+(r.count===1?" wrestler":" wrestlers"); },
-        tooltipSub: function(r){ return r.nationalities && r.nationalities.length>1 ? r.nationalities.map(function(n){return n.label+" ("+n.count+")";}).join(", ") : null; },
-        roster: countryRoster,
-        unmapped: wm.unmapped || [],
-        unmappedLabel: function(u){ return u.nationality+" ("+u.count+")"; },
-        unmappedNote:"These recorded nationality strings don't have a country mapping yet, so they're counted in the coverage total above but don't appear on the map."
+        showLabels: false,
+        tableTitle:"By billed-from location",
+        tableSub:"Click a location to open its complete wrestler roster beside the map.",
+        tooltipTitle: function(r){ return r.location+" — "+r.count+(r.count===1?" wrestler":" wrestlers"); },
+        tooltipSub: function(r){ return r.appearanceCount+" Rumble appearance"+(r.appearanceCount!==1?"s":""); },
+        roster: cityRoster,
+        unmapped: wm.unmappedBilledLocations || [],
+        unmappedLabel: function(u){ return u.location+" ("+u.count+")"; },
+        unmappedNote:"These exact billed-from strings do not yet have a sourced coordinate. They remain listed here rather than being plotted at a guessed location."
       },
       cities: {
-        desc:"Every wrestler's recorded birthplace city, plotted individually by its real-world coordinates rather than grouped into one country pin. Cities are far more numerous than countries and several sit close together at this scale (the US and UK especially) — hover to pick one out, or use the search box in the list below. A wrestler with no recorded birthplace, or one that couldn't be matched to a city, isn't plotted here even if their nationality is known and mapped on the Countries layer.",
+        desc:"Every wrestler's recorded birthplace city, plotted individually by its real-world coordinates. Cities are numerous and several sit close together at this scale (the US and UK especially), so zoom or drag the map to separate them. A wrestler with no recorded birthplace, or one that could not be matched to a sourced coordinate, is not plotted here.",
         rows: wm.cities,
         // The index is folded into the key because the source data has a
         // handful of genuine (city, country) duplicates -- two distinct
@@ -867,7 +882,7 @@
 
     function drawLayer(kind){
       var cfg = LAYERS[kind];
-      btnCountries.classList.toggle("active", kind==="countries");
+      btnBilled.classList.toggle("active", kind==="billed");
       btnCities.classList.toggle("active", kind==="cities");
       headP.textContent = cfg.desc;
       dynamicArea.innerHTML = "";
@@ -903,8 +918,8 @@
       tablePanel.appendChild(el("h3", {text:cfg.tableTitle}));
       tablePanel.appendChild(el("div", {class:"sub", text:cfg.tableSub}));
       var rowsWrap = el("div");
-      if (kind === "cities"){
-        var tableSearch = el("input", {class:"search", type:"text", style:"margin:12px 0 4px;", placeholder:"Filter "+rows.length+" cities by name or country…"});
+      if (kind === "cities" || kind === "billed"){
+        var tableSearch = el("input", {class:"search", type:"text", style:"margin:12px 0 4px;", placeholder:"Filter "+rows.length+" locations by name or country…"});
         tablePanel.appendChild(tableSearch);
         tableSearch.addEventListener("input", function(){
           var f = tableSearch.value.trim().toLowerCase();
@@ -930,6 +945,7 @@
 
       // ---- map ----
       var panel = el("div", {class:"worldmap-panel"});
+      panel.appendChild(el("div",{class:"map-help",text:"Scroll to zoom · drag to move · select any marker to open its full roster"}));
       var svgns = "http://www.w3.org/2000/svg";
       var svg = document.createElementNS(svgns, "svg");
       svg.setAttribute("viewBox", "0 0 "+wm.mapWidth+" "+wm.mapHeight);
@@ -968,6 +984,7 @@
 
       var tooltip = el("div", {class:"worldmap-tooltip"});
       panel.appendChild(tooltip);
+      var rosterDrawer=el("div",{class:"map-roster-drawer"});
 
       var minR = cfg.minR, maxR = cfg.maxR;
       function radiusFor(count){
@@ -980,7 +997,16 @@
         Object.keys(markerEls).forEach(function(k){ markerEls[k].classList.toggle("selected", k===key); });
         setOpen(key, true);
         var ref = rowRefs[key];
-        if (ref) ref.rowEl.scrollIntoView({behavior:"smooth", block:"center"});
+        if (ref){
+          rosterDrawer.innerHTML="";
+          rosterDrawer.classList.add("open");
+          rosterDrawer.appendChild(el("div",{class:"map-roster-head"},[
+            el("h3",{text:cfg.rowTitle(ref.data)}),
+            el("span",{class:"chip",text:ref.data.count+(ref.data.count===1?" wrestler":" wrestlers")})
+          ]));
+          rosterDrawer.appendChild(cfg.roster(ref.data));
+          var embedded=rosterDrawer.querySelector(".country-roster"); if(embedded)embedded.style.display="block";
+        }
       }
 
       var markersG = document.createElementNS(svgns, "g");
@@ -994,7 +1020,7 @@
         circle.setAttribute("cx", r.x);
         circle.setAttribute("cy", r.y);
         circle.setAttribute("r", rad);
-        circle.setAttribute("class", "worldmap-marker"+(kind==="cities"?" city-marker":""));
+        circle.setAttribute("class", "worldmap-marker"+(kind!=="countries"?" city-marker":""));
         circle.setAttribute("tabindex", "0");
         circle.setAttribute("role", "button");
         circle.setAttribute("aria-label", cfg.rowAria(r));
@@ -1014,7 +1040,7 @@
           tooltip.appendChild(el("div", {class:"t-name", text:cfg.tooltipTitle(r)}));
           if (subLine) tooltip.appendChild(el("div", {class:"t-sub", text:subLine}));
           tooltip.appendChild(el("div", {class:"t-sub", style:"margin-top:4px; color:var(--ink-2);", text:names.join(", ")+extra}));
-          tooltip.appendChild(el("div", {class:"t-hint", text:"Click for the full roster ↓"}));
+          tooltip.appendChild(el("div", {class:"t-hint", text:"Click to open the full roster"}));
           tooltip.style.display = "block";
           var panelRect = panel.getBoundingClientRect();
           var px = (r.x / wm.mapWidth) * panelRect.width;
@@ -1102,6 +1128,27 @@
       svg.appendChild(legendG);
 
       panel.appendChild(svg);
+      var zoom={x:0,y:0,w:wm.mapWidth,h:wm.mapHeight}, dragging=false, start=null;
+      function applyView(){svg.setAttribute("viewBox",zoom.x+" "+zoom.y+" "+zoom.w+" "+zoom.h);}
+      function zoomAt(factor,cx,cy){
+        var nw=Math.max(wm.mapWidth/8,Math.min(wm.mapWidth,zoom.w*factor));
+        var nh=nw*wm.mapHeight/wm.mapWidth;
+        var px=(cx===undefined?0.5:cx),py=(cy===undefined?0.5:cy);
+        zoom.x=Math.max(0,Math.min(wm.mapWidth-nw,zoom.x+(zoom.w-nw)*px));
+        zoom.y=Math.max(0,Math.min(wm.mapHeight-nh,zoom.y+(zoom.h-nh)*py));
+        zoom.w=nw;zoom.h=nh;applyView();
+      }
+      svg.addEventListener("wheel",function(ev){ev.preventDefault();var r=svg.getBoundingClientRect();zoomAt(ev.deltaY>0?1.22:.82,(ev.clientX-r.left)/r.width,(ev.clientY-r.top)/r.height);},{passive:false});
+      svg.addEventListener("pointerdown",function(ev){dragging=true;start={x:ev.clientX,y:ev.clientY,vx:zoom.x,vy:zoom.y};svg.classList.add("dragging");svg.setPointerCapture(ev.pointerId);});
+      svg.addEventListener("pointermove",function(ev){if(!dragging)return;var r=svg.getBoundingClientRect();zoom.x=Math.max(0,Math.min(wm.mapWidth-zoom.w,start.vx-(ev.clientX-start.x)*zoom.w/r.width));zoom.y=Math.max(0,Math.min(wm.mapHeight-zoom.h,start.vy-(ev.clientY-start.y)*zoom.h/r.height));applyView();});
+      svg.addEventListener("pointerup",function(){dragging=false;svg.classList.remove("dragging");});
+      var controls=el("div",{class:"worldmap-controls"},[
+        el("button",{type:"button",text:"+",title:"Zoom in",onclick:function(){zoomAt(.75);}}),
+        el("button",{type:"button",text:"−",title:"Zoom out",onclick:function(){zoomAt(1.3);}}),
+        el("button",{type:"button",text:"Reset",title:"Reset map",onclick:function(){zoom={x:0,y:0,w:wm.mapWidth,h:wm.mapHeight};applyView();}})
+      ]);
+      panel.appendChild(controls);
+      panel.appendChild(rosterDrawer);
       dynamicArea.appendChild(panel);
       dynamicArea.appendChild(tablePanel);
 
@@ -1118,9 +1165,9 @@
       }
     }
 
-    btnCountries.addEventListener("click", function(){ drawLayer("countries"); });
+    btnBilled.addEventListener("click", function(){ drawLayer("billed"); });
     btnCities.addEventListener("click", function(){ drawLayer("cities"); });
-    drawLayer("countries");
+    drawLayer("billed");
 
     return c;
   }
@@ -1150,13 +1197,7 @@
 
     var controls = el("div", {style:"display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;"});
     var search = el("input", {class:"search", type:"text", style:"max-width:320px;", placeholder:"Search by champion, title or promotion…"});
-    var promoSelect = el("select", {class:"search", style:"max-width:260px;"});
-    promoSelect.appendChild(el("option", {value:"", text:"All promotions"}));
-    ch.promotions.slice().sort(function(a,b){ return a.name.localeCompare(b.name); }).forEach(function(p){
-      promoSelect.appendChild(el("option", {value:p.id, text:p.name+" ("+p.abbreviation+")"}));
-    });
     controls.appendChild(search);
-    controls.appendChild(promoSelect);
     c.appendChild(controls);
 
     var listArea = el("div");
@@ -1237,46 +1278,61 @@
       detailArea.scrollIntoView({behavior:"smooth", block:"start"});
     }
 
-    function draw(){
-      var q = search.value.trim().toLowerCase();
-      var promoId = promoSelect.value;
-      listArea.innerHTML = "";
-      var byPromo = {};
-      ch.championships.forEach(function(champ){
-        if (!championshipMatches(champ, q, promoId)) return;
-        (byPromo[champ.promotionId] = byPromo[champ.promotionId] || []).push(champ);
-      });
-      var promoIds = Object.keys(byPromo).sort(function(a,b){
-        var pa = promoById[a], pb = promoById[b];
-        return (pa?pa.name:a).localeCompare(pb?pb.name:b);
-      });
-      if (!promoIds.length){
-        listArea.appendChild(el("div",{class:"sub", text:"No championships match your filters."}));
-        return;
-      }
-      promoIds.forEach(function(pid){
-        var promo = promoById[pid];
-        var champs = byPromo[pid];
-        listArea.appendChild(el("div",{class:"cat-heading", text:(promo?promo.name+" ("+promo.abbreviation+")":pid)+" — "+champs.length+" title"+(champs.length!==1?"s":"")}));
-        var grid = el("div", {class:"grid records"});
-        champs.slice().sort(function(a,b){ return a.name.localeCompare(b.name); }).forEach(function(champ){
-          var lastReign = champ.reigns.filter(function(r){ return r.type==="reign"; }).slice(-1)[0];
-          var card = el("div", {class:"card rec-card", style:"cursor:pointer;", onclick:(function(id){return function(){ showChampionship(id); };})(champ.id)});
-          card.appendChild(el("div",{class:"cat", text:champ.level+(champ.division && champ.division!=="Open" ? " · "+champ.division : "")}));
-          card.appendChild(el("div",{class:"nm", text:champ.name}));
-          card.appendChild(el("div",{class:"val", text:champ.reigns.length+" reign"+(champ.reigns.length!==1?"s":"")}));
-          if (lastReign){
-            card.appendChild(el("div",{class:"holder", text:(lastReign.current?"Current: ":"Last: ")+lastReign.champion}));
-          }
-          card.appendChild(el("div",{class:"note", text:"Click for the full reign timeline"}));
-          grid.appendChild(card);
+    var selectedPromo=null;
+    function prestige(champ){
+      var order={"World":0,"Secondary":1,"Television":2,"Openweight":3,"X Division":3,"Tag team":4,"Trios":5,"Weight class":6,"Regional":7,"Specialty":8,"Developmental":9};
+      return order[champ.level]===undefined?99:order[champ.level];
+    }
+    function promoCard(p){
+      return el("div",{class:"promotion-card"+(selectedPromo===p.id?" selected":""),onclick:function(){selectedPromo=p.id;draw();}},[
+        el("div",{class:"abbr",text:p.abbreviation||p.name}),
+        el("div",{class:"pname",text:p.name}),
+        el("div",{class:"method-note",text:ch.championships.filter(function(x){return x.promotionId===p.id;}).length+" titles tracked"})
+      ]);
+    }
+    function drawTitles(pid,q){
+      var promo=promoById[pid];
+      var champs=ch.championships.filter(function(x){return x.promotionId===pid&&championshipMatches(x,q,pid);});
+      if(!champs.length)return;
+      listArea.appendChild(el("div",{class:"cat-heading section-gap",text:promo.name+" ("+promo.abbreviation+")"}));
+      [["Active Titles",true],["Defunct Titles",false]].forEach(function(group){
+        var rows=champs.filter(function(x){return (x.status||"").toLowerCase()==="active"?group[1]:!group[1];});
+        if(!rows.length)return;
+        listArea.appendChild(el("h3",{style:"margin:16px 0 10px;",text:group[0]}));
+        var grid=el("div",{class:"grid records"});
+        rows.sort(function(a,b){return prestige(a)-prestige(b)||a.name.localeCompare(b.name);}).forEach(function(champ){
+          var lastReign=champ.reigns.filter(function(r){return r.type==="reign";}).slice(-1)[0];
+          var card=el("div",{class:"card rec-card actionable",onclick:function(){showChampionship(champ.id);}});
+          card.appendChild(el("div",{class:"cat",text:champ.level+(champ.division&&champ.division!=="Open"?" · "+champ.division:"")}));
+          card.appendChild(el("div",{class:"nm",text:champ.name}));
+          card.appendChild(el("div",{class:"val",text:champ.reigns.length+" reign"+(champ.reigns.length!==1?"s":"")}));
+          if(lastReign)card.appendChild(el("div",{class:"holder",text:(lastReign.current?"Current: ":"Last: ")+lastReign.champion}));
+          card.appendChild(el("div",{class:"note",text:"Open full reign timeline"})); grid.appendChild(card);
         });
         listArea.appendChild(grid);
       });
     }
+    function draw(){
+      var q = search.value.trim().toLowerCase();
+      listArea.innerHTML = "";
+      var promos=ch.promotions.filter(function(p){return ch.championships.some(function(x){return championshipMatches(x,q,p.id);});});
+      if(!promos.length){
+        listArea.appendChild(el("div",{class:"sub", text:"No championships match your filters."}));
+        return;
+      }
+      [["Active Promotions",true],["Defunct Promotions",false]].forEach(function(group){
+        var rows=promos.filter(function(p){return (!p.activeTo)===group[1];}).sort(function(a,b){return a.name.localeCompare(b.name);});
+        if(!rows.length)return;
+        listArea.appendChild(el("div",{class:"cat-heading",text:group[0]}));
+        var grid=el("div",{class:"promotion-grid"}); rows.forEach(function(p){grid.appendChild(promoCard(p));}); listArea.appendChild(grid);
+      });
+      var chosen=selectedPromo&&promos.some(function(p){return p.id===selectedPromo;})?selectedPromo:null;
+      if(chosen)drawTitles(chosen,q);
+      else listArea.appendChild(el("div",{class:"sub",style:"margin-top:16px;",text:"Choose a promotion to see its active and defunct titles, ordered by championship level."}));
+    }
 
     search.addEventListener("input", draw);
-    promoSelect.addEventListener("change", draw);
+    if(initialArg){var initialChamp=ch.championships.find(function(x){return x.id===initialArg;});if(initialChamp)selectedPromo=initialChamp.promotionId;}
     draw();
     if (initialArg) showChampionship(initialArg);
 
@@ -1419,7 +1475,7 @@
         return;
       }
       rows.forEach(function(r){
-        var card = el("div", {class:"card rec-card"});
+        var card = el("div", {class:"card rec-card actionable"});
         card.appendChild(el("div", {class:"cat", text:r.role}));
         card.appendChild(el("div", {class:"nm"}, [anyDivWlink(r.personId, r.personName)]));
         card.appendChild(el("div", {class:"val", text: r.eventsCount+" event"+(r.eventsCount!==1?"s":"")}));
@@ -1490,6 +1546,43 @@
     c.appendChild(tfScroll);
 
     return c;
+  }
+
+  // ---------------- page: commentators by Rumble division ----------------
+  function pageCommentators(div){
+    var c = el("div", {class:"container"});
+    var validEvents = {};
+    (div.events||[]).forEach(function(ev){ validEvents[ev.id]=ev; });
+    var rows = ((DB.fullCard||{}).commentators||[]).filter(function(r){
+      return r.role==="Commentator" || r.role==="Guest commentator" || r.role==="Ring Announcer" || r.role==="Ring announcer";
+    }).map(function(r){
+      var appearances=(r.events||[]).filter(function(ev){return !!validEvents[ev.id];});
+      return {personId:r.personId,personName:r.personName,role:r.role,events:appearances};
+    }).filter(function(r){return r.events.length;});
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text:div.label+" · Broadcast history"}),
+      el("h2", {text:"Commentators & Broadcast Team"}),
+      el("p", {text:"Commentators, guest commentators and ring announcers credited on researched "+div.label+" event cards. Select a person to see every covered event."})
+    ]));
+    var grid=el("div",{class:"grid records"});
+    rows.sort(function(a,b){return b.events.length-a.events.length||a.personName.localeCompare(b.personName);}).forEach(function(r){
+      var card=el("div",{class:"card rec-card actionable"});
+      card.appendChild(el("div",{class:"cat",text:r.role}));
+      card.appendChild(el("div",{class:"nm"},[anyDivWlink(r.personId,r.personName)]));
+      card.appendChild(el("div",{class:"val",text:r.events.length+" event"+(r.events.length!==1?"s":"")}));
+      var list=el("div",{class:"member-list"});
+      r.events.forEach(function(e){
+        list.appendChild(el("div",{class:"member-row"},[
+          el("span",{class:"wlink",text:String(e.year||e.id),onclick:function(ev){ev.stopPropagation();navigate("/"+div.key+"/events/"+e.id);}}),
+          el("span",{class:"d",text:e.name||""})
+        ]));
+      });
+      card.addEventListener("click",function(){list.style.display=list.style.display==="block"?"none":"block";});
+      card.appendChild(el("div",{class:"note member-toggle",text:"Click for event list"}));
+      card.appendChild(list); grid.appendChild(card);
+    });
+    if(!rows.length) grid.appendChild(el("div",{class:"sub",text:"No broadcast-team research is available for this division yet."}));
+    c.appendChild(grid); return c;
   }
 
   // ---------------- page: events list ----------------
@@ -1564,6 +1657,20 @@
     fact("Eliminations", ev.elimsCount);
     fact("Champions in field", ev.championsInField);
     fact("Returning wrestlers", ev.returningCount);
+    if (ev.dualDutyEntrants && ev.dualDutyEntrants.length){
+      var dualWrap=el("span",{});
+      ev.dualDutyEntrants.forEach(function(w,idx){if(idx)dualWrap.appendChild(document.createTextNode(" · "));dualWrap.appendChild(wlink(w));});
+      factNode("Wrestled earlier that night",dualWrap);
+    }
+    if (ev.eventStaff && ev.eventStaff.length){
+      ["Commentator","Guest commentator","Ring Announcer"].forEach(function(role){
+        var people=ev.eventStaff.filter(function(p){return p.role===role;});
+        if(!people.length)return;
+        var staffWrap=el("span",{});
+        people.forEach(function(p,idx){if(idx)staffWrap.appendChild(document.createTextNode(" · "));staffWrap.appendChild(anyDivWlink(p.id,p.name));});
+        factNode(role==="Ring Announcer"?"Ring announcer":role+"s",staffWrap);
+      });
+    }
     if (ev.fieldPhysical && ev.fieldPhysical.combinedWeightKg!==null) fact("Combined billed field weight", fmtDec(ev.fieldPhysical.combinedWeightKg,1)+" kg");
     if (ev.fieldPhysical && ev.fieldPhysical.averageWeightKg!==null) fact("Average billed weight", fmtDec(ev.fieldPhysical.averageWeightKg,1)+" kg");
     if (ev.fieldPhysical && ev.fieldPhysical.combinedHeightM!==null) fact("Combined billed field height", fmtDec(ev.fieldPhysical.combinedHeightM,2)+" m");
@@ -1574,6 +1681,33 @@
     hero.appendChild(facts);
     if (ev.significance) hero.appendChild(el("div",{class:"sig", text:ev.significance}));
     c.appendChild(hero);
+
+    if (ev.cardMatches && ev.cardMatches.length){
+      var cardPanel=el("div",{class:"panel",style:"margin-bottom:20px;"});
+      cardPanel.appendChild(el("h3",{text:"Full event card"}));
+      cardPanel.appendChild(el("div",{class:"sub",text:"The Rumble and every separately researched match from the show are presented with the event. Numbered matches retain the card order recorded in the source data."}));
+      cardPanel.appendChild(el("div",{class:"card-match"},[
+        el("div",{class:"match-no",text:"RUMBLE"}),
+        el("div",{},[el("b",{text:ev.matchName||ev.name})]),
+        el("div",{text:"Full entrant and elimination detail below"}),
+        el("div",{class:"num",text:ev.duration||"—"})
+      ]));
+      ev.cardMatches.forEach(function(m){
+        var people=el("div",{});
+        m.participants.forEach(function(p,idx){
+          if(idx)people.appendChild(document.createTextNode(" · "));
+          people.appendChild(anyDivWlink(p.id,p.name||p.id));
+          if(p.result)people.appendChild(el("span",{class:"method-note",style:"display:inline; margin-left:4px;",text:"("+p.result+")"}));
+        });
+        cardPanel.appendChild(el("div",{class:"card-match"},[
+          el("div",{class:"match-no",text:"#"+m.number}),
+          el("div",{},[el("b",{text:m.type||"Match"}),m.championship?el("div",{class:"method-note",text:m.championship}):null]),
+          people,
+          el("div",{class:"num",text:m.duration||m.position||"—"})
+        ]));
+      });
+      c.appendChild(cardPanel);
+    }
 
     var cols = el("div", {class:"ev-cols"});
 
@@ -1612,7 +1746,7 @@
       nameCell.appendChild(el("div",{},[nameB, e.isWinner?el("span",{class:"chip", style:"background:var(--accent-wash); color:var(--accent-ink);", text:"Winner"}):null, e.isRunnerUp?el("span",{class:"chip", text:"Runner-up"}):null, e.isSelf?el("span",{class:"chip", text:"Self-elim"}):null]));
       if (e.badges && e.badges.length){
         var bwrap = el("div",{class:"badges"});
-        e.badges.forEach(function(b){bwrap.appendChild(el("span",{class:"chip", text:b}));});
+        e.badges.filter(function(b){return b!=="Wrestled earlier on card";}).forEach(function(b){bwrap.appendChild(el("span",{class:"chip", text:b}));});
         nameCell.appendChild(bwrap);
       }
       var pp = e.physicalProfile || {};
@@ -1829,7 +1963,7 @@
       c.appendChild(el("div", {class:"cat-heading", text:cat}));
       var grid = el("div", {class:"grid records"});
       byCat[cat].forEach(function(r){
-        var card = el("div", {class:"card rec-card"});
+        var card = el("div", {class:"card rec-card actionable"});
         card.appendChild(el("div",{class:"nm", text:r.name}));
         card.appendChild(el("div",{class:"val", text:r.value}));
         if (r.holder.name){
@@ -1882,6 +2016,13 @@
           });
           card.appendChild(toggle);
           card.appendChild(list);
+        }
+        if (r.holder && r.holder.id && div._byWid[r.holder.id]){
+          card.addEventListener("click",(function(wid){return function(){navigate("/"+div.key+"/wrestlers/"+wid);};})(r.holder.id));
+        } else if (r.eventId){
+          card.addEventListener("click",(function(eid){return function(){navigate("/"+div.key+"/events/"+eid);};})(r.eventId));
+        } else if (members && members.length){
+          card.addEventListener("click",function(){toggle.click();});
         }
         grid.appendChild(card);
       });
@@ -2040,7 +2181,7 @@
     if (bands.length){
       var bandPanel = el("div", {class:"panel"});
       bandPanel.appendChild(el("h3", {text:"By value slice"}));
-      bandPanel.appendChild(el("div", {class:"sub", text:"The same data grouped into #1, #2, first-5, last-5 and everything in between, rather than one row per number."}));
+      bandPanel.appendChild(el("div", {class:"sub", text:"The same data grouped into #1, #2, first five, middle and a stable #26-30 last-five comparison. The one 40-person Rumble's #31-40 entries are shown separately instead of distorting the standard slice."}));
       var bandTableWrap = el("div", {class:"table-scroll", style:"margin-top:12px;"});
       var bandTable = el("table", {class:"wr-index-table"});
       var bhtr = el("tr");
@@ -2505,11 +2646,6 @@
       content.appendChild(pageTitles(r.arg));
       return;
     }
-    if (r.page === "fullcard"){
-      CUR_DIV = null;
-      content.appendChild(pageFullCard());
-      return;
-    }
     if (!r.division || r.page === "home"){
       CUR_DIV = null;
       content.appendChild(pageHome());
@@ -2529,6 +2665,7 @@
     else if (r.page === "wrestlers" && r.arg) content.appendChild(pageWrestlerDetail(div, r.arg));
     else if (r.page === "entry-numbers") content.appendChild(pageEntryNumbers(div));
     else if (r.page === "locations") content.appendChild(pageLocations(div));
+    else if (r.page === "commentators") content.appendChild(pageCommentators(div));
     else content.appendChild(pageEvents(div));
   }
 

@@ -211,22 +211,29 @@ write("entry_number_stats.csv", DERIVED_TABLES["entry_number_stats.csv"], entry_
 # entry_number_stats.csv data (per Shane's "win rate by #1 vs #2, first-5 vs
 # middle vs last-5" request, 2026-09-26). Zero new research: this is purely
 # a re-bucketing of by_entry_div (built above for entry_number_stats.csv).
-# "Last-5" is defined relative to each division's own observed maximum entry
-# number (not hardcoded to 30), since Men's and Women's fields -- and any
-# future non-standard-size Rumble -- aren't guaranteed to be the same size.
+# The main "Last 5" slice is deliberately #26-30: that keeps the familiar
+# 30-person Rumble comparison stable instead of allowing 2011's one-off
+# 40-person field to turn the Men's last-five result into a five-row sample.
+# Entries #31-35 and #36-40 remain visible as clearly labelled extended-field
+# slices, so no data is discarded or silently mixed into the standard cohort.
 # ---------------------------------------------------------------------------
 band_rows = []
 for division in DIVISIONS:
     div_max_entry = max((n for (d, n) in by_entry_div if d == division), default=None)
     if div_max_entry is None or div_max_entry < 10:
         continue  # too few distinct entry numbers observed for bands to mean anything
+    standard_last = min(30, div_max_entry)
     bands = [
         ("#1", (1, 1)),
         ("#2", (2, 2)),
         ("First 5 (1-5)", (1, 5)),
-        ("Last 5", (div_max_entry - 4, div_max_entry)),
-        ("Middle", (6, div_max_entry - 5)),
+        ("Middle (6-25)", (6, min(25, standard_last - 5))),
+        ("Last 5 (standard field)", (max(1, standard_last - 4), standard_last)),
     ]
+    if div_max_entry > 30:
+        bands.append(("Extended field (31-35)", (31, min(35, div_max_entry))))
+    if div_max_entry > 35:
+        bands.append(("Last 5 (40-person field)", (36, min(40, div_max_entry))))
     for band_label, (lo, hi) in bands:
         if lo > hi:
             continue  # e.g. "Middle" collapses to nothing on a very small field
@@ -249,8 +256,9 @@ for division in DIVISIONS:
             "avg_eliminations": round(sum(elims) / len(elims), 2) if elims else "",
             "final_four_rate": round(100 * f4 / len(apps), 1),
             "runner_up_count": ru,
-            "notes": f"This division's observed entry-number range tops out at #{div_max_entry}; "
-                     f"'Last 5' = #{div_max_entry-4}-#{div_max_entry}, 'Middle' = everything else.",
+            "notes": "The standard Last 5 is fixed at #26-30 so the one-off 40-person "
+                     "Rumble does not distort that comparison. Entries above #30 are "
+                     "shown separately as extended-field slices.",
         })
 
 write("entry_number_bands.csv", DERIVED_TABLES["entry_number_bands.csv"], band_rows)

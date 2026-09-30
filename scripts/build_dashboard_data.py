@@ -41,6 +41,7 @@ import json
 import os
 import re
 import sys
+import unicodedata
 from collections import Counter, defaultdict
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -90,6 +91,8 @@ events = load("events.csv")
 entrants = load("entrants.csv")
 entrance_timings = load("entrances.csv")
 eliminations = load("eliminations.csv")
+other_matches = load("other_matches.csv")
+show_appearances = load("show_appearances.csv")
 records = load("derived/records.csv")
 career = load("derived/career_stats.csv")
 rivalries = load("derived/elimination_rivalries.csv")
@@ -284,6 +287,49 @@ for eid in nationality_by_event:
 
 events_by_division = {d: [] for d in DIVISIONS}
 history_by_wrestler_div = {}  # (wid, division) -> [ {eventId, year, ...entrant summary...} ]
+
+# Event-detail card data. other_matches.csv is participant-grained, so fold
+# its rows into one ordered entry per match without inferring missing results.
+full_card_matches_by_event = defaultdict(dict)
+for r in other_matches:
+    match_no = i(r.get("match_number_on_card"))
+    if match_no is None:
+        continue
+    key = (match_no, r.get("match_type") or "Match")
+    match = full_card_matches_by_event[r["event_id"]].setdefault(key, {
+        "number": match_no, "position": r.get("position_on_card") or None,
+        "type": r.get("match_type") or None,
+        "championship": r.get("title_involved") or None,
+        "duration": r.get("match_duration") or None,
+        "participants": [], "quality": r.get("data_quality_status") or None,
+    })
+    match["participants"].append({
+        "id": r.get("wrestler_id") or None,
+        "name": name(r.get("wrestler_id")) if r.get("wrestler_id") else None,
+        "result": r.get("result") or None,
+        "partners": r.get("partners") or None,
+        "opponents": r.get("opponents") or None,
+    })
+full_card_matches_by_event = {
+    eid: sorted(matches.values(), key=lambda m: (m["number"], m.get("type") or ""))
+    for eid, matches in full_card_matches_by_event.items()
+}
+
+event_staff_by_event = defaultdict(list)
+_event_staff_seen = defaultdict(set)
+for r in show_appearances:
+    role = (r.get("role") or "").strip()
+    if role.lower() in ("commentator", "guest commentator", "ring announcer"):
+        staff_key = (r.get("person_id") or r.get("person_name"), role.lower())
+        if staff_key in _event_staff_seen[r["event_id"]]:
+            continue
+        _event_staff_seen[r["event_id"]].add(staff_key)
+        event_staff_by_event[r["event_id"]].append({
+            "id": r.get("person_id") or None,
+            "name": r.get("person_name") or name(r.get("person_id")),
+            "role": "Ring Announcer" if role.lower() == "ring announcer" else role,
+        })
+
 # Almost every event has exactly one winner (events.csv:winner_id). RR1994M
 # is the one documented exception (events.csv:finish_type == "co_winners"),
 # whose declared winner set lives in event_winners.csv instead -- see
@@ -468,6 +514,12 @@ for ev in events:
         "significance": trim(ev.get("historical_significance"), 320) or None,
         "quality": ev.get("data_quality_status") or None,
         "entrants": ent_out,
+        "cardMatches": full_card_matches_by_event.get(eid, []),
+        "eventStaff": event_staff_by_event.get(eid, []),
+        "dualDutyEntrants": [
+            {"id": r["id"], "name": r["name"]}
+            for r in ent_out if "Wrestled earlier on card" in r.get("badges", [])
+        ],
         "notableMoments": moments_by_event.get(eid, []),
         "ratings": ratings_by_event.get(eid, []),
         "occupancy": ({
@@ -996,7 +1048,11 @@ for d in DIVISIONS:
 # per Shane's "win rate by #1 vs #2, first-5 vs middle vs last-5" request).
 # Zero new research: a re-bucketing of the same entry_number_stats.csv data.
 entry_number_bands = load("derived/entry_number_bands.csv")
-_band_order = {"#1": 0, "#2": 1, "First 5 (1-5)": 2, "Middle": 3, "Last 5": 4}
+_band_order = {
+    "#1": 0, "#2": 1, "First 5 (1-5)": 2, "Middle (6-25)": 3,
+    "Last 5 (standard field)": 4, "Extended field (31-35)": 5,
+    "Last 5 (40-person field)": 6,
+}
 entry_number_bands_by_division = {d: [] for d in DIVISIONS}
 for r in entry_number_bands:
     div = r["division"]
@@ -1699,6 +1755,62 @@ if _unmapped_birthplaces:
     print("WARNING: city map has no coordinate for: " +
           ", ".join(sorted(_unmapped_birthplaces)) +
           " -- these wrestlers are counted in totalWithBirthplace but not plotted as city pins.")
+
+# Billed-from is appearance-specific rather than biographical: one wrestler
+# can legitimately be announced from different places in different years.
+# Group exact source strings only. Coordinates are reused solely when that
+# exact location already has a sourced coordinate above; unmatched strings
+# remain visible to the dashboard instead of being guessed.
+_billed_locations = defaultdict(lambda: {"appearances": 0, "wrestlers": {}})
+_billed_known_appearances = 0
+for e in entrants:
+    billed = (e.get("billed_from_at_event") or "").strip()
+    if billed in ("", "N/A", "UNKNOWN"):
+        continue
+    _billed_known_appearances += 1
+    loc = _billed_locations[billed]
+    loc["appearances"] += 1
+    loc["wrestlers"][e["wrestler_id"]] = name(e["wrestler_id"])
+
+world_map_billed = []
+_unmapped_billed = Counter()
+def _location_key(value):
+    value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii").lower()
+    value = re.sub(r"\b(?:u\.?s\.?a?|united states)\b", "", value)
+    return re.sub(r"[^a-z0-9]+", " ", value).strip()
+
+_coords_by_normalized_location = {}
+for raw_location, coords in BIRTHPLACE_COORDS.items():
+    key = _location_key(raw_location)
+    # Only accept an unambiguous normalized match. Duplicate spellings of the
+    # same place/coordinate are fine; conflicting coordinates stay unmapped.
+    if key not in _coords_by_normalized_location:
+        _coords_by_normalized_location[key] = coords
+    elif _coords_by_normalized_location[key][1:3] != coords[1:3]:
+        _coords_by_normalized_location[key] = None
+for billed, info in _billed_locations.items():
+    coords = BIRTHPLACE_COORDS.get(billed) or _coords_by_normalized_location.get(_location_key(billed))
+    if not coords:
+        _unmapped_billed[billed] = info["appearances"]
+        continue
+    city_label, lat, lon, country = coords
+    x, y = _project(lat, lon)
+    world_map_billed.append({
+        "location": billed, "city": city_label, "country": country,
+        "x": x, "y": y, "count": len(info["wrestlers"]),
+        "appearanceCount": info["appearances"],
+        "wrestlers": [
+            {"id": wid, "name": nm}
+            for wid, nm in sorted(info["wrestlers"].items(), key=lambda pair: pair[1])
+        ],
+    })
+world_map_billed.sort(key=lambda r: (-r["appearanceCount"], r["location"]))
+world_map["billedLocations"] = world_map_billed
+world_map["totalBilledAppearances"] = _billed_known_appearances
+world_map["totalBilledLocationsPlotted"] = len(world_map_billed)
+world_map["unmappedBilledLocations"] = [
+    {"location": k, "count": v} for k, v in _unmapped_billed.most_common()
+]
 
 # ---------------------------------------------------------------------------
 # Cross-promotion championship-history browser data
