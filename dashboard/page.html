@@ -481,6 +481,7 @@
     if (parts[0] === "explore") return {division:null, page:"explore", arg: parts[1] ? decodeURIComponent(parts[1]) : null};
     if (parts[0] === "map") return {division:null, page:"map", arg:null};
     if (parts[0] === "titles") return {division:null, page:"titles", arg: parts[1] ? decodeURIComponent(parts[1]) : null};
+    if (parts[0] === "fullcard") return {division:null, page:"fullcard", arg:null};
     return {division: parts[0], page: parts[1] || "events", arg: parts[2] || null};
   }
   window.addEventListener("hashchange", render);
@@ -497,7 +498,7 @@
       return el("div", {class:"navlink"+(isActive?" active":""), text:label, onclick:function(){ navigate(path); }});
     }
 
-    var homeActive = route.page === "home" || (!route.division && route.page !== "explore" && route.page !== "map" && route.page !== "titles");
+    var homeActive = route.page === "home" || (!route.division && route.page !== "explore" && route.page !== "map" && route.page !== "titles" && route.page !== "fullcard");
     navlinks.appendChild(mk("Home", "/home", homeActive));
     tabs.appendChild(mk("Home", "/home", homeActive));
 
@@ -512,6 +513,10 @@
     var titlesActive = route.page === "titles";
     navlinks.appendChild(mk("Title Histories", "/titles", titlesActive));
     tabs.appendChild(mk("Title Histories", "/titles", titlesActive));
+
+    var fullcardActive = route.page === "fullcard";
+    navlinks.appendChild(mk("Full Card", "/fullcard", fullcardActive));
+    tabs.appendChild(mk("Full Card", "/fullcard", fullcardActive));
 
     (DB && DB.divisions || []).forEach(function(d){
       navlinks.appendChild(el("div", {class:"navsection", text:d.label}));
@@ -1274,6 +1279,215 @@
     promoSelect.addEventListener("change", draw);
     draw();
     if (initialArg) showChampionship(initialArg);
+
+    return c;
+  }
+
+  // ---------------- page: full card ----------------
+  // Surfaces DB.fullCard -- everything on the card besides the Royal Rumble
+  // match itself (every other match, every commentator/announcer/referee),
+  // built from scripts/build_dashboard_data.py's "Full-card stats" section.
+  // Division-independent like Title Histories above: a dual-duty entrant,
+  // card regular, or commentator can belong to either division (or, for
+  // commentators, neither), so this page uses its own eventId -> division
+  // lookup rather than a single CUR_DIV-scoped wlink/byId.
+  function pageFullCard(){
+    var c = el("div", {class:"container"});
+    var fc = (DB && DB.fullCard) || {coveredEvents:[], dualDutyEntrants:[], nonRumbleCardRegulars:[], commentators:[], matchTypeFrequency:[], titleFrequency:[]};
+
+    var eventDivKey = {};
+    (DB.divisions || []).forEach(function(d){
+      (d.events || []).forEach(function(ev){ eventDivKey[ev.id] = d.key; });
+    });
+    function eventLink(evBrief){
+      if (!evBrief || !evBrief.id) return document.createTextNode("—");
+      var label = (evBrief.year || "") + (evBrief.name && evBrief.name !== evBrief.id ? " — " + evBrief.name : "");
+      label = label || evBrief.id;
+      var dk = eventDivKey[evBrief.id];
+      if (!dk) return document.createTextNode(label);
+      return el("span", {class:"wlink", text: label, onclick:function(ev){ ev.stopPropagation(); navigate("/"+dk+"/events/"+evBrief.id); }});
+    }
+
+    var coveredSorted = fc.coveredEvents.slice().sort(function(a,b){ return (a.year||"").localeCompare(b.year||"") || a.id.localeCompare(b.id); });
+
+    c.appendChild(el("div", {class:"page-head"}, [
+      el("div", {class:"eyebrow", text: coveredSorted.length+" event"+(coveredSorted.length!==1?"s":"")+" with full-card research"}),
+      el("h2", {text:"Full Card"}),
+      el("p", {text:"Beyond the Royal Rumble match itself: every other match on the card, plus commentary teams, ring announcers and referees, researched and cross-checked from Wikipedia and a second source for the events listed below. This surfaces wrestlers who worked the Rumble match AND another match the same night, non-Rumble regulars who kept getting booked on the card without ever entering the Rumble, commentator/announcer/referee appearance counts, and the most common match types and titles defended on the card."})
+    ]));
+
+    var coveredWrap = el("div", {class:"panel", style:"margin-bottom:22px;"});
+    coveredWrap.appendChild(el("h3", {text:"Events covered"}));
+    var coveredChips = el("div", {class:"badges"});
+    coveredSorted.forEach(function(ev){
+      var chip = el("span", {class:"chip"});
+      chip.appendChild(eventLink(ev));
+      coveredChips.appendChild(chip);
+    });
+    coveredWrap.appendChild(coveredChips);
+    c.appendChild(coveredWrap);
+
+    // --- Dual-duty entrants ---------------------------------------------
+    c.appendChild(el("div", {class:"cat-heading", text:"Wrestled Earlier That Night ("+fc.dualDutyEntrants.length+")"}));
+    c.appendChild(el("p", {class:"sub", style:"margin:-6px 0 12px;", text:"Entrants in the Royal Rumble match who also worked another match on the same card."}));
+    var ddScroll = el("div", {class:"table-scroll"});
+    var ddTable = el("table", {class:"hist-table"});
+    ddTable.appendChild(el("thead", {}, [el("tr", {}, [
+      el("th", {text:"Event"}), el("th", {text:"Wrestler"}), el("th", {text:"Entry #"}),
+      el("th", {text:"Rumble result"}), el("th", {text:"Other match"}), el("th", {text:"Type"}), el("th", {text:"Result"})
+    ])]));
+    var ddBody = el("tbody");
+    fc.dualDutyEntrants.slice().sort(function(a,b){
+      return (b.event.year||"").localeCompare(a.event.year||"") || (a.entryNumber||0)-(b.entryNumber||0);
+    }).forEach(function(r){
+      ddBody.appendChild(el("tr", {}, [
+        el("td", {}, [eventLink(r.event)]),
+        el("td", {class:"name-cell"}, [anyDivWlink(r.wrestlerId, r.wrestlerName)]),
+        el("td", {class:"num", text: r.entryNumber!==null && r.entryNumber!==undefined ? String(r.entryNumber) : "—"}),
+        el("td", {text: r.rumbleResult || "—"}),
+        el("td", {class:"num", text: r.otherMatchNumber!==null && r.otherMatchNumber!==undefined ? "#"+r.otherMatchNumber : "—"}),
+        el("td", {text: r.otherMatchType || "—"}),
+        el("td", {text: r.otherMatchResult || "—"})
+      ]));
+    });
+    ddTable.appendChild(ddBody);
+    ddScroll.appendChild(ddTable);
+    c.appendChild(ddScroll);
+
+    // --- Non-Rumble card regulars ----------------------------------------
+    c.appendChild(el("div", {class:"cat-heading", style:"margin-top:26px;", text:"Card Regulars Who've Never Entered the Rumble ("+fc.nonRumbleCardRegulars.length+")"}));
+    c.appendChild(el("p", {class:"sub", style:"margin:-6px 0 12px;", text:"Wrestlers booked on the card at least twice among the covered events, but never as a Royal Rumble match entrant (in either division)."}));
+    var regGrid = el("div", {class:"grid records"});
+    fc.nonRumbleCardRegulars.slice().sort(function(a,b){ return b.cardAppearancesCount - a.cardAppearancesCount; }).forEach(function(r){
+      var card = el("div", {class:"card rec-card"});
+      card.appendChild(el("div", {class:"nm"}, [anyDivWlink(r.wrestlerId, r.wrestlerName)]));
+      card.appendChild(el("div", {class:"val", text: r.cardAppearancesCount+" card appearance"+(r.cardAppearancesCount!==1?"s":"")}));
+      var holderDiv = el("div", {class:"holder"});
+      holderDiv.appendChild(document.createTextNode("First: "));
+      holderDiv.appendChild(eventLink(r.firstEvent));
+      if (r.mostRecentEvent && r.mostRecentEvent.id !== r.firstEvent.id){
+        holderDiv.appendChild(document.createTextNode(" · Most recent: "));
+        holderDiv.appendChild(eventLink(r.mostRecentEvent));
+      }
+      card.appendChild(holderDiv);
+      if (r.events && r.events.length > 2){
+        var list = el("div", {class:"member-list"});
+        r.events.forEach(function(ev){
+          list.appendChild(el("div", {class:"member-row"}, [eventLink(ev)]));
+        });
+        var open = false;
+        var toggle = el("div", {class:"backlink", style:"margin-top:6px;", text:"Show all "+r.events.length+" ▾"});
+        toggle.addEventListener("click", function(){
+          open = !open;
+          list.style.display = open ? "block" : "none";
+          toggle.textContent = open ? "Hide ▴" : "Show all "+r.events.length+" ▾";
+        });
+        list.style.display = "none";
+        card.appendChild(toggle);
+        card.appendChild(list);
+      }
+      regGrid.appendChild(card);
+    });
+    c.appendChild(regGrid);
+
+    // --- Commentators / announcers / referees ----------------------------
+    c.appendChild(el("div", {class:"cat-heading", style:"margin-top:26px;", text:"Commentary Teams, Ring Announcers & Referees ("+fc.commentators.length+")"}));
+    c.appendChild(el("p", {class:"sub", style:"margin:-6px 0 12px;", text:"Every person credited on the broadcast or officiating a match across the covered events, ranked by how many of those events they appear on."}));
+    var ctrlRow = el("div", {style:"display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;"});
+    var ctSearch = el("input", {class:"search", type:"text", style:"max-width:280px;", placeholder:"Search by name…"});
+    var roleSelect = el("select", {class:"search", style:"max-width:200px;"});
+    var roles = Array.from(new Set(fc.commentators.map(function(r){ return r.role; }))).sort();
+    roleSelect.appendChild(el("option", {value:"", text:"All roles"}));
+    roles.forEach(function(role){ roleSelect.appendChild(el("option", {value:role, text:role})); });
+    ctrlRow.appendChild(ctSearch);
+    ctrlRow.appendChild(roleSelect);
+    c.appendChild(ctrlRow);
+    var ctGrid = el("div", {class:"grid records"});
+    c.appendChild(ctGrid);
+
+    function drawCommentators(){
+      var q = ctSearch.value.trim().toLowerCase();
+      var role = roleSelect.value;
+      ctGrid.innerHTML = "";
+      var rows = fc.commentators.filter(function(r){
+        if (role && r.role !== role) return false;
+        if (q && r.personName.toLowerCase().indexOf(q) === -1) return false;
+        return true;
+      }).sort(function(a,b){ return b.eventsCount - a.eventsCount || a.personName.localeCompare(b.personName); });
+      if (!rows.length){
+        ctGrid.appendChild(el("div", {class:"sub", text:"No one matches your filters."}));
+        return;
+      }
+      rows.forEach(function(r){
+        var card = el("div", {class:"card rec-card"});
+        card.appendChild(el("div", {class:"cat", text:r.role}));
+        card.appendChild(el("div", {class:"nm"}, [anyDivWlink(r.personId, r.personName)]));
+        card.appendChild(el("div", {class:"val", text: r.eventsCount+" event"+(r.eventsCount!==1?"s":"")}));
+        var holderDiv = el("div", {class:"holder"});
+        holderDiv.appendChild(document.createTextNode("First: "));
+        holderDiv.appendChild(eventLink(r.firstEvent));
+        if (r.mostRecentEvent && r.mostRecentEvent.id !== r.firstEvent.id){
+          holderDiv.appendChild(document.createTextNode(" · Most recent: "));
+          holderDiv.appendChild(eventLink(r.mostRecentEvent));
+        }
+        card.appendChild(holderDiv);
+        if (r.events && r.events.length > 2){
+          var list = el("div", {class:"member-list"});
+          r.events.forEach(function(ev){
+            list.appendChild(el("div", {class:"member-row"}, [eventLink(ev)]));
+          });
+          var open = false;
+          var toggle = el("div", {class:"backlink", style:"margin-top:6px;", text:"Show all "+r.events.length+" ▾"});
+          toggle.addEventListener("click", function(){
+            open = !open;
+            list.style.display = open ? "block" : "none";
+            toggle.textContent = open ? "Hide ▴" : "Show all "+r.events.length+" ▾";
+          });
+          list.style.display = "none";
+          card.appendChild(toggle);
+          card.appendChild(list);
+        }
+        ctGrid.appendChild(card);
+      });
+    }
+    ctSearch.addEventListener("input", drawCommentators);
+    roleSelect.addEventListener("change", drawCommentators);
+    drawCommentators();
+
+    // --- Match type frequency --------------------------------------------
+    c.appendChild(el("div", {class:"cat-heading", style:"margin-top:26px;", text:"Most Frequent Match Types on the Card ("+fc.matchTypeFrequency.length+")"}));
+    var mtScroll = el("div", {class:"table-scroll"});
+    var mtTable = el("table", {class:"hist-table"});
+    mtTable.appendChild(el("thead", {}, [el("tr", {}, [el("th", {text:"Match type"}), el("th", {text:"Occurrences"}), el("th", {text:"Events"})])]));
+    var mtBody = el("tbody");
+    fc.matchTypeFrequency.slice().sort(function(a,b){ return b.occurrences - a.occurrences || a.matchType.localeCompare(b.matchType); }).forEach(function(r){
+      mtBody.appendChild(el("tr", {}, [
+        el("td", {text: r.matchType || "—"}),
+        el("td", {class:"num", text: String(r.occurrences)}),
+        el("td", {class:"num", text: String(r.eventsCount)})
+      ]));
+    });
+    mtTable.appendChild(mtBody);
+    mtScroll.appendChild(mtTable);
+    c.appendChild(mtScroll);
+
+    // --- Title frequency ---------------------------------------------------
+    c.appendChild(el("div", {class:"cat-heading", style:"margin-top:26px;", text:"Titles Featured on the Card ("+fc.titleFrequency.length+")"}));
+    var tfScroll = el("div", {class:"table-scroll"});
+    var tfTable = el("table", {class:"hist-table"});
+    tfTable.appendChild(el("thead", {}, [el("tr", {}, [el("th", {text:"Title"}), el("th", {text:"Times defended/contested"}), el("th", {text:"Events"}), el("th", {text:"Distinct champions"})])]));
+    var tfBody = el("tbody");
+    fc.titleFrequency.slice().sort(function(a,b){ return b.occurrences - a.occurrences || a.title.localeCompare(b.title); }).forEach(function(r){
+      tfBody.appendChild(el("tr", {}, [
+        el("td", {text: r.title || "—"}),
+        el("td", {class:"num", text: String(r.occurrences)}),
+        el("td", {class:"num", text: String(r.eventsCount)}),
+        el("td", {class:"num", text: String(r.distinctChampionsCount)})
+      ]));
+    });
+    tfTable.appendChild(tfBody);
+    tfScroll.appendChild(tfTable);
+    c.appendChild(tfScroll);
 
     return c;
   }
@@ -2289,6 +2503,11 @@
     if (r.page === "titles"){
       CUR_DIV = null;
       content.appendChild(pageTitles(r.arg));
+      return;
+    }
+    if (r.page === "fullcard"){
+      CUR_DIV = null;
+      content.appendChild(pageFullCard());
       return;
     }
     if (!r.division || r.page === "home"){

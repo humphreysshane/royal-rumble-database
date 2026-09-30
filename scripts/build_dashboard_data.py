@@ -103,6 +103,15 @@ try:
     event_nationality_breakdown = load("derived/event_nationality_breakdown.csv")
 except FileNotFoundError:
     event_nationality_breakdown = []
+try:
+    card_dual_duty = load("derived/card_dual_duty.csv")
+    card_non_rumble_regulars = load("derived/card_non_rumble_regulars.csv")
+    commentator_stats = load("derived/commentator_stats.csv")
+    card_match_type_frequency = load("derived/card_match_type_frequency.csv")
+    card_title_frequency = load("derived/card_title_frequency.csv")
+except FileNotFoundError:
+    card_dual_duty = card_non_rumble_regulars = commentator_stats = []
+    card_match_type_frequency = card_title_frequency = []
 flags = load("flags.csv")
 try:
     event_winners = load("event_winners.csv")
@@ -1793,6 +1802,80 @@ championship_history_out = {
 }
 
 # ---------------------------------------------------------------------------
+# Full-card stats (2026-09-30): commentators + the rest of the card, not just
+# the Royal Rumble match itself. Covers only the events with other_matches /
+# show_appearances research done -- "coveredEvents" tells the dashboard which
+# ones that is, so it can label the rest as "no full-card data yet" rather
+# than implying a true zero.
+# ---------------------------------------------------------------------------
+_covered_from_om = set()
+try:
+    for _r in load("other_matches.csv"):
+        _covered_from_om.add(_r["event_id"])
+except FileNotFoundError:
+    pass
+covered_event_ids = sorted(_covered_from_om)
+
+def _event_brief(eid):
+    ev = events_by_id.get(eid)
+    if not ev:
+        return {"id": eid, "name": eid, "year": None}
+    return {"id": eid, "name": ev.get("event_name") or eid, "year": (ev.get("event_date") or "")[:4] or None}
+
+full_card_out = {
+    "coveredEvents": [_event_brief(eid) for eid in covered_event_ids],
+    "dualDutyEntrants": [
+        {
+            "eventId": r["event_id"],
+            "event": _event_brief(r["event_id"]),
+            "division": r["division"],
+            "wrestlerId": r["wrestler_id"],
+            "wrestlerName": name(r["wrestler_id"]),
+            "otherMatchNumber": r["other_match_number"] or None,
+            "otherMatchType": r["other_match_type"],
+            "otherMatchResult": r["other_match_result"],
+            "entryNumber": i(r["entry_number"]),
+            "rumbleResult": r["rumble_result"],
+        }
+        for r in card_dual_duty
+    ],
+    "nonRumbleCardRegulars": [
+        {
+            "wrestlerId": r["wrestler_id"],
+            "wrestlerName": name(r["wrestler_id"]),
+            "cardAppearancesCount": i(r["card_appearances_count"]),
+            "events": [_event_brief(eid) for eid in r["events_with_card_appearance"].split(";") if eid],
+            "firstEvent": _event_brief(r["first_event_id"]),
+            "mostRecentEvent": _event_brief(r["most_recent_event_id"]),
+        }
+        for r in card_non_rumble_regulars
+    ],
+    "commentators": [
+        {
+            "personId": r["person_id"],
+            "personName": r["person_name"],
+            "role": r["role"],
+            "eventsCount": i(r["events_count"]),
+            "firstEvent": _event_brief(r["first_event_id"]),
+            "mostRecentEvent": _event_brief(r["most_recent_event_id"]),
+            "events": [_event_brief(eid) for eid in r["events_list"].split(";") if eid],
+        }
+        for r in commentator_stats
+    ],
+    "matchTypeFrequency": [
+        {"matchType": r["match_type"], "occurrences": i(r["occurrences"]), "eventsCount": i(r["events_count"])}
+        for r in card_match_type_frequency
+    ],
+    "titleFrequency": [
+        {
+            "title": r["title_involved"], "occurrences": i(r["occurrences"]),
+            "eventsCount": i(r["events_count"]), "distinctChampionsCount": i(r["distinct_champions_count"]),
+        }
+        for r in card_title_frequency
+    ],
+}
+
+# ---------------------------------------------------------------------------
 # Flags summary (lightweight -- counts + status breakdown, not the full table)
 # ---------------------------------------------------------------------------
 status_counts = Counter(fl["status"] for fl in flags)
@@ -1836,6 +1919,7 @@ out = {
     "topics": topics_out,
     "worldMap": world_map,
     "championshipHistory": championship_history_out,
+    "fullCard": full_card_out,
 }
 
 os.makedirs(os.path.dirname(OUT_PATH) or ".", exist_ok=True)
