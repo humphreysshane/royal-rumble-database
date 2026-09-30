@@ -1493,7 +1493,10 @@ for wid, evset in events_by_wid.items():
         continue
     if len(evset) < 2:
         continue
-    ev_sorted = sorted(evset, key=lambda eid: (events[eid]["event_date"] if eid in events else eid))
+    ev_sorted = sorted(
+        evset,
+        key=lambda eid: (events[eid]["event_date"] if eid in events else eid, eid),
+    )
     regulars_rows.append({
         "wrestler_id": wid,
         "card_appearances_count": len(evset),
@@ -1515,7 +1518,10 @@ for r in show_appearances:
 
 commentator_rows = []
 for (pid, role), apps in by_person_role.items():
-    evset = sorted(set(a["event_id"] for a in apps), key=lambda eid: (events[eid]["event_date"] if eid in events else eid))
+    evset = sorted(
+        set(a["event_id"] for a in apps),
+        key=lambda eid: (events[eid]["event_date"] if eid in events else eid, eid),
+    )
     name = apps[0]["person_name"]
     commentator_rows.append({
         "person_id": pid,

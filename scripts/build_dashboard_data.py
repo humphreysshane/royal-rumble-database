@@ -1797,7 +1797,7 @@ championship_history_out = {
             "championshipIds": sorted(summary["championshipIds"]),
             "promotionIds": sorted(summary["promotionIds"]),
         }
-        for wrestler_id, summary in championship_summary_by_wrestler.items()
+        for wrestler_id, summary in sorted(championship_summary_by_wrestler.items())
     },
 }
 
