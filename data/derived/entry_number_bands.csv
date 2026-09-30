@@ -1,11 +1,13 @@
 division,band,band_range,events_sample_size,wins,win_rate,avg_survival_seconds,avg_eliminations,final_four_rate,runner_up_count,notes
-Men's,#1,1,39,3,7.7,1822.6,2.69,23.1,2,"This division's observed entry-number range tops out at #40; 'Last 5' = #36-#40, 'Middle' = everything else."
-Men's,#2,2,39,2,5.1,1470.9,1.28,17.9,2,"This division's observed entry-number range tops out at #40; 'Last 5' = #36-#40, 'Middle' = everything else."
-Men's,First 5 (1-5),1-5,195,7,3.6,1031.9,1.21,9.7,5,"This division's observed entry-number range tops out at #40; 'Last 5' = #36-#40, 'Middle' = everything else."
-Men's,Last 5,36-40,5,1,20.0,475.8,1.4,60.0,1,"This division's observed entry-number range tops out at #40; 'Last 5' = #36-#40, 'Middle' = everything else."
-Men's,Middle,6-35,972,32,3.3,588.6,1.0,12.0,32,"This division's observed entry-number range tops out at #40; 'Last 5' = #36-#40, 'Middle' = everything else."
-Women's,#1,1,9,1,11.1,2387.9,2.44,22.2,0,"This division's observed entry-number range tops out at #30; 'Last 5' = #26-#30, 'Middle' = everything else."
-Women's,#2,2,9,0,0.0,2484.7,2.11,11.1,1,"This division's observed entry-number range tops out at #30; 'Last 5' = #26-#30, 'Middle' = everything else."
-Women's,First 5 (1-5),1-5,45,3,6.7,1624.4,1.33,13.3,2,"This division's observed entry-number range tops out at #30; 'Last 5' = #26-#30, 'Middle' = everything else."
-Women's,Last 5,26-30,45,3,6.7,465.3,1.58,37.8,4,"This division's observed entry-number range tops out at #30; 'Last 5' = #26-#30, 'Middle' = everything else."
-Women's,Middle,6-25,180,3,1.7,821.2,0.97,7.2,3,"This division's observed entry-number range tops out at #30; 'Last 5' = #26-#30, 'Middle' = everything else."
+Men's,#1,1,39,3,7.7,1822.6,2.69,23.1,2,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Men's,#2,2,39,2,5.1,1470.9,1.28,17.9,2,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Men's,First 5 (1-5),1-5,195,7,3.6,1031.9,1.21,9.7,5,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Men's,Middle (6-25),6-25,777,18,2.3,639.6,0.93,8.0,15,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Men's,Last 5 (standard field),26-30,190,14,7.4,391.0,1.28,28.9,17,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Men's,Extended field (31-35),31-35,5,0,0.0,229.0,0.4,0.0,0,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Men's,Last 5 (40-person field),36-40,5,1,20.0,475.8,1.4,60.0,1,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Women's,#1,1,9,1,11.1,2387.9,2.44,22.2,0,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Women's,#2,2,9,0,0.0,2484.7,2.11,11.1,1,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Women's,First 5 (1-5),1-5,45,3,6.7,1624.4,1.33,13.3,2,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Women's,Middle (6-25),6-25,180,3,1.7,821.2,0.97,7.2,3,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
+Women's,Last 5 (standard field),26-30,45,3,6.7,465.3,1.58,37.8,4,The standard Last 5 is fixed at #26-30 so the one-off 40-person Rumble does not distort that comparison. Entries above #30 are shown separately as extended-field slices.
