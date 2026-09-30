@@ -375,6 +375,33 @@ DERIVED_TABLES = {
         "percentage_of_known", "known_nationality_count", "actual_entrant_count",
         "coverage_percentage", "data_quality_status", "notes",
     ],
+    # --- Full-card stats (2026-09-30): added per Shane's request to track
+    # the rest of the card (commentators, other matches), not just the
+    # Royal Rumble match itself. Sourced from other_matches.csv +
+    # show_appearances.csv, which only have complete card data for events
+    # where the full-card research has been done (see notes/data_quality on
+    # each row -- an event missing from these tables just has no card data
+    # yet, not a zero count).
+    "card_dual_duty.csv": [
+        "event_id", "division", "wrestler_id", "other_match_number",
+        "other_match_type", "other_match_result", "entry_number",
+        "rumble_result", "notes",
+    ],
+    "card_non_rumble_regulars.csv": [
+        "wrestler_id", "card_appearances_count", "events_with_card_appearance",
+        "first_event_id", "most_recent_event_id", "notes",
+    ],
+    "commentator_stats.csv": [
+        "person_id", "person_name", "role", "events_count",
+        "first_event_id", "most_recent_event_id", "events_list",
+    ],
+    "card_match_type_frequency.csv": [
+        "match_type", "occurrences", "events_count", "notes",
+    ],
+    "card_title_frequency.csv": [
+        "title_involved", "occurrences", "events_count",
+        "distinct_champions_count", "notes",
+    ],
 }
 
 
