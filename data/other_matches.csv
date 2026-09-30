@@ -161,3 +161,243 @@ RR2010M,sheamus,3,Randy Orton,,Singles,TRUE,WWE Championship,TRUE,won,FALSE,FALS
 RR2010M,randy-orton,3,Sheamus,,Singles,TRUE,WWE Championship,FALSE,lost,FALSE,FALSE,,3,TRUE,CONFIRMED,S085;S088,
 RR2010M,the-undertaker,4,Rey Mysterio,,Singles,TRUE,World Heavyweight Championship,TRUE,won,FALSE,FALSE,,4,TRUE,CONFLICTING,S085;S088,"Retained. Match time CONFLICTING between sources by 2 seconds only (11:09 per Wikipedia, 11:07 per ProFightDB) -- a negligible discrepancy, both noted rather than picked. See F247."
 RR2010M,rey-mysterio,4,The Undertaker,,Singles,TRUE,World Heavyweight Championship,FALSE,lost,FALSE,FALSE,,4,TRUE,CONFIRMED,S085;S088,
+RR1993M,doink,,Jim Powers,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,5:57,"Dark match (untelevised, pre-broadcast)",TRUE,PROBABLE,S1192;S2268,"Submission finish is unusual for Doink's typical trickster/pinfall style — flagged, single-sourced for the exact finish method (Cagematch confirms the match occurred but not the finish detail)"
+RR1993M,jim-powers,,Doink the Clown,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,5:57,"Dark match (untelevised, pre-broadcast)",TRUE,PROBABLE,S1192;S2268,"Submission finish is unusual for Doink's typical trickster/pinfall style — flagged, single-sourced for the exact finish method (Cagematch confirms the match occurred but not the finish detail)"
+RR1993M,rick-steiner,1,"Beau, Blake",Scott,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,10:34,Televised opener,TRUE,PROBABLE,S1192;S2268,
+RR1993M,scott-steiner,1,"Beau, Blake",Rick,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,10:34,Televised opener,TRUE,PROBABLE,S1192;S2268,
+RR1993M,beau-beverly,1,"Rick, Scott",Blake,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,10:34,Televised opener,TRUE,PROBABLE,S1192;S2268,
+RR1993M,blake-beverly,1,"Rick, Scott",Beau,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,10:34,Televised opener,TRUE,PROBABLE,S1192;S2268,
+RR1993M,shawn-michaels,2,Marty Jannetty,,Singles,TRUE,WWF Intercontinental Championship,TRUE,Win,FALSE,FALSE,14:20,Match 3,TRUE,PROBABLE,S1192;S2268,Storyline significance — former Rockers tag team partners feuding
+RR1993M,marty-jannetty,2,Shawn Michaels,,Singles,TRUE,WWF Intercontinental Championship,FALSE,Loss,FALSE,FALSE,14:20,Match 3,TRUE,PROBABLE,S1192;S2268,Storyline significance — former Rockers tag team partners feuding
+RR1993M,big-boss-man,3,Bam Bam Bigelow,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,10:10,Match 4,TRUE,PROBABLE,S1192;S2268,
+RR1993M,bam-bam-bigelow,3,Big Boss Man,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,10:10,Match 4,TRUE,PROBABLE,S1192;S2268,
+RR1993M,bret-hart,4,Razor Ramon,,Singles,TRUE,WWF World Heavyweight Championship,TRUE,Win,FALSE,FALSE,17:52,Match 5,TRUE,PROBABLE,S1192;S2268,
+RR1993M,razor-ramon,4,Bret Hart,,Singles,TRUE,WWF World Heavyweight Championship,FALSE,Loss,FALSE,FALSE,17:52,Match 5,TRUE,PROBABLE,S1192;S2268,
+RR2009M,jimmy-wang-yang,,Paul Burchill,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,,Dark match/Kickoff (untelevised),TRUE,PROBABLE,S1430,Untelevised dark match; single-sourced
+RR2009M,paul-burchill,,Jimmy Wang Yang,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,,Dark match/Kickoff (untelevised),TRUE,PROBABLE,S1430,Untelevised dark match; single-sourced
+RR2009M,jack-swagger,1,Matt Hardy,,Singles,TRUE,ECW Championship,TRUE,Win,FALSE,FALSE,10:27,Opener,TRUE,PROBABLE,S1430;S2289,
+RR2009M,matt-hardy,1,Jack Swagger,,Singles,TRUE,ECW Championship,FALSE,Loss,FALSE,FALSE,10:27,Opener,TRUE,PROBABLE,S1430;S2289,
+RR2009M,melina,2,Beth Phoenix,,Singles,TRUE,WWE Women's Championship,FALSE,Win,TRUE,FALSE,5:56,Match 2,TRUE,PROBABLE,S1430;S2289,Title change
+RR2009M,beth-phoenix,2,Melina,,Singles,TRUE,WWE Women's Championship,TRUE,Loss,FALSE,TRUE,5:56,Match 2,TRUE,PROBABLE,S1430;S2289,Title change
+RR2009M,john-cena,3,"John ""Bradshaw"" Layfield",,Singles,TRUE,World Heavyweight Championship,TRUE,Win,FALSE,FALSE,15:29,Match 3,TRUE,PROBABLE,S1430;S2289,
+RR2009M,bradshaw,3,John Cena,,Singles,TRUE,World Heavyweight Championship,FALSE,Loss,FALSE,FALSE,15:29,Match 3,TRUE,PROBABLE,S1430;S2289,
+RR2009M,jeff-hardy,4,Edge,,Singles (No Disqualification),TRUE,WWE Championship,TRUE,Loss,FALSE,TRUE,19:23,Match 4 (semi-main),TRUE,PROBABLE,S1430;S2289,"Matt Hardy turned on brother Jeff, a major angle heading into WrestleMania 25"
+RR2009M,edge,4,Jeff Hardy,,Singles (No Disqualification),TRUE,WWE Championship,FALSE,Win,TRUE,FALSE,19:23,Match 4 (semi-main),TRUE,PROBABLE,S1430;S2289,"Matt Hardy turned on brother Jeff, a major angle heading into WrestleMania 25"
+RR2011M,r-truth,,Curt Hawkins,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,,Kickoff (dark/pre-show),TRUE,PROBABLE,S1432,Untelevised dark match; single-sourced
+RR2011M,curt-hawkins,,R-Truth,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,,Kickoff (dark/pre-show),TRUE,PROBABLE,S1432,Untelevised dark match; single-sourced
+RR2011M,edge,1,Dolph Ziggler,,Singles,TRUE,World Heavyweight Championship,TRUE,Win,FALSE,FALSE,20:45,Opener,TRUE,PROBABLE,S1432;S2290,"Storyline stipulation — Edge would lose the title if he used his finisher, the Spear; he won using the Killswitch instead"
+RR2011M,dolph-ziggler,1,Edge,,Singles,TRUE,World Heavyweight Championship,FALSE,Loss,FALSE,FALSE,20:45,Opener,TRUE,PROBABLE,S1432;S2290,"Storyline stipulation — Edge would lose the title if he used his finisher, the Spear; he won using the Killswitch instead"
+RR2011M,the-miz,2,Randy Orton,,Singles,TRUE,WWE Championship,TRUE,Win (by DQ),FALSE,FALSE,19:50,Match 2,TRUE,PROBABLE,S1432;S2290,Title not on the line for a DQ finish (titles do not change hands on disqualification).
+RR2011M,randy-orton,2,The Miz,,Singles,TRUE,WWE Championship,FALSE,Loss (by DQ),FALSE,FALSE,19:50,Match 2,TRUE,PROBABLE,S1432;S2290,Title not on the line for a DQ finish (titles do not change hands on disqualification).
+RR2011M,natalya,3,"Layla, Michelle McCool, Eve Torres",,Fatal Four-Way,TRUE,WWE Divas Championship,TRUE,Loss,FALSE,TRUE,5:05,Match 3,TRUE,PROBABLE,S1432;S2290,Title change
+RR2011M,layla,3,"Natalya, Michelle McCool, Eve Torres",,Fatal Four-Way,TRUE,WWE Divas Championship,FALSE,Loss,FALSE,FALSE,5:05,Match 3,TRUE,PROBABLE,S1432;S2290,Title change
+RR2011M,michelle-mccool,3,"Natalya, Layla, Eve Torres",,Fatal Four-Way,TRUE,WWE Divas Championship,FALSE,Loss,FALSE,FALSE,5:05,Match 3,TRUE,PROBABLE,S1432;S2290,Title change
+RR2011M,eve-torres,3,"Natalya, Layla, Michelle McCool",,Fatal Four-Way,TRUE,WWE Divas Championship,FALSE,Win,TRUE,FALSE,5:05,Match 3,TRUE,PROBABLE,S1432;S2290,Title change
+RR2012M,yoshi-tatsu,,Heath Slater,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,4:00,Kickoff (untelevised dark match — not on the broadcast/PPV card),TRUE,PROBABLE,S1433,Single-sourced. Not listed by OWW or WWE.com's recap — likely a pre-show dark match not part of the official broadcast card. Flagged as a gap.
+RR2012M,heath-slater,,Yoshi Tatsu,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,4:00,Kickoff (untelevised dark match — not on the broadcast/PPV card),TRUE,PROBABLE,S1433,Single-sourced. Not listed by OWW or WWE.com's recap — likely a pre-show dark match not part of the official broadcast card. Flagged as a gap.
+RR2012M,daniel-bryan,1,"Big Show, Mark Henry",,"Triple Threat, Steel Cage",TRUE,World Heavyweight Championship,TRUE,Win,FALSE,FALSE,9:08,Match 1 (opener),TRUE,PROBABLE,S1433;S2291,
+RR2012M,big-show,1,"Daniel Bryan, Mark Henry",,"Triple Threat, Steel Cage",TRUE,World Heavyweight Championship,FALSE,Loss,FALSE,FALSE,9:08,Match 1 (opener),TRUE,PROBABLE,S1433;S2291,
+RR2012M,mark-henry,1,"Daniel Bryan, Big Show",,"Triple Threat, Steel Cage",TRUE,World Heavyweight Championship,FALSE,Loss,FALSE,FALSE,9:08,Match 1 (opener),TRUE,PROBABLE,S1433;S2291,
+RR2012M,beth-phoenix,2,"Kelly Kelly, Eve Torres, Alicia Fox, Tamina Snuka","Natalya, Nikki Bella, Brie Bella",Eight-Diva Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,5:29,Match 2,TRUE,PROBABLE,S1433;S2291,
+RR2012M,natalya,2,"Kelly Kelly, Eve Torres, Alicia Fox, Tamina Snuka","Beth Phoenix, Nikki Bella, Brie Bella",Eight-Diva Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,5:29,Match 2,TRUE,PROBABLE,S1433;S2291,
+RR2012M,nikki-bella,2,"Kelly Kelly, Eve Torres, Alicia Fox, Tamina Snuka","Beth Phoenix, Natalya, Brie Bella",Eight-Diva Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,5:29,Match 2,TRUE,PROBABLE,S1433;S2291,
+RR2012M,brie-bella,2,"Kelly Kelly, Eve Torres, Alicia Fox, Tamina Snuka","Beth Phoenix, Natalya, Nikki Bella",Eight-Diva Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,5:29,Match 2,TRUE,PROBABLE,S1433;S2291,
+RR2012M,kelly-kelly,2,"Beth Phoenix, Natalya, Nikki Bella, Brie Bella","Eve Torres, Alicia Fox, Tamina Snuka",Eight-Diva Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,5:29,Match 2,TRUE,PROBABLE,S1433;S2291,
+RR2012M,eve-torres,2,"Beth Phoenix, Natalya, Nikki Bella, Brie Bella","Kelly Kelly, Alicia Fox, Tamina Snuka",Eight-Diva Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,5:29,Match 2,TRUE,PROBABLE,S1433;S2291,
+RR2012M,alicia-fox,2,"Beth Phoenix, Natalya, Nikki Bella, Brie Bella","Kelly Kelly, Eve Torres, Tamina Snuka",Eight-Diva Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,5:29,Match 2,TRUE,PROBABLE,S1433;S2291,
+RR2012M,tamina,2,"Beth Phoenix, Natalya, Nikki Bella, Brie Bella","Kelly Kelly, Eve Torres, Alicia Fox",Eight-Diva Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,5:29,Match 2,TRUE,PROBABLE,S1433;S2291,
+RR2012M,john-cena,3,Kane,,"Singles (""Super Grudge Match"")",FALSE,,FALSE,Double Countout,FALSE,FALSE,10:56,Match 3,TRUE,PROBABLE,S1433;S2291,
+RR2012M,kane,3,John Cena,,"Singles (""Super Grudge Match"")",FALSE,,FALSE,Double Countout,FALSE,FALSE,10:56,Match 3,TRUE,PROBABLE,S1433;S2291,
+RR2012M,brodus-clay,4,Drew McIntyre,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,1:05,Match 4,TRUE,PROBABLE,S1433;S2291,
+RR2012M,drew-mcintyre,4,Brodus Clay,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,1:05,Match 4,TRUE,PROBABLE,S1433;S2291,
+RR2012M,cm-punk,5,Dolph Ziggler,,Singles,TRUE,WWE Championship,TRUE,Win,FALSE,FALSE,14:32,Match 5,TRUE,PROBABLE,S1433;S2291,Special guest enforcer John Laurinaitis; Jack Swagger and Vickie Guerrero banned from ringside.
+RR2012M,dolph-ziggler,5,CM Punk,,Singles,TRUE,WWE Championship,FALSE,Loss,FALSE,FALSE,14:32,Match 5,TRUE,PROBABLE,S1433;S2291,Special guest enforcer John Laurinaitis; Jack Swagger and Vickie Guerrero banned from ringside.
+RR2013M,cesaro,,The Miz,,Singles,TRUE,WWE United States Championship,TRUE,Win,FALSE,FALSE,7:37,Kickoff,TRUE,PROBABLE,S1434;S2292,
+RR2013M,the-miz,,Antonio Cesaro,,Singles,TRUE,WWE United States Championship,FALSE,Loss,FALSE,FALSE,7:37,Kickoff,TRUE,PROBABLE,S1434;S2292,
+RR2013M,alberto-del-rio,1,Big Show,,Last Man Standing,TRUE,World Heavyweight Championship,TRUE,Win,FALSE,FALSE,16:57,Match 2,TRUE,PROBABLE,S1434;S2292,
+RR2013M,big-show,1,Alberto Del Rio,,Last Man Standing,TRUE,World Heavyweight Championship,FALSE,Loss,FALSE,FALSE,16:57,Match 2,TRUE,PROBABLE,S1434;S2292,
+RR2013M,daniel-bryan,2,"Cody Rhodes, Damien Sandow",Kane,Tag Team,TRUE,WWE Tag Team Championship,TRUE,Win,FALSE,FALSE,9:25,Match 3,TRUE,PROBABLE,S1434;S2292,
+RR2013M,kane,2,"Cody Rhodes, Damien Sandow",Daniel Bryan,Tag Team,TRUE,WWE Tag Team Championship,TRUE,Win,FALSE,FALSE,9:25,Match 3,TRUE,PROBABLE,S1434;S2292,
+RR2013M,cody-rhodes,2,"Daniel Bryan, Kane",Damien Sandow,Tag Team,TRUE,WWE Tag Team Championship,FALSE,Loss,FALSE,FALSE,9:25,Match 3,TRUE,PROBABLE,S1434;S2292,
+RR2013M,damien-sandow,2,"Daniel Bryan, Kane",Cody Rhodes,Tag Team,TRUE,WWE Tag Team Championship,FALSE,Loss,FALSE,FALSE,9:25,Match 3,TRUE,PROBABLE,S1434;S2292,
+RR2013M,cm-punk,4,The Rock,,Singles,TRUE,WWE Championship,TRUE,Loss,FALSE,TRUE,23:20,Main event,FALSE,PROBABLE,S1434;S2292,Storyline-significant restart due to Shield run-in.
+RR2013M,rocky-maivia,4,CM Punk,,Singles,TRUE,WWE Championship,FALSE,Win,TRUE,FALSE,23:20,Main event,FALSE,PROBABLE,S1434;S2292,Storyline-significant restart due to Shield run-in.
+RR2014M,billy-gunn,,"Cody Rhodes, Goldust",Road Dogg,Tag Team,TRUE,WWE Tag Team Championship,FALSE,Win,TRUE,FALSE,6:58,Kickoff,TRUE,PROBABLE,S1435;S2293,
+RR2014M,road-dogg,,"Cody Rhodes, Goldust",Billy Gunn,Tag Team,TRUE,WWE Tag Team Championship,FALSE,Win,TRUE,FALSE,6:58,Kickoff,TRUE,PROBABLE,S1435;S2293,
+RR2014M,cody-rhodes,,"Billy Gunn, Road Dogg",Goldust,Tag Team,TRUE,WWE Tag Team Championship,TRUE,Loss,FALSE,TRUE,6:58,Kickoff,TRUE,PROBABLE,S1435;S2293,
+RR2014M,goldust,,"Billy Gunn, Road Dogg",Cody Rhodes,Tag Team,TRUE,WWE Tag Team Championship,TRUE,Loss,FALSE,TRUE,6:58,Kickoff,TRUE,PROBABLE,S1435;S2293,
+RR2014M,bray-wyatt,1,Daniel Bryan,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,21:35,Match 2,TRUE,PROBABLE,S1435;S2293,"Bryan's absence from the Rumble match itself that night fueled the ""Yes Movement"" crowd backlash."
+RR2014M,daniel-bryan,1,Bray Wyatt,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,21:35,Match 2,TRUE,PROBABLE,S1435;S2293,"Bryan's absence from the Rumble match itself that night fueled the ""Yes Movement"" crowd backlash."
+RR2014M,brock-lesnar,2,Big Show,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,2:02,Match 3,TRUE,PROBABLE,S1435;S2293,
+RR2014M,big-show,2,Brock Lesnar,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,2:02,Match 3,TRUE,PROBABLE,S1435;S2293,
+RR2014M,randy-orton,3,John Cena,,Singles,TRUE,WWE World Heavyweight Championship,TRUE,Win,FALSE,FALSE,20:54,Match 4,TRUE,PROBABLE,S1435;S2293,
+RR2014M,john-cena,3,Randy Orton,,Singles,TRUE,WWE World Heavyweight Championship,FALSE,Loss,FALSE,FALSE,20:54,Match 4,TRUE,PROBABLE,S1435;S2293,
+RR2015M,cesaro,,"Big E, Kofi Kingston",Tyson Kidd,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,11:02,Kickoff,TRUE,PROBABLE,S1436;S2294,
+RR2015M,tyson-kidd,,"Big E, Kofi Kingston",Cesaro,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,11:02,Kickoff,TRUE,PROBABLE,S1436;S2294,
+RR2015M,big-e,,"Cesaro, Tyson Kidd",Kofi Kingston,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,11:02,Kickoff,TRUE,PROBABLE,S1436;S2294,
+RR2015M,kofi-kingston,,"Cesaro, Tyson Kidd",Big E,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,11:02,Kickoff,TRUE,PROBABLE,S1436;S2294,
+RR2015M,konnor,1,"Billy Gunn, Road Dogg",Viktor,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,5:25,Match 2,TRUE,PROBABLE,S1436;S2294,
+RR2015M,viktor,1,"Billy Gunn, Road Dogg",Konnor,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,5:25,Match 2,TRUE,PROBABLE,S1436;S2294,
+RR2015M,billy-gunn,1,"Konnor, Viktor",Road Dogg,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,5:25,Match 2,TRUE,PROBABLE,S1436;S2294,
+RR2015M,road-dogg,1,"Konnor, Viktor",Billy Gunn,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,5:25,Match 2,TRUE,PROBABLE,S1436;S2294,
+RR2015M,jey-uso,2,"The Miz, Damien Mizdow",Jimmy Uso,Tag Team,TRUE,WWE Tag Team Championship,TRUE,Win,FALSE,FALSE,9:20,Match 3,TRUE,PROBABLE,S1436;S2294,
+RR2015M,jimmy-uso,2,"The Miz, Damien Mizdow",Jey Uso,Tag Team,TRUE,WWE Tag Team Championship,TRUE,Win,FALSE,FALSE,9:20,Match 3,TRUE,PROBABLE,S1436;S2294,
+RR2015M,the-miz,2,"Jey Uso, Jimmy Uso",Damien Mizdow,Tag Team,TRUE,WWE Tag Team Championship,FALSE,Loss,FALSE,FALSE,9:20,Match 3,TRUE,PROBABLE,S1436;S2294,
+RR2015M,damien-sandow,2,"Jey Uso, Jimmy Uso",The Miz,Tag Team,TRUE,WWE Tag Team Championship,FALSE,Loss,FALSE,FALSE,9:20,Match 3,TRUE,PROBABLE,S1436;S2294,
+RR2015M,brie-bella,3,"Paige, Natalya",Nikki Bella,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,8:05,Match 4,TRUE,PROBABLE,S1436;S2294,
+RR2015M,nikki-bella,3,"Paige, Natalya",Brie Bella,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,8:05,Match 4,TRUE,PROBABLE,S1436;S2294,
+RR2015M,paige,3,"Brie Bella, Nikki Bella",Natalya,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,8:05,Match 4,TRUE,PROBABLE,S1436;S2294,
+RR2015M,natalya,3,"Brie Bella, Nikki Bella",Paige,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,8:05,Match 4,TRUE,PROBABLE,S1436;S2294,
+RR2015M,brock-lesnar,4,"Seth Rollins, John Cena",,Triple Threat,TRUE,WWE World Heavyweight Championship,TRUE,Win,FALSE,FALSE,22:42,Match 5,TRUE,PROBABLE,S1436;S2294,
+RR2015M,seth-rollins,4,"Brock Lesnar, John Cena",,Triple Threat,TRUE,WWE World Heavyweight Championship,FALSE,Loss,FALSE,FALSE,22:42,Match 5,TRUE,PROBABLE,S1436;S2294,
+RR2015M,john-cena,4,"Brock Lesnar, Seth Rollins",,Triple Threat,TRUE,WWE World Heavyweight Championship,FALSE,Loss,FALSE,FALSE,22:42,Match 5,TRUE,PROBABLE,S1436;S2294,
+RR2016M,jack-swagger,,"Konnor, Viktor, Damien Sandow, Darren Young, Bubba Ray, D-Von",Mark Henry,Fatal Four-Way Tag Team (Royal Rumble qualifier),FALSE,,FALSE,Win,FALSE,FALSE,8:00,Kickoff,TRUE,PROBABLE,S1437;S2295,Winners earned entry into that night's Royal Rumble match.
+RR2016M,mark-henry,,"Konnor, Viktor, Damien Sandow, Darren Young, Bubba Ray, D-Von",Jack Swagger,Fatal Four-Way Tag Team (Royal Rumble qualifier),FALSE,,FALSE,Win,FALSE,FALSE,8:00,Kickoff,TRUE,PROBABLE,S1437;S2295,Winners earned entry into that night's Royal Rumble match.
+RR2016M,konnor,,"Jack Swagger, Mark Henry, Damien Sandow, Darren Young, Bubba Ray, D-Von",Viktor,Fatal Four-Way Tag Team (Royal Rumble qualifier),FALSE,,FALSE,Loss,FALSE,FALSE,8:00,Kickoff,TRUE,PROBABLE,S1437;S2295,Winners earned entry into that night's Royal Rumble match.
+RR2016M,viktor,,"Jack Swagger, Mark Henry, Damien Sandow, Darren Young, Bubba Ray, D-Von",Konnor,Fatal Four-Way Tag Team (Royal Rumble qualifier),FALSE,,FALSE,Loss,FALSE,FALSE,8:00,Kickoff,TRUE,PROBABLE,S1437;S2295,Winners earned entry into that night's Royal Rumble match.
+RR2016M,damien-sandow,,"Jack Swagger, Mark Henry, Konnor, Viktor, Bubba Ray, D-Von",Darren Young,Fatal Four-Way Tag Team (Royal Rumble qualifier),FALSE,,FALSE,Loss,FALSE,FALSE,8:00,Kickoff,TRUE,PROBABLE,S1437;S2295,Winners earned entry into that night's Royal Rumble match.
+RR2016M,darren-young,,"Jack Swagger, Mark Henry, Konnor, Viktor, Bubba Ray, D-Von",Damien Sandow,Fatal Four-Way Tag Team (Royal Rumble qualifier),FALSE,,FALSE,Loss,FALSE,FALSE,8:00,Kickoff,TRUE,PROBABLE,S1437;S2295,Winners earned entry into that night's Royal Rumble match.
+RR2016M,bubba-ray-dudley,,"Jack Swagger, Mark Henry, Konnor, Viktor, Damien Sandow, Darren Young",D-Von,Fatal Four-Way Tag Team (Royal Rumble qualifier),FALSE,,FALSE,Loss,FALSE,FALSE,8:00,Kickoff,TRUE,PROBABLE,S1437;S2295,Winners earned entry into that night's Royal Rumble match.
+RR2016M,d-von-dudley,,"Jack Swagger, Mark Henry, Konnor, Viktor, Damien Sandow, Darren Young",Bubba Ray,Fatal Four-Way Tag Team (Royal Rumble qualifier),FALSE,,FALSE,Loss,FALSE,FALSE,8:00,Kickoff,TRUE,PROBABLE,S1437;S2295,Winners earned entry into that night's Royal Rumble match.
+RR2016M,dean-ambrose,1,Kevin Owens,,Last Man Standing,TRUE,WWE Intercontinental Championship,TRUE,Win,FALSE,FALSE,20:22,Match 2,TRUE,PROBABLE,S1437;S2295,
+RR2016M,kevin-owens,1,Dean Ambrose,,Last Man Standing,TRUE,WWE Intercontinental Championship,FALSE,Loss,FALSE,FALSE,20:22,Match 2,TRUE,PROBABLE,S1437;S2295,
+RR2016M,big-e,2,"Jimmy Uso, Jey Uso",Kofi Kingston,Tag Team,TRUE,WWE Tag Team Championship,TRUE,Win,FALSE,FALSE,10:52,Match 3,TRUE,PROBABLE,S1437;S2295,
+RR2016M,kofi-kingston,2,"Jimmy Uso, Jey Uso",Big E,Tag Team,TRUE,WWE Tag Team Championship,TRUE,Win,FALSE,FALSE,10:52,Match 3,TRUE,PROBABLE,S1437;S2295,
+RR2016M,jimmy-uso,2,"Big E, Kofi Kingston",Jey Uso,Tag Team,TRUE,WWE Tag Team Championship,FALSE,Loss,FALSE,FALSE,10:52,Match 3,TRUE,PROBABLE,S1437;S2295,
+RR2016M,jey-uso,2,"Big E, Kofi Kingston",Jimmy Uso,Tag Team,TRUE,WWE Tag Team Championship,FALSE,Loss,FALSE,FALSE,10:52,Match 3,TRUE,PROBABLE,S1437;S2295,
+RR2016M,alberto-del-rio,3,Kalisto,,Singles,TRUE,WWE United States Championship,TRUE,Loss,FALSE,TRUE,11:31,Match 4,TRUE,PROBABLE,S1437;S2295,
+RR2016M,kalisto,3,Alberto Del Rio,,Singles,TRUE,WWE United States Championship,FALSE,Win,TRUE,FALSE,11:31,Match 4,TRUE,PROBABLE,S1437;S2295,
+RR2016M,charlotte-flair,4,Becky Lynch,,Singles,TRUE,WWE Divas Championship,TRUE,Win,FALSE,FALSE,11:40,Match 5,TRUE,PROBABLE,S1437;S2295,
+RR2016M,becky-lynch,4,Charlotte,,Singles,TRUE,WWE Divas Championship,FALSE,Loss,FALSE,FALSE,11:40,Match 5,TRUE,PROBABLE,S1437;S2295,
+RR2017M,naomi,,"Alexa Bliss, Mickie James, Natalya","Nikki Bella, Becky Lynch",Six-Woman Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,9:35,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,nikki-bella,,"Alexa Bliss, Mickie James, Natalya","Naomi, Becky Lynch",Six-Woman Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,9:35,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,becky-lynch,,"Alexa Bliss, Mickie James, Natalya","Naomi, Nikki Bella",Six-Woman Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,9:35,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,alexa-bliss,,"Naomi, Nikki Bella, Becky Lynch","Mickie James, Natalya",Six-Woman Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,9:35,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,mickie-james,,"Naomi, Nikki Bella, Becky Lynch","Alexa Bliss, Natalya",Six-Woman Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,9:35,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,natalya,,"Naomi, Nikki Bella, Becky Lynch","Alexa Bliss, Mickie James",Six-Woman Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,9:35,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,cesaro,,"Luke Gallows, Karl Anderson",Sheamus,Tag Team,TRUE,Raw Tag Team Championship,TRUE,Loss,FALSE,TRUE,10:30,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,sheamus,,"Luke Gallows, Karl Anderson",Cesaro,Tag Team,TRUE,Raw Tag Team Championship,TRUE,Loss,FALSE,TRUE,10:30,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,luke-gallows,,"Cesaro, Sheamus",Karl Anderson,Tag Team,TRUE,Raw Tag Team Championship,FALSE,Win,TRUE,FALSE,10:30,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,karl-anderson,,"Cesaro, Sheamus",Luke Gallows,Tag Team,TRUE,Raw Tag Team Championship,FALSE,Win,TRUE,FALSE,10:30,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,nia-jax,,Sasha Banks,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,5:10,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,sasha-banks,,Nia Jax,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,5:10,Kickoff,TRUE,PROBABLE,S1438;S2296,
+RR2017M,charlotte-flair,1,Bayley,,Singles,TRUE,Raw Women's Championship,TRUE,Win,FALSE,FALSE,13:05,Match 4,TRUE,PROBABLE,S1438;S2296,
+RR2017M,bayley,1,Charlotte Flair,,Singles,TRUE,Raw Women's Championship,FALSE,Loss,FALSE,FALSE,13:05,Match 4,TRUE,PROBABLE,S1438;S2296,
+RR2017M,kevin-owens,2,Roman Reigns,,"Singles, No Disqualification",TRUE,WWE Universal Championship,TRUE,Win,FALSE,FALSE,22:55,Match 5,TRUE,PROBABLE,S1438;S2296,Chris Jericho suspended in shark cage above the ring.
+RR2017M,roman-reigns,2,Kevin Owens,,"Singles, No Disqualification",TRUE,WWE Universal Championship,FALSE,Loss,FALSE,FALSE,22:55,Match 5,TRUE,PROBABLE,S1438;S2296,Chris Jericho suspended in shark cage above the ring.
+RR2017M,rich-swann,3,Neville,,Singles,TRUE,WWE Cruiserweight Championship,TRUE,Loss,FALSE,TRUE,14:00,Match 6,TRUE,PROBABLE,S1438;S2296,
+RR2017M,neville,3,Rich Swann,,Singles,TRUE,WWE Cruiserweight Championship,FALSE,Win,TRUE,FALSE,14:00,Match 6,TRUE,PROBABLE,S1438;S2296,
+RR2017M,aj-styles,4,John Cena,,Singles,TRUE,WWE Championship,TRUE,Loss,FALSE,TRUE,24:10,Match 7,TRUE,PROBABLE,S1438;S2296,Historic title-count milestone (tying Ric Flair's officially recognized world title record).
+RR2017M,john-cena,4,AJ Styles,,Singles,TRUE,WWE Championship,FALSE,Win,TRUE,FALSE,24:10,Match 7,TRUE,PROBABLE,S1438;S2296,Historic title-count milestone (tying Ric Flair's officially recognized world title record).
+RR2018M,kalisto,,"TJP, Gentleman Jack Gallagher, Drew Gulak","Gran Metalik, Lince Dorado",Six-Man Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,13:20,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,gran-metalik,,"TJP, Gentleman Jack Gallagher, Drew Gulak","Kalisto, Lince Dorado",Six-Man Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,13:20,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,lince-dorado,,"TJP, Gentleman Jack Gallagher, Drew Gulak","Kalisto, Gran Metalik",Six-Man Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,13:20,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,tjp,,"Kalisto, Gran Metalik, Lince Dorado","Gentleman Jack Gallagher, Drew Gulak",Six-Man Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,13:20,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,jack-gallagher,,"Kalisto, Gran Metalik, Lince Dorado","TJP, Drew Gulak",Six-Man Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,13:20,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,drew-gulak,,"Kalisto, Gran Metalik, Lince Dorado","TJP, Gentleman Jack Gallagher",Six-Man Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,13:20,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,dash-wilder,,"Luke Gallows, Karl Anderson",Scott Dawson,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,9:15,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,scott-dawson,,"Luke Gallows, Karl Anderson",Dash Wilder,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,9:15,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,luke-gallows,,"Dash Wilder, Scott Dawson",Karl Anderson,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,9:15,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,karl-anderson,,"Dash Wilder, Scott Dawson",Luke Gallows,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,9:15,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,robert-roode,,Mojo Rawley,,Singles,TRUE,WWE United States Championship,TRUE,Win,FALSE,FALSE,7:45,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,mojo-rawley,,Bobby Roode,,Singles,TRUE,WWE United States Championship,FALSE,Loss,FALSE,FALSE,7:45,Kickoff,TRUE,PROBABLE,S1675;S2297,
+RR2018M,aj-styles,1,"Kevin Owens, Sami Zayn",,Handicap,TRUE,WWE Championship,TRUE,Win,FALSE,FALSE,15:55,Match 4,TRUE,PROBABLE,S1675;S2297,2-on-1 handicap match.
+RR2018M,kevin-owens,1,AJ Styles,Sami Zayn,Handicap,TRUE,WWE Championship,FALSE,Loss,FALSE,FALSE,15:55,Match 4,TRUE,PROBABLE,S1675;S2297,2-on-1 handicap match.
+RR2018M,sami-zayn,1,AJ Styles,Kevin Owens,Handicap,TRUE,WWE Championship,FALSE,Loss,FALSE,FALSE,15:55,Match 4,TRUE,PROBABLE,S1675;S2297,2-on-1 handicap match.
+RR2018M,jey-uso,2,"Chad Gable, Shelton Benjamin",Jimmy Uso,"Tag Team, Two Out of Three Falls",TRUE,SmackDown Tag Team Championship,TRUE,Win,FALSE,FALSE,13:55,Match 5,TRUE,PROBABLE,S1675;S2297,
+RR2018M,jimmy-uso,2,"Chad Gable, Shelton Benjamin",Jey Uso,"Tag Team, Two Out of Three Falls",TRUE,SmackDown Tag Team Championship,TRUE,Win,FALSE,FALSE,13:55,Match 5,TRUE,PROBABLE,S1675;S2297,
+RR2018M,chad-gable,2,"Jey Uso, Jimmy Uso",Shelton Benjamin,"Tag Team, Two Out of Three Falls",TRUE,SmackDown Tag Team Championship,FALSE,Loss,FALSE,FALSE,13:55,Match 5,TRUE,PROBABLE,S1675;S2297,
+RR2018M,shelton-benjamin,2,"Jey Uso, Jimmy Uso",Chad Gable,"Tag Team, Two Out of Three Falls",TRUE,SmackDown Tag Team Championship,FALSE,Loss,FALSE,FALSE,13:55,Match 5,TRUE,PROBABLE,S1675;S2297,
+RR2018M,seth-rollins,4,"Cesaro, Sheamus",Jason Jordan,Tag Team,TRUE,Raw Tag Team Championship,TRUE,Loss,FALSE,TRUE,12:50,Match 7,FALSE,PROBABLE,S1675;S2297,
+RR2018M,jason-jordan,4,"Cesaro, Sheamus",Seth Rollins,Tag Team,TRUE,Raw Tag Team Championship,TRUE,Loss,FALSE,TRUE,12:50,Match 7,FALSE,PROBABLE,S1675;S2297,
+RR2018M,cesaro,4,"Seth Rollins, Jason Jordan",Sheamus,Tag Team,TRUE,Raw Tag Team Championship,FALSE,Win,TRUE,FALSE,12:50,Match 7,FALSE,PROBABLE,S1675;S2297,
+RR2018M,sheamus,4,"Seth Rollins, Jason Jordan",Cesaro,Tag Team,TRUE,Raw Tag Team Championship,FALSE,Win,TRUE,FALSE,12:50,Match 7,FALSE,PROBABLE,S1675;S2297,
+RR2018M,brock-lesnar,5,"Braun Strowman, Kane",,Triple Threat,TRUE,WWE Universal Championship,TRUE,Win,FALSE,FALSE,10:55,Match 8 (semi-main event),FALSE,PROBABLE,S1675;S2297,
+RR2018M,braun-strowman,5,"Brock Lesnar, Kane",,Triple Threat,TRUE,WWE Universal Championship,FALSE,Loss,FALSE,FALSE,10:55,Match 8 (semi-main event),FALSE,PROBABLE,S1675;S2297,
+RR2018M,kane,5,"Brock Lesnar, Braun Strowman",,Triple Threat,TRUE,WWE Universal Championship,FALSE,Loss,FALSE,FALSE,10:55,Match 8 (semi-main event),FALSE,PROBABLE,S1675;S2297,
+RR2019M,robert-roode,,"Scott Dawson, Rezar",Chad Gable,Tag Team,TRUE,Raw Tag Team Championship,TRUE,Win,FALSE,FALSE,6:55,Kickoff 1,TRUE,PROBABLE,S1676;S2298,"Had the challengers won, both The Revival and AOP would have received a future title shot."
+RR2019M,chad-gable,,"Scott Dawson, Rezar",Bobby Roode,Tag Team,TRUE,Raw Tag Team Championship,TRUE,Win,FALSE,FALSE,6:55,Kickoff 1,TRUE,PROBABLE,S1676;S2298,"Had the challengers won, both The Revival and AOP would have received a future title shot."
+RR2019M,scott-dawson,,"Bobby Roode, Chad Gable",Rezar,Tag Team,TRUE,Raw Tag Team Championship,FALSE,Loss,FALSE,FALSE,6:55,Kickoff 1,TRUE,PROBABLE,S1676;S2298,"Had the challengers won, both The Revival and AOP would have received a future title shot."
+RR2019M,rezar,,"Bobby Roode, Chad Gable",Scott Dawson,Tag Team,TRUE,Raw Tag Team Championship,FALSE,Loss,FALSE,FALSE,6:55,Kickoff 1,TRUE,PROBABLE,S1676;S2298,"Had the challengers won, both The Revival and AOP would have received a future title shot."
+RR2019M,shinsuke-nakamura,,Rusev,,Singles,TRUE,WWE United States Championship,FALSE,Win,TRUE,FALSE,10:15,Kickoff 2,TRUE,PROBABLE,S1676;S2298,"Rusev accidentally knocked down Lana, allowing Nakamura to capitalize."
+RR2019M,rusev,,Shinsuke Nakamura,,Singles,TRUE,WWE United States Championship,TRUE,Loss,FALSE,TRUE,10:15,Kickoff 2,TRUE,PROBABLE,S1676;S2298,"Rusev accidentally knocked down Lana, allowing Nakamura to capitalize."
+RR2019M,buddy-murphy,,"Kalisto, Akira Tozawa, Hideo Itami",,Fatal Four-Way,TRUE,WWE Cruiserweight Championship,TRUE,Win,FALSE,FALSE,12:05,Kickoff 3,TRUE,PROBABLE,S1676;S2298,
+RR2019M,kalisto,,"Buddy Murphy, Akira Tozawa, Hideo Itami",,Fatal Four-Way,TRUE,WWE Cruiserweight Championship,FALSE,Loss,FALSE,FALSE,12:05,Kickoff 3,TRUE,PROBABLE,S1676;S2298,
+RR2019M,akira-tozawa,,"Buddy Murphy, Kalisto, Hideo Itami",,Fatal Four-Way,TRUE,WWE Cruiserweight Championship,FALSE,Loss,FALSE,FALSE,12:05,Kickoff 3,TRUE,PROBABLE,S1676;S2298,
+RR2019M,hideo-itami,,"Buddy Murphy, Kalisto, Akira Tozawa",,Fatal Four-Way,TRUE,WWE Cruiserweight Championship,FALSE,Loss,FALSE,FALSE,12:05,Kickoff 3,TRUE,PROBABLE,S1676;S2298,
+RR2019M,asuka,1,Becky Lynch,,Singles,TRUE,WWE SmackDown Women's Championship,TRUE,Win,FALSE,FALSE,17:10,Opener,TRUE,PROBABLE,S1676;S2299,
+RR2019M,becky-lynch,1,Asuka,,Singles,TRUE,WWE SmackDown Women's Championship,FALSE,Loss,FALSE,FALSE,17:10,Opener,TRUE,PROBABLE,S1676;S2299,
+RR2019M,cesaro,2,"The Miz, Shane McMahon",Sheamus,Tag Team,TRUE,WWE SmackDown Tag Team Championship,TRUE,Loss,FALSE,TRUE,13:20,Match 2,TRUE,PROBABLE,S1676;S2299,Sheamus accidentally Brogue Kicked Cesaro; Miz hit Skull-Crushing Finale on Sheamus for the win.
+RR2019M,sheamus,2,"The Miz, Shane McMahon",Cesaro,Tag Team,TRUE,WWE SmackDown Tag Team Championship,TRUE,Loss,FALSE,TRUE,13:20,Match 2,TRUE,PROBABLE,S1676;S2299,Sheamus accidentally Brogue Kicked Cesaro; Miz hit Skull-Crushing Finale on Sheamus for the win.
+RR2019M,the-miz,2,"Cesaro, Sheamus",Shane McMahon,Tag Team,TRUE,WWE SmackDown Tag Team Championship,FALSE,Win,TRUE,FALSE,13:20,Match 2,TRUE,PROBABLE,S1676;S2299,Sheamus accidentally Brogue Kicked Cesaro; Miz hit Skull-Crushing Finale on Sheamus for the win.
+RR2019M,shane-mcmahon,2,"Cesaro, Sheamus",The Miz,Tag Team,TRUE,WWE SmackDown Tag Team Championship,FALSE,Win,TRUE,FALSE,13:20,Match 2,TRUE,PROBABLE,S1676;S2299,Sheamus accidentally Brogue Kicked Cesaro; Miz hit Skull-Crushing Finale on Sheamus for the win.
+RR2019M,ronda-rousey,3,Sasha Banks,,Singles,TRUE,WWE Raw Women's Championship,TRUE,Win,FALSE,FALSE,13:55,Match 3,TRUE,PROBABLE,S1676;S2299,
+RR2019M,sasha-banks,3,Ronda Rousey,,Singles,TRUE,WWE Raw Women's Championship,FALSE,Loss,FALSE,FALSE,13:55,Match 3,TRUE,PROBABLE,S1676;S2299,
+RR2019M,daniel-bryan,5,AJ Styles,,Singles,TRUE,WWE Championship,TRUE,Win,FALSE,FALSE,24:35,Match 5,TRUE,PROBABLE,S1676;S2299,Rowan's return factored into the finish.
+RR2019M,aj-styles,5,Daniel Bryan,,Singles,TRUE,WWE Championship,FALSE,Loss,FALSE,FALSE,24:35,Match 5,TRUE,PROBABLE,S1676;S2299,Rowan's return factored into the finish.
+RR2019M,brock-lesnar,6,Finn Bálor,,Singles,TRUE,WWE Universal Championship,TRUE,Win,FALSE,FALSE,8:40,Semi-main event,TRUE,PROBABLE,S1676;S2299,
+RR2019M,finn-balor,6,Brock Lesnar,,Singles,TRUE,WWE Universal Championship,FALSE,Loss,FALSE,FALSE,8:40,Semi-main event,TRUE,PROBABLE,S1676;S2299,
+RR2020M,sheamus,,Shorty G,,Singles,FALSE,,FALSE,Win,FALSE,FALSE,12:35,Kickoff 1,TRUE,PROBABLE,S1677,
+RR2020M,chad-gable,,Sheamus,,Singles,FALSE,,FALSE,Loss,FALSE,FALSE,12:35,Kickoff 1,TRUE,PROBABLE,S1677,
+RR2020M,andrade,,Humberto Carrillo,,Singles,TRUE,WWE United States Championship,TRUE,Win,FALSE,FALSE,14:20,Kickoff 2,TRUE,PROBABLE,S1677,
+RR2020M,humberto-carrillo,,Andrade,,Singles,TRUE,WWE United States Championship,FALSE,Loss,FALSE,FALSE,14:20,Kickoff 2,TRUE,PROBABLE,S1677,
+RR2020M,roman-reigns,1,King Corbin,,Falls Count Anywhere,FALSE,,FALSE,Win,FALSE,FALSE,21:20,Opener,TRUE,PROBABLE,S1677;S2300,
+RR2020M,baron-corbin,1,Roman Reigns,,Falls Count Anywhere,FALSE,,FALSE,Loss,FALSE,FALSE,21:20,Opener,TRUE,PROBABLE,S1677;S2300,
+RR2020M,bayley,3,Lacey Evans,,Singles,TRUE,WWE SmackDown Women's Championship,TRUE,Win,FALSE,FALSE,9:20,Match 3,TRUE,PROBABLE,S1677;S2300,
+RR2020M,lacey-evans,3,Bayley,,Singles,TRUE,WWE SmackDown Women's Championship,FALSE,Loss,FALSE,FALSE,9:20,Match 3,TRUE,PROBABLE,S1677;S2300,
+RR2020M,bray-wyatt,4,Daniel Bryan,,Strap Match,TRUE,WWE Universal Championship,TRUE,Win,FALSE,FALSE,17:35,Match 4,TRUE,PROBABLE,S1677;S2300,
+RR2020M,daniel-bryan,4,"""The Fiend"" Bray Wyatt",,Strap Match,TRUE,WWE Universal Championship,FALSE,Loss,FALSE,FALSE,17:35,Match 4,TRUE,PROBABLE,S1677;S2300,
+RR2020M,becky-lynch,5,Asuka,,Singles,TRUE,WWE Raw Women's Championship,TRUE,Win,FALSE,FALSE,16:25,Semi-main event,TRUE,PROBABLE,S1677;S2300,
+RR2020M,asuka,5,Becky Lynch,,Singles,TRUE,WWE Raw Women's Championship,FALSE,Loss,FALSE,FALSE,16:25,Semi-main event,TRUE,PROBABLE,S1677;S2300,
+RR2021M,nia-jax,,"Asuka, Charlotte Flair",Shayna Baszler,Tag Team,TRUE,WWE Women's Tag Team Championship,TRUE,Win,FALSE,FALSE,10:30,Kickoff,TRUE,PROBABLE,S1678;S2302,
+RR2021M,shayna-baszler,,"Asuka, Charlotte Flair",Nia Jax,Tag Team,TRUE,WWE Women's Tag Team Championship,TRUE,Win,FALSE,FALSE,10:30,Kickoff,TRUE,PROBABLE,S1678;S2302,
+RR2021M,asuka,,"Nia Jax, Shayna Baszler",Charlotte Flair,Tag Team,TRUE,WWE Women's Tag Team Championship,FALSE,Loss,FALSE,FALSE,10:30,Kickoff,TRUE,PROBABLE,S1678;S2302,
+RR2021M,charlotte-flair,,"Nia Jax, Shayna Baszler",Asuka,Tag Team,TRUE,WWE Women's Tag Team Championship,FALSE,Loss,FALSE,FALSE,10:30,Kickoff,TRUE,PROBABLE,S1678;S2302,
+RR2021M,drew-mcintyre,1,Goldberg,,Singles,TRUE,WWE Championship,TRUE,Win,FALSE,FALSE,2:33,Opener,TRUE,PROBABLE,S1678;S2301,One of the shortest title matches in Royal Rumble history.
+RR2021M,goldberg,1,Drew McIntyre,,Singles,TRUE,WWE Championship,FALSE,Loss,FALSE,FALSE,2:33,Opener,TRUE,PROBABLE,S1678;S2301,One of the shortest title matches in Royal Rumble history.
+RR2021M,sasha-banks,2,Carmella,,Singles,TRUE,WWE SmackDown Women's Championship,TRUE,Win,FALSE,FALSE,10:25,Match 2,TRUE,PROBABLE,S1678;S2303,
+RR2021M,carmella,2,Sasha Banks,,Singles,TRUE,WWE SmackDown Women's Championship,FALSE,Loss,FALSE,FALSE,10:25,Match 2,TRUE,PROBABLE,S1678;S2303,
+RR2021M,roman-reigns,4,Kevin Owens,,Last Man Standing,TRUE,WWE Universal Championship,TRUE,Win,FALSE,FALSE,24:55,Semi-main event,TRUE,PROBABLE,S1678;S2303,
+RR2021M,kevin-owens,4,Roman Reigns,,Last Man Standing,TRUE,WWE Universal Championship,FALSE,Loss,FALSE,FALSE,24:55,Semi-main event,TRUE,PROBABLE,S1678;S2303,
+RR2022M,roman-reigns,1,"Seth ""Freakin"" Rollins",,Singles,TRUE,WWE Universal Championship,TRUE,Loss (by DQ),FALSE,FALSE,14:25,Opener,TRUE,PROBABLE,S1679;S2304,"The Usos were barred from ringside for this match per stipulation, then interfered anyway, causing the DQ. Title not on the line for a DQ finish (titles do not change hands on disqualification)."
+RR2022M,seth-rollins,1,Roman Reigns,,Singles,TRUE,WWE Universal Championship,FALSE,Win (by DQ),FALSE,FALSE,14:25,Opener,TRUE,PROBABLE,S1679;S2304,"The Usos were barred from ringside for this match per stipulation, then interfered anyway, causing the DQ. Title not on the line for a DQ finish (titles do not change hands on disqualification)."
+RR2022M,becky-lynch,3,Doudrop,,Singles,TRUE,WWE Raw Women's Championship,TRUE,Win,FALSE,FALSE,13:00,Match 3,TRUE,PROBABLE,S1679;S2304,
+RR2022M,piper-niven,3,Becky Lynch,,Singles,TRUE,WWE Raw Women's Championship,FALSE,Loss,FALSE,FALSE,13:00,Match 3,TRUE,PROBABLE,S1679;S2304,
+RR2022M,brock-lesnar,4,Bobby Lashley,,Singles,TRUE,WWE Championship,TRUE,Loss,FALSE,TRUE,10:15,Match 4,TRUE,PROBABLE,S1679;S2304,
+RR2022M,bobby-lashley,4,Brock Lesnar,,Singles,TRUE,WWE Championship,FALSE,Win,TRUE,FALSE,10:15,Match 4,TRUE,PROBABLE,S1679;S2304,
+RR2022M,edge,5,"The Miz, Maryse",Beth Phoenix,Mixed Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,12:30,Semi-main event,TRUE,PROBABLE,S1679;S2304,
+RR2022M,beth-phoenix,5,"The Miz, Maryse",Edge,Mixed Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,12:30,Semi-main event,TRUE,PROBABLE,S1679;S2304,
+RR2022M,the-miz,5,"Edge, Beth Phoenix",Maryse,Mixed Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,12:30,Semi-main event,TRUE,PROBABLE,S1679;S2304,
+RR2022M,maryse,5,"Edge, Beth Phoenix",The Miz,Mixed Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,12:30,Semi-main event,TRUE,PROBABLE,S1679;S2304,
+RR2023M,bray-wyatt,2,LA Knight,,"Singles (Mountain Dew Pitch Black match — no-DQ/blacklight gimmick match, Wyatt's in-ring return)",FALSE,,FALSE,Win,FALSE,FALSE,5:05,Match 2,FALSE,PROBABLE,S1680;S2305,
+RR2023M,la-knight,2,Bray Wyatt,,"Singles (Mountain Dew Pitch Black match — no-DQ/blacklight gimmick match, Wyatt's in-ring return)",FALSE,,FALSE,Loss,FALSE,FALSE,5:05,Match 2,FALSE,PROBABLE,S1680;S2305,
+RR2023M,bianca-belair,3,Alexa Bliss,,Singles,TRUE,WWE Raw Women's Championship,TRUE,Win,FALSE,FALSE,7:35,Match 3,FALSE,PROBABLE,S1680;S2305,
+RR2023M,alexa-bliss,3,Bianca Belair,,Singles,TRUE,WWE Raw Women's Championship,FALSE,Loss,FALSE,FALSE,7:35,Match 3,FALSE,PROBABLE,S1680;S2305,
+RR2023M,roman-reigns,4,Kevin Owens,,Singles,TRUE,Undisputed WWE Universal Championship,TRUE,Win,FALSE,FALSE,19:15,Main event,FALSE,PROBABLE,S1680;S2305,"Chronologically this was the 5th match of the night — the Women's Royal Rumble match ran as match 4, between the Belair/Bliss match and this one. Full Women's Rumble result is reported under RR2023W per the shared-card instruction."
+RR2023M,kevin-owens,4,Roman Reigns,,Singles,TRUE,Undisputed WWE Universal Championship,FALSE,Loss,FALSE,FALSE,19:15,Main event,FALSE,PROBABLE,S1680;S2305,"Chronologically this was the 5th match of the night — the Women's Royal Rumble match ran as match 4, between the Belair/Bliss match and this one. Full Women's Rumble result is reported under RR2023W per the shared-card instruction."
+RR2024M,roman-reigns,1,"AJ Styles, LA Knight, Randy Orton",,Fatal Four-Way,TRUE,Undisputed WWE Universal Championship,TRUE,Win,FALSE,FALSE,19:30,Match 2 of the night,TRUE,PROBABLE,S1681;S2306,
+RR2024M,aj-styles,1,"Roman Reigns, LA Knight, Randy Orton",,Fatal Four-Way,TRUE,Undisputed WWE Universal Championship,FALSE,Loss,FALSE,FALSE,19:30,Match 2 of the night,TRUE,PROBABLE,S1681;S2306,
+RR2024M,la-knight,1,"Roman Reigns, AJ Styles, Randy Orton",,Fatal Four-Way,TRUE,Undisputed WWE Universal Championship,FALSE,Loss,FALSE,FALSE,19:30,Match 2 of the night,TRUE,PROBABLE,S1681;S2306,
+RR2024M,randy-orton,1,"Roman Reigns, AJ Styles, LA Knight",,Fatal Four-Way,TRUE,Undisputed WWE Universal Championship,FALSE,Loss,FALSE,FALSE,19:30,Match 2 of the night,TRUE,PROBABLE,S1681;S2306,
+RR2024M,logan-paul,2,Kevin Owens,,Singles,TRUE,WWE United States Championship,TRUE,Win (by DQ),FALSE,FALSE,14:00,Match 3 of the night,TRUE,PROBABLE,S1681;S2306,Title not on the line for a DQ finish (titles do not change hands on disqualification).
+RR2024M,kevin-owens,2,Logan Paul,,Singles,TRUE,WWE United States Championship,FALSE,Loss (by DQ),FALSE,FALSE,14:00,Match 3 of the night,TRUE,PROBABLE,S1681;S2306,Title not on the line for a DQ finish (titles do not change hands on disqualification).
+RR2025M,johnny-gargano,1,"Alex Shelley, Chris Sabin",Tommaso Ciampa,Tag Team (Two out of three falls match),TRUE,WWE Tag Team Championship,TRUE,Win,FALSE,FALSE,14:00,Match 2 of the night,TRUE,PROBABLE,S341;S1682,
+RR2025M,tommaso-ciampa,1,"Alex Shelley, Chris Sabin",Johnny Gargano,Tag Team (Two out of three falls match),TRUE,WWE Tag Team Championship,TRUE,Win,FALSE,FALSE,14:00,Match 2 of the night,TRUE,PROBABLE,S341;S1682,
+RR2025M,alex-shelley,1,"Johnny Gargano, Tommaso Ciampa",Chris Sabin,Tag Team (Two out of three falls match),TRUE,WWE Tag Team Championship,FALSE,Loss,FALSE,FALSE,14:00,Match 2 of the night,TRUE,PROBABLE,S341;S1682,
+RR2025M,chris-sabin,1,"Johnny Gargano, Tommaso Ciampa",Alex Shelley,Tag Team (Two out of three falls match),TRUE,WWE Tag Team Championship,FALSE,Loss,FALSE,FALSE,14:00,Match 2 of the night,TRUE,PROBABLE,S341;S1682,
+RR2025M,cody-rhodes,2,Kevin Owens,,Singles (Ladder match),TRUE,Undisputed WWE Championship,TRUE,Win,FALSE,FALSE,25:05,Match 3 of the night,TRUE,PROBABLE,S341;S1682,
+RR2025M,kevin-owens,2,Cody Rhodes,,Singles (Ladder match),TRUE,Undisputed WWE Championship,FALSE,Loss,FALSE,FALSE,25:05,Match 3 of the night,TRUE,PROBABLE,S341;S1682,
+RR2026M,dexter-lumis,,"Solo Sikoa, Tama Tonga",Joe Gacy,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,10:27,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,"Pre-event reporting was unsure whether this would air on the Countdown/Kickoff show; Wikipedia's post-event sourcing confirms it as a dark match, not aired."
+RR2026M,joe-gacy,,"Solo Sikoa, Tama Tonga",Dexter Lumis,Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,10:27,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,"Pre-event reporting was unsure whether this would air on the Countdown/Kickoff show; Wikipedia's post-event sourcing confirms it as a dark match, not aired."
+RR2026M,solo-sikoa,,"Dexter Lumis, Joe Gacy",Tama Tonga,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,10:27,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,"Pre-event reporting was unsure whether this would air on the Countdown/Kickoff show; Wikipedia's post-event sourcing confirms it as a dark match, not aired."
+RR2026M,tama-tonga,,"Dexter Lumis, Joe Gacy",Solo Sikoa,Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,10:27,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,"Pre-event reporting was unsure whether this would air on the Countdown/Kickoff show; Wikipedia's post-event sourcing confirms it as a dark match, not aired."
+RR2026M,alex-shelley,,"Kofi Kingston, Xavier Woods, Grayson Waller","Chris Sabin, Shinsuke Nakamura",Six-Man Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,11:15,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,Duration is single-sourced to Wikipedia (dark matches are rarely independently timed by secondary outlets) — flag as lower-confidence duration.
+RR2026M,chris-sabin,,"Kofi Kingston, Xavier Woods, Grayson Waller","Alex Shelley, Shinsuke Nakamura",Six-Man Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,11:15,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,Duration is single-sourced to Wikipedia (dark matches are rarely independently timed by secondary outlets) — flag as lower-confidence duration.
+RR2026M,shinsuke-nakamura,,"Kofi Kingston, Xavier Woods, Grayson Waller","Alex Shelley, Chris Sabin",Six-Man Tag Team,FALSE,,FALSE,Win,FALSE,FALSE,11:15,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,Duration is single-sourced to Wikipedia (dark matches are rarely independently timed by secondary outlets) — flag as lower-confidence duration.
+RR2026M,kofi-kingston,,"Alex Shelley, Chris Sabin, Shinsuke Nakamura","Xavier Woods, Grayson Waller",Six-Man Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,11:15,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,Duration is single-sourced to Wikipedia (dark matches are rarely independently timed by secondary outlets) — flag as lower-confidence duration.
+RR2026M,xavier-woods,,"Alex Shelley, Chris Sabin, Shinsuke Nakamura","Kofi Kingston, Grayson Waller",Six-Man Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,11:15,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,Duration is single-sourced to Wikipedia (dark matches are rarely independently timed by secondary outlets) — flag as lower-confidence duration.
+RR2026M,grayson-waller,,"Alex Shelley, Chris Sabin, Shinsuke Nakamura","Kofi Kingston, Xavier Woods",Six-Man Tag Team,FALSE,,FALSE,Loss,FALSE,FALSE,11:15,"Dark match (untelevised, held before the broadcast began)",TRUE,PROBABLE,S1724;S2307,Duration is single-sourced to Wikipedia (dark matches are rarely independently timed by secondary outlets) — flag as lower-confidence duration.
+RR2026M,gunther,1,AJ Styles,,Singles (Career Threatening match — Styles forced to retire if he lost),FALSE,,FALSE,Win,FALSE,FALSE,24:15,"Match 4 of the broadcast (after the Women's Royal Rumble, which opened the televised card — reported under RR2026W)",TRUE,PROBABLE,S1724;S2308,"Source discrepancy — TheSmackdownHotel's recap describes the finish as ""via TKO,"" while Wikipedia and solowrestling.com both describe a submission (Gojira Clutch/sleeper hold). Went with the two-source majority (submission); flagging the conflict per instructions. AJ Styles retired from in-ring competition per the stipulation."
+RR2026M,aj-styles,1,Gunther,,Singles (Career Threatening match — Styles forced to retire if he lost),FALSE,,FALSE,Loss,FALSE,FALSE,24:15,"Match 4 of the broadcast (after the Women's Royal Rumble, which opened the televised card — reported under RR2026W)",TRUE,PROBABLE,S1724;S2308,"Source discrepancy — TheSmackdownHotel's recap describes the finish as ""via TKO,"" while Wikipedia and solowrestling.com both describe a submission (Gojira Clutch/sleeper hold). Went with the two-source majority (submission); flagging the conflict per instructions. AJ Styles retired from in-ring competition per the stipulation."
+RR2026M,drew-mcintyre,2,Sami Zayn,,Singles,TRUE,Undisputed WWE Championship,TRUE,Win,FALSE,FALSE,16:15,Match 5 of the broadcast,TRUE,PROBABLE,S1724;S2308;S2309,"Some recaps describe ""consecutive Claymore Kicks"" as the finishing sequence."
+RR2026M,sami-zayn,2,Drew McIntyre,,Singles,TRUE,Undisputed WWE Championship,FALSE,Loss,FALSE,FALSE,16:15,Match 5 of the broadcast,TRUE,PROBABLE,S1724;S2308;S2309,"Some recaps describe ""consecutive Claymore Kicks"" as the finishing sequence."
